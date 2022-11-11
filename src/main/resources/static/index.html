@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="add-ons/bootstrap.css">
+        <script src="add-ons/bootstrap.js"></script>
+        <script src="add-ons/jquery-3.6.1.js"></script>
+        <script src="add-ons/vue.js"></script>
+        <script src="add-ons/notify.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <style>
+            html{
+                height: 100%;
+            }
+            body{
+                min-height: 100%;
+                position: relative;
+            }
+            .nav-brand-front:hover{
+                color:gray;
+            }
+            .nav-brand-front{
+                font-size: 32px;
+                margin-left: -4px;
+                margin-right: -4px;
+                margin-top: 4px;
+                margin-bottom: 4px;
+                color:black;
+                text-decoration: none;
+            }
+            .nav-brand-back:hover{
+                color: black;
+            }
+            .nav-brand-back{
+                font-size: 16px;
+                margin-top: 20px;
+                margin-bottom: 4px;
+                color: gray;
+                text-decoration: none;
+            }
+            .nav-item{
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .navbar{
+                padding-top: 2pt;
+                padding-bottom: 2pt;
+                min-width: 450px;
+            }
+            .background{
+                position: absolute;
+                background-color: blue;
+                top: 0;
+                z-index: -1;
+            }
+            .background-image{
+                overflow: hidden;
+                background-size: cover;
+            }
+            .login-bar-student{
+                width: 450px;
+                vertical-align: top;
+            }
+            .login-bar-teacher{
+                width: 450px;
+                vertical-align: top;
+            }
+            .login-bar{
+                z-index: 2;
+                padding: 10px;
+                top:25%;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                margin: auto;
+            }
+            @media screen and (min-width:1000px) {
+                .login-bar{width: 925px;}
+                .register-bite{width: 905px;}
+                .register-bar{top:0; height: 600px;margin-bottom: -600px;}
+            }
+            @media screen and (max-width:1000px) {
+                .login-bar{width: 470px;}
+                .register-bite{width: 450px;}
+                .background{height: 170%;}
+                .register-bar{top:50%; height: 600px;margin-bottom: -1200px;}
+                .register-bar-form1{width: 180px;}
+            }
+            .login-box-input{
+                margin-left: 16px;
+                margin-right: 16px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                max-width: 250px;
+            }
+            .login-box-checkbox-container{
+                margin-left: 16px;
+                margin-right: 16px;
+                border: 1px;
+                padding: 6px;
+                vertical-align: middle;
+            }
+            .login-box-wordbtn{
+                vertical-align: middle;
+                text-decoration: none;
+            }
+            .login-box-label{
+                margin-left: 16px;
+                font-size: 32px;
+            }
+            .login-box-submit{
+                margin-top: 32px;
+                margin-left: 16px;
+            }
+            .login-bar-content-student{
+                background-color: aqua;
+                opacity: 0;
+                height: 500px;
+                margin-top: -500px;
+                transition: all ease-in-out .25s;
+            }
+            .login-bar-content-teacher{
+                background-color: aquamarine;
+                opacity: 0;
+                height: 500px;
+                transition: all ease-in-out .25s;
+            }
+            .login-bar-image-student{
+                width: 450px;
+                height: 500px;
+                transition: all ease-in-out .25s;
+            }
+            .login-bar-image-teacher{
+                width: 450px;
+                height: 500px;
+                margin-top: -500px;
+                transition: all ease-in-out .25s;
+            }
+            .login-bar-student:hover .login-bar-content-student{
+                opacity: 1;
+                margin-top: 0px;
+            }
+            .login-bar-teacher:hover .login-bar-content-teacher{
+                opacity: 1;
+            }
+            .login-bar-student:hover .login-bar-image-student{
+                opacity: 0;
+                height: 0px;
+            }
+            .login-bar-teacher:hover .login-bar-image-teacher{
+                opacity: 0;
+                margin-top: 0px;
+                height: 0px;
+            }
+            .login-box-gap{
+                margin-bottom: 40px;
+                opacity: 0;
+                font-size: 1;
+            }
+            .register-bite{
+                margin-top: 10px;
+            }
+            .fakbtn{
+                background-color: lightblue;
+                border: 0px;
+                border-radius: 50%;
+                text-decoration: none;
+                text-align: center;
+                font-size: large;
+                font-weight: bolder;
+                color: lightslategray;
+            }
+            .fakbtn:hover{
+                background-color: lightskyblue;
+            }
+            #admin{
+                position: fixed;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                bottom: 20px;
+                right: 20px;
+                z-index: 5;
+                transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+            }
+            .register-bar{
+                z-index: 3;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                margin: auto;
+                display: none;
+                background-color: darkgrey;
+                width:600px;
+                border-radius: 4px;
+            }
+            #register-quit{
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                width: 25px;
+                height: 25px;
+                line-height: 15px;
+                font-size: 45px;
+                color: darkgray;
+                transition: all cubic-bezier(0.075, 0.82, 0.165, 1) .5s;
+            }
+            .emphisis{
+                color: red;
+                font-weight: bold;
+            }
+            .form-checkcode-input{
+                vertical-align: middle;
+            }
+            .register-bar-form3{
+                max-width: 450px;
+            }
+            .register-bar-form1{
+                width: 250px;
+            }
+            #background-image-01{
+                background-image: url('resources/image/background/bg_01.jpg');
+            }
+            #background-image-02{
+                background-image: url('resources/image/background/bg_02.jpg');
+            }
+            #background-image-03{
+                background-image: url('resources/image/background/bg_03.jpg');
+            }
+            #background-image-04{
+                background-image: url('resources/image/background/bg_04.jpg');
+            }
+            #background-image-05{
+                background-image: url('resources/image/background/bg_05.jpg');
+            }
+            #background-image-06{
+                background-image: url('resources/image/background/bg_06.jpg');
+            }
+        </style>
+    </head>
+    <body>
+        <div class="register-bar container opacity-75 position-absolute">
+            <div class="register-bar-quit">
+                <a href="#" class="fakbtn" id="register-quit">x</a>
+            </div>
+            <div class="register-bar-title text-center mb-4 mt-4">
+                <h3>注册</h3>
+            </div>
+            
+            <div class="register-bar-select mb-2">
+                <div class="form-title col-auto">
+                    <label for="accountSelection" class="form-control-plaintext">账户类型<span class="emphisis">*</span></label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="accountSelection" id="selectTeachers" value=1>
+                    <label class="form-check-label" for="selectTeachers">老师</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="accountSelection" id="selecStudents" value=2>
+                    <label class="form-check-label" for="selectTeachers">学生</label>
+                </div>
+            </div>
+            <div class="register-bar-form1 mb-2">
+                <label for="form-name" class="form-control-plaintext">账户名称<span class="emphisis">*</span></label>
+                <input type="text" class="form-control" id="form-name">
+            </div>
+            <div class="register-bar-basic row mb-2">
+                <div class="register-bar-form2 col-auto">
+                    <label for="form-password" class="form-control-plaintext" aria-describedby="pwdck">密码<span class="emphisis">*</span></label>
+                    <input type="password" class="form-control" id="form-password">
+                </div>
+                <div class="register-bar-form2-re col-auto">
+                    <label for="form-password-re" class="form-control-plaintext">重复密码<span class="emphisis">*</span></label>
+                    <input type="password" class="form-control" id="form-password-re">
+                </div>
+            </div>
+            <div class="register-bar-form3 mb-2 ">
+                <label for="form-email" class="form-control-plaintext">邮箱<span class="emphisis">*</span></label>
+                <input type="email" class="form-control" id="form-email" placeholder="name@example.com">
+            </div>
+            <div class="col-auto form-checkcode-input">
+                <label for="form-checkcode" class="form-control-plaintext">验证码<span class="emphisis">*</span></label>
+            </div>
+            <div class="register-bar-form4 row g-3 mb-4">
+                <div class="col-auto form-checkcode-input">
+                    <input type="text" class="form-control" id="form-checkcode">
+                </div>
+                <div class="col-auto form-checkcode-input">
+                    <button type="button" class="btn btn-light col" id="form-send-checkcode">发送验证码</button>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-4">注册</button>
+        </div>
+        <div class="login-bar container position-absolute opacity-75 justify-content-between">
+            <div class="login-bar-student d-inline-block">
+                <div class="login-bar-image-student bg-dark">
+                    <img>
+                </div>
+                <div class="login-bar-content-student">
+                    <div class="login-bar-content-student-up">
+                        <a class="login-box-gap">.</a>
+                        <h3 class="login-box-label">学生登录</h3>
+                        <input class="login-box-input form-control" id="login-student-username" autocomplete="off" placeholder="用户名/学号">
+                        <input class="login-box-input form-control" id="login-student-password" type="password" placeholder="密码">
+                    </div>
+                    <div class="login-bar-content-student-down justify-content-between ">
+                        <div class="login-box-checkbox-container d-inline-block ">
+                            <input type="checkbox" class="login-box-checkbox form-check-input" id="login-student-checkbox">
+                            <span class="login-box-checkbox-label form-check-label" name="remember-me" id="student-remember-me">自动登录</span>
+                        </div>
+                        <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-student-forgot">忘记密码？</a>
+                    </div>
+                    <button class="login-box-submit btn btn-light" id="login-student-submit">登录</button>
+                </div>
+            </div>
+            <div class="login-bar-teacher d-inline-block">
+                <div class="login-bar-content-teacher">     
+                    <div class="login-bar-content-teacher-up">
+                        <a class="login-box-gap">.</a>
+                        <h3 class="login-box-label">教师登录</h3>
+                        <input class="login-box-input form-control" id="login-teacher-username" autocomplete="off" placeholder="用户名/教工号">
+                        <input class="login-box-input form-control" id="login-teacher-password" type="password" placeholder="密码">
+                    </div>
+                    <div class="login-bar-content-teacher-down justify-content-between ">
+                        <div class="login-box-checkbox-container d-inline-block ">
+                            <input type="checkbox" class="login-box-checkbox form-check-input" id="login-teacher-checkbox">
+                            <span class="login-box-checkbox-label form-check-label" name="remember-me" id="teacher-remember-me">自动登录</span>
+                        </div>
+                        <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-teacher-forgot">忘记密码？</a>
+                    </div>
+                    <button class="login-box-submit btn btn-light" id="login-teacher-submit">登录</button>
+                </div>
+                <div class="login-bar-image-teacher bg-dark">
+                    <img>
+                </div>
+            </div>
+            <button class="btn btn-primary register-bite" id="register-btn">没有账号？点此注册！</button>
+        </div>
+        <div class="background carousel slide carousel-fade opacity-75 h-100 w-100" id="Carousel" data-bs-ride="carousel">
+            <div class="carousel-inner h-100 w-100">
+                <div class="carousel-item h-100 w-100 active bg-item">                                                                                                                                                                                                                                                                                                                                                                  
+                    <div class="background-image h-100 w-100"  id="background-image-01"></div>
+                </div>
+                <div class="carousel-item h-100 w-100 bg-item">
+                    <div class="background-image h-100 w-100"  id="background-image-02"></div>
+                </div>
+                <div class="carousel-item h-100 w-100 bg-item">
+                    <div class="background-image h-100 w-100"  id="background-image-03"></div>
+                </div>
+                <div class="carousel-item h-100 w-100 bg-item">
+                    <div class="background-image h-100 w-100"  id="background-image-04"></div>
+                </div>
+                <div class="carousel-item h-100 w-100 bg-item">
+                    <div class="background-image h-100 w-100"  id="background-image-05"></div>
+                </div>
+                <div class="carousel-item h-100 w-100 bg-item">
+                    <div class="background-image h-100 w-100"  id="background-image-06"></div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar justify-content-between fixed-top w-100 bg-light">
+            <div class="nav-item" id="nav-icon">
+                <img id="navbar-brand" src="resources/icon/icon.png" width="48px" height="48px">
+            </div>
+            <div class="nav-item">
+                <a class="nav-brand-front">S</a> <a class="nav-brand-back">aramanda</a> 
+                <a class="nav-brand-front">S</a> <a class="nav-brand-back">chool</a>
+                <a class="nav-brand-front">M</a> <a class="nav-brand-back">anagement</a>
+                <a class="nav-brand-front">S</a> <a class="nav-brand-back">ystem</a>
+            </div>
+        </nav>
+        <a href="admin-index.html" class="fakbtn" id="admin">!</a>
+        <script>
+            reg=document.getElementById("register-btn");
+            reg_quit=document.getElementById("register-quit")
+            reg_box=document.getElementsByClassName("register-bar")[0];
+            login=document.getElementsByClassName("login-bar")[0];
+            reg.onclick = function(e){
+                reg_box.style.display="block";
+                login.style.display="none"
+                window.scrollTo({top:0,left:0,behavior:"smooth"})
+
+            }
+            reg_quit.onclick=function(e){
+                reg_box.style.display="none";
+                login.style.display="block";
+            }
+            var countdown=0;
+            checkcode=document.getElementById("form-send-checkcode");
+            checkcode.onclick=function(e){
+                if(countdown==0){
+                    for(let i=30;i>=0;i--)
+                        window.setTimeout("checoupdate("+i+")",30*1000-i*1000);
+                    $.notify("发送验证码成功",{className:"success",position:"top center"});
+                }
+                else{
+                    $.notify("请等待"+countdown+"秒后再发送",{className:"warn",position:"top center"});
+                }
+            }
+            function checoupdate(num){
+                if(num!=0) checkcode.innerHTML="请"+num+"秒后重试";
+                else checkcode.innerHTML="发送验证码"
+                countdown=num;
+            }
+
+            const reg_password=document.querySelector('#form-password');
+            const reg_password_ck=document.querySelector('#re-pwd-ck');
+            const reg_password_re=document.querySelector('#form-password-re');
+            reg_password.onfocus=function(e){
+            }
+        </script>
+    </body>
+</html>
