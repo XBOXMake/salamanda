@@ -13,7 +13,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class Users implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,5 +48,13 @@ public class User implements Serializable{
     @Min(1)
     //1 student 2 teacher 3 admin
     private Integer Attribute;
+    public String getRole(){
+        switch (Attribute){
+            case 1: return "STUDENT";
+            case 2: return "TEACHER";
+            case 3: return "ADMIN";
+            default: return null;
+        }
+    }
     //identity part
 }

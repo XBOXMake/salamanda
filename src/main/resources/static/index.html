@@ -119,24 +119,30 @@
                 margin-left: 16px;
             }
             .login-bar-content-student{
-                background-color: aqua;
+                background-color: lightcyan;
                 opacity: 0;
                 height: 500px;
                 margin-top: -500px;
                 transition: all ease-in-out .25s;
             }
             .login-bar-content-teacher{
-                background-color: aquamarine;
+                background-color: lightcyan;
                 opacity: 0;
                 height: 500px;
                 transition: all ease-in-out .25s;
             }
             .login-bar-image-student{
+                background-image: url('resources/image/background/bg_00A.jpg');
+                overflow: hidden;
+                background-size: cover;
                 width: 450px;
                 height: 500px;
                 transition: all ease-in-out .25s;
             }
             .login-bar-image-teacher{
+                background-image: url('resources/image/background/bg_00B.jpg');
+                overflow: hidden;
+                background-size: cover;
                 width: 450px;
                 height: 500px;
                 margin-top: -500px;
@@ -318,6 +324,22 @@
                     </div>
                     <button class="login-box-submit btn btn-light" id="login-student-submit">登录</button>
                 </div>
+                <script>
+                    $("#login-student-submit").click(function(){
+                        $.ajax({
+                            url:'/studentLogin',
+                            type:'GET',
+                            dataType:'json',
+                            data:{
+                                username:$("#login-student-username").val(),
+                                password:$("#login-student-password").val(),
+                                attribute:1,
+                                remember_me:$("#login-student-checkbox").prop("checked")
+                            }
+                        });
+                        $.notify("学生登录中",{className:"info",position:"bottom right"});
+                    })
+                </script>
             </div>
             <div class="login-bar-teacher d-inline-block">
                 <div class="login-bar-content-teacher">     
