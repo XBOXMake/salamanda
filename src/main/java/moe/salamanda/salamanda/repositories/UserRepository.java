@@ -15,4 +15,7 @@ public interface UserRepository extends JpaRepository<Users,Long> {
 
     @Query(value = "Select * from users where username='%:name%'",nativeQuery = true)
     public Users findByUsername(@Param("name") String username);
+
+    @Query(value = "Select * from users where (username='%:name%' and attribute='%attribute%')",nativeQuery = true)
+    public Users findByUsernameAndAttribute(@Param("name") String username,@Param("attribute") Integer attribute);
 }

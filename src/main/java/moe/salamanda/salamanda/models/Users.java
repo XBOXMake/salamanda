@@ -56,5 +56,13 @@ public class Users implements Serializable{
             default: return null;
         }
     }
+    public static Integer getRoleAttribute(String role){
+        switch (role){
+            case "STUDENT": return 1;
+            case "TEACHER": return 2;
+            case "ADMIN": return 3;
+            default: return 0;
+        }
+    }
     //identity part
 }

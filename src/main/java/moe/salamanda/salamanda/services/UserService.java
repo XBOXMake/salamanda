@@ -22,7 +22,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-        Users user = userRepository.findByUsername(username);
+        String attribute[] = username.split("&");
+        Users user = userRepository.findByUsernameAndAttribute(attribute[0],Users.getRoleAttribute(attribute[1]));
         if(ObjectUtils.isEmpty(user)){
             throw new UsernameNotFoundException("不存在拥有该用户名的账号！");
         }

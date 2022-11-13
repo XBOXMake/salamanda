@@ -10,6 +10,7 @@
         <script src="add-ons/jquery-3.6.1.js"></script>
         <script src="add-ons/vue.js"></script>
         <script src="add-ons/notify.js"></script>
+        <script src="add-ons/validate.js"></script>
         <!--favicon-->
         <link rel="icon" href="resources/icon/16_favicon.ico" type="image/x-icon">
         <link rel="icon" href="resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
@@ -84,11 +85,12 @@
                 .login-bar{width: 925px;}
                 .register-bite{width: 905px;}
                 .register-bar{top:0; height: 600px;margin-bottom: -600px;}
+                .background{height: 100%;}
             }
             @media screen and (max-width:1000px) {
                 .login-bar{width: 470px;}
                 .register-bite{width: 450px;}
-                .background{height: 170%;}
+                .background{height: 160%;}
                 .register-bar{top:50%; height: 600px;margin-bottom: -1200px;}
                 .register-bar-form1{width: 180px;}
             }
@@ -251,6 +253,12 @@
         </style>
     </head>
     <body>
+        <form action="/login" method="post" style="display: none;">
+            <input type="text" name="username" id="bg-username">
+            <input type="password" name="password" id="bg-password">
+            <input type="checkbox" name="remember-me" id="bg-remember-me">
+            <button type="submit" name="submit" id="bg-submit"></button>
+        </form>
         <div class="register-bar container opacity-75 position-absolute">
             <div class="register-bar-quit">
                 <a href="#" class="fakbtn" id="register-quit">x</a>
@@ -318,7 +326,7 @@
                     <div class="login-bar-content-student-down justify-content-between ">
                         <div class="login-box-checkbox-container d-inline-block ">
                             <input type="checkbox" class="login-box-checkbox form-check-input" id="login-student-checkbox">
-                            <span class="login-box-checkbox-label form-check-label" name="remember-me" id="student-remember-me">自动登录</span>
+                            <span class="login-box-checkbox-label form-check-label" name="student-remember-me" id="student-remember-me">自动登录</span>
                         </div>
                         <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-student-forgot">忘记密码？</a>
                     </div>
@@ -326,17 +334,11 @@
                 </div>
                 <script>
                     $("#login-student-submit").click(function(){
-                        $.ajax({
-                            url:'/studentLogin',
-                            type:'GET',
-                            dataType:'json',
-                            data:{
-                                username:$("#login-student-username").val(),
-                                password:$("#login-student-password").val(),
-                                attribute:1,
-                                remember_me:$("#login-student-checkbox").prop("checked")
-                            }
-                        });
+                        $("#bg-username").val('STUDENT&'+$("#login-student-username").val());
+                        $("#bg-password").val($("#login-student-password").val());
+                        $("#bg-remember-me").prop("checked",$("#login-student-checkbox").prop("checked"))
+                        $("#bg-submit").submit();
+                        $("#bg-submit").click();
                         $.notify("学生登录中",{className:"info",position:"bottom right"});
                     })
                 </script>
@@ -352,7 +354,7 @@
                     <div class="login-bar-content-teacher-down justify-content-between ">
                         <div class="login-box-checkbox-container d-inline-block ">
                             <input type="checkbox" class="login-box-checkbox form-check-input" id="login-teacher-checkbox">
-                            <span class="login-box-checkbox-label form-check-label" name="remember-me" id="teacher-remember-me">自动登录</span>
+                            <span class="login-box-checkbox-label form-check-label" name="teacher-remember-me" id="teacher-remember-me">自动登录</span>
                         </div>
                         <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-teacher-forgot">忘记密码？</a>
                     </div>
@@ -364,7 +366,7 @@
             </div>
             <button class="btn btn-primary register-bite" id="register-btn">没有账号？点此注册！</button>
         </div>
-        <div class="background carousel slide carousel-fade opacity-75 h-100 w-100" id="Carousel" data-bs-ride="carousel">
+        <div class="background carousel slide carousel-fade opacity-75 w-100" id="Carousel" data-bs-ride="carousel">
             <div class="carousel-inner h-100 w-100">
                 <div class="carousel-item h-100 w-100 active bg-item">                                                                                                                                                                                                                                                                                                                                                                  
                     <div class="background-image h-100 w-100"  id="background-image-01"></div>
@@ -416,10 +418,24 @@
             var countdown=0;
             checkcode=document.getElementById("form-send-checkcode");
             checkcode.onclick=function(e){
+                let addr=$("#form-email").val();
+                let emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
                 if(countdown==0){
-                    for(let i=30;i>=0;i--)
-                        window.setTimeout("checoupdate("+i+")",30*1000-i*1000);
-                    $.notify("发送验证码成功",{className:"success",position:"top center"});
+                    if(emailReg.test(addr)){
+                        $.ajax({
+                            url:'/check-code',
+                            type:'POST',
+                            data:{
+                                address:addr
+                            }
+                        });
+                        for(let i=30;i>=0;i--)
+                            window.setTimeout("checoupdate("+i+")",30*1000-i*1000);
+                        $.notify("发送验证码成功",{className:"success",position:"top center"});
+                    }
+                    else{
+                        $.notify("错误邮箱，请确定后再发送验证码",{className:"error",position:"top center"});
+                    }
                 }
                 else{
                     $.notify("请等待"+countdown+"秒后再发送",{className:"warn",position:"top center"});

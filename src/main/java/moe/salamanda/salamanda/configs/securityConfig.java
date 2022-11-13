@@ -1,5 +1,7 @@
 package moe.salamanda.salamanda.configs;
 
+import moe.salamanda.salamanda.securities.WithAuthentcationSuccessHandler;
+import moe.salamanda.salamanda.securities.WithAuthenticationFailureHandler;
 import moe.salamanda.salamanda.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,13 +48,16 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/students/**").hasRole("STUDENT")
                 .antMatchers("/teachers/**").hasRole("TEACHER")
                 .antMatchers("/admins/**").hasRole("ADMIN")
-                .antMatchers("/index.html","/studentLogin","/teacherLogin","/add-ons/**","/resources/**").permitAll()
+                .antMatchers("/index.html","/login","/add-ons/**","/resources/**","/check-code").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/index.html")
-                .loginProcessingUrl("/studentLogin")
-                .loginProcessingUrl("/teacherLogin")
+                .passwordParameter("password")
+                .usernameParameter("username")
+                .loginProcessingUrl("/login")
+                .failureHandler(new WithAuthenticationFailureHandler())
+                .successHandler(new WithAuthentcationSuccessHandler())
                 .and()
                 .csrf().disable();
         http.rememberMe()
