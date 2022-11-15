@@ -10,7 +10,6 @@
         <script src="add-ons/jquery-3.6.1.js"></script>
         <script src="add-ons/vue.js"></script>
         <script src="add-ons/notify.js"></script>
-        <script src="add-ons/validate.js"></script>
         <script src="add-ons/jquery-form.js"></script>
         <!--favicon-->
         <link rel="icon" href="resources/icon/16_favicon.ico" type="image/x-icon">
@@ -19,10 +18,12 @@
         <style>
             html{
                 height: 100%;
+                /*vital!!!!!! DONOTDELETE*/
             }
             body{
                 min-height: 100%;
                 position: relative;
+                /*vital!!!!!! DONOTDELETE*/
             }
             .nav-brand-front:hover{
                 color:gray;
@@ -56,10 +57,8 @@
                 min-width: 450px;
             }
             .background{
-                position: absolute;
                 background-color: blue;
                 top: 0;
-                z-index: -1;
             }
             .background-image{
                 overflow: hidden;
@@ -76,35 +75,30 @@
             .login-bar{
                 z-index: 2;
                 padding: 10px;
-                top:25%;
-                right: 0;
+                top: 0;
                 left: 0;
+                right: 0;
                 bottom: 0;
                 margin: auto;
             }
             @media screen and (min-width:1000px) {
-                .login-bar{width: 925px;}
+                :root{min-height: 900px;}
+                .login-bar{width: 925px; height: 580px;}
                 .register-bite{width: 905px;}
-                .register-bar{top:0; height: 600px;margin-bottom: -600px;}
-                .background{height: 100%;}
             }
             @media screen and (max-width:1000px) {
-                .login-bar{width: 470px;}
+                :root{min-height: 1500px;}
+                .login-bar{width: 470px; height: 1070px;}
                 .register-bite{width: 450px;}
-                .background{height: 160%;}
-                .register-bar{top:50%; height: 600px;margin-bottom: -1200px;}
-                .register-bar-form1{width: 180px;}
             }
             .login-box-input{
-                margin-left: 16px;
-                margin-right: 16px;
+                margin-left: auto;
+                margin-right: auto;
                 margin-top: 10px;
                 margin-bottom: 10px;
                 max-width: 250px;
             }
             .login-box-checkbox-container{
-                margin-left: 16px;
-                margin-right: 16px;
                 border: 1px;
                 padding: 6px;
                 vertical-align: middle;
@@ -114,12 +108,10 @@
                 text-decoration: none;
             }
             .login-box-label{
-                margin-left: 16px;
+                text-align: center;
+                margin-bottom: 25px;
+                margin-top: 25px;
                 font-size: 32px;
-            }
-            .login-box-submit{
-                margin-top: 32px;
-                margin-left: 16px;
             }
             .login-bar-content-student{
                 background-color: lightcyan;
@@ -135,6 +127,7 @@
                 transition: all ease-in-out .25s;
             }
             .login-bar-image-student{
+                opacity: 0.85;
                 background-image: url('resources/image/background/bg_00A.jpg');
                 overflow: hidden;
                 background-size: cover;
@@ -143,6 +136,7 @@
                 transition: all ease-in-out .25s;
             }
             .login-bar-image-teacher{
+                opacity: 0.85;
                 background-image: url('resources/image/background/bg_00B.jpg');
                 overflow: hidden;
                 background-size: cover;
@@ -150,6 +144,12 @@
                 height: 500px;
                 margin-top: -500px;
                 transition: all ease-in-out .25s;
+            }
+            .login-bar-content-student-down{
+                text-align: center;
+            }
+            .login-bar-content-teacher-down{
+                text-align: center;
             }
             .login-bar-student:hover .login-bar-content-student{
                 opacity: 1;
@@ -172,12 +172,19 @@
                 opacity: 0;
                 font-size: 1;
             }
+            .login-submit-box{
+                margin-top: 114px;
+                text-align: center;
+            }
+            .login-box-submit{
+                padding: 5px 75px;
+            }
             .register-bite{
                 margin-top: 10px;
             }
             .fakbtn{
                 background-color: lightblue;
-                border: 0px;
+                border: 4px a;
                 border-radius: 50%;
                 text-decoration: none;
                 text-align: center;
@@ -199,14 +206,17 @@
                 transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
             }
             .register-bar{
+                opacity: 0.85;
                 z-index: 3;
                 right: 0;
                 left: 0;
                 bottom: 0;
+                top: 0;
                 margin: auto;
                 display: none;
                 background-color: darkgrey;
                 width:600px;
+                height: 800px;
                 border-radius: 4px;
             }
             #register-quit{
@@ -224,14 +234,27 @@
                 color: red;
                 font-weight: bold;
             }
-            .form-checkcode-input{
-                vertical-align: middle;
-            }
             .register-bar-form3{
+                margin: auto;
                 max-width: 450px;
             }
             .register-bar-form1{
-                width: 250px;
+                margin: auto;
+                width: 300px;
+            }
+            .register-bar-form5{
+                width: 100px;
+            }
+            .register-bar-form6{
+                width: 150px;
+            }
+            .register-submit-box{
+                margin-top: 75px;
+                text-align: center;
+            }
+            .register-box-submit{
+                padding-left: 50px;
+                padding-right: 50px;
             }
             #background-image-01{
                 background-image: url('resources/image/background/bg_01.jpg');
@@ -251,6 +274,20 @@
             #background-image-06{
                 background-image: url('resources/image/background/bg_06.jpg');
             }
+            .error-message{
+                color: red;
+                font-weight: bold;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+            .hide{
+                display: none;
+            }
+            .beautiful-curve{
+                border: 2px;
+                border-radius: 20px;
+            }
         </style>
     </head>
     <body>
@@ -261,15 +298,15 @@
             <input type="checkbox" name="remember-me" id="bg-remember-me">
             <button type="submit" name="submit" id="bg-submit"></button>
         </form>
-        <div class="register-bar container opacity-75 position-absolute">
+        <div class="register-bar container position-absolute beautiful-curve">
             <div class="register-bar-quit">
                 <a href="#" class="fakbtn" id="register-quit">x</a>
             </div>
             <div class="register-bar-title text-center mb-4 mt-4">
                 <h3>注册</h3>
             </div>
-            
-            <div class="register-bar-select mb-2">
+            <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=3)" width="100%"color=#987cb9 SIZE=3>
+            <div class="register-bar-select mb-2 text-center">
                 <div class="form-title col-auto">
                     <label for="accountSelection" class="form-control-plaintext">账户类型<span class="emphisis">*</span></label>
                 </div>
@@ -282,57 +319,76 @@
                     <label class="form-check-label" for="selectTeachers">学生</label>
                 </div>
             </div>
+            <div class="register-bar-basic row mb-2 justify-content-center">
+                <div class="register-bar-form5 col-auto">
+                    <label for="form-firstname" class="form-control-plaintext">姓<span class="emphisis">*</span></label>
+                    <input type="text" class="form-control" id="form-firstname">
+                    <div class="error-message hide" id="register-firstname-info">未填写!</div>
+                </div>
+                <div class="register-bar-form6 col-auto">
+                    <label for="form-lastname" class="form-control-plaintext">名<span class="emphisis">*</span></label>
+                    <input type="text" class="form-control" id="form-lastname">
+                    <div class="error-message hide" id="register-lastname-info">未填写!</div>
+                </div>
+            </div>
             <div class="register-bar-form1 mb-2">
                 <label for="form-name" class="form-control-plaintext">账户名称<span class="emphisis">*</span></label>
                 <input type="text" class="form-control" id="form-name">
+                <div class="error-message hide" id="register-username-info">未填写!</div>
             </div>
-            <div class="register-bar-basic row mb-2">
+            <div class="register-bar-basic row mb-2 justify-content-center">
                 <div class="register-bar-form2 col-auto">
                     <label for="form-password" class="form-control-plaintext" aria-describedby="pwdck">密码<span class="emphisis">*</span></label>
                     <input type="password" class="form-control" id="form-password">
+                    <div id="register-password-info" style="text-align:center;">密码要求长度大于10位</div>
                 </div>
                 <div class="register-bar-form2-re col-auto">
                     <label for="form-password-re" class="form-control-plaintext">重复密码<span class="emphisis">*</span></label>
                     <input type="password" class="form-control" id="form-password-re">
+                    <div class="error-message hide" id="register-re-password-info">要求与所填写的密码相同</div>
                 </div>
             </div>
-            <div class="register-bar-form3 mb-2 ">
+            <div class="register-bar-form3 mb-2">
                 <label for="form-email" class="form-control-plaintext">邮箱<span class="emphisis">*</span></label>
                 <input type="email" class="form-control" id="form-email" placeholder="name@example.com">
+                <div class="error-message hide" id="register-email-info">错误的邮箱格式</div>
             </div>
-            <div class="col-auto form-checkcode-input">
-                <label for="form-checkcode" class="form-control-plaintext">验证码<span class="emphisis">*</span></label>
-            </div>
-            <div class="register-bar-form4 row g-3 mb-4">
+            <div class="register-bar-form4 row g-3 mb-4 justify-content-center">
                 <div class="col-auto form-checkcode-input">
+                    <label for="form-checkcode" class="form-control-plaintext">验证码<span class="emphisis">*</span></label>
                     <input type="text" class="form-control" id="form-checkcode">
                 </div>
                 <div class="col-auto form-checkcode-input">
+                    <label for="form-checkcode" class="form-control-plaintext opacity-0">.</label>
                     <button type="button" class="btn btn-light col" id="form-send-checkcode">发送验证码</button>
                 </div>
+                <div class="error-message hide" id="register-checkcode-info">错误的验证码格式</div>
             </div>
-            <button class="btn btn-primary mt-4">注册</button>
+            <div class="register-submit-box"><button class="register-box-submit btn btn-outline-light" id="register-submit">注册</button></div>
         </div>
-        <div class="login-bar container position-absolute opacity-75 justify-content-between">
-            <div class="login-bar-student d-inline-block">
-                <div class="login-bar-image-student bg-dark">
-                    <img>
-                </div>
-                <div class="login-bar-content-student">
+        <div class="login-bar container position-absolute justify-content-between">
+            <div class="login-bar-student d-inline-block beautiful-curve">
+                <div class="login-bar-image-student bg-dark beautiful-curve"></div>
+                <div class="login-bar-content-student beautiful-curve">
                     <div class="login-bar-content-student-up">
                         <a class="login-box-gap">.</a>
                         <h3 class="login-box-label">学生登录</h3>
+                        <div class="error-message hide" id="student-error">你的用户名或密码错误，请重新填写</div>
+                        <div id="student-username-login">
                         <input class="login-box-input form-control" id="login-student-username" autocomplete="off" placeholder="用户名/学号">
+                        </div>
+                        <div id="student-password-login">
                         <input class="login-box-input form-control" id="login-student-password" type="password" placeholder="密码">
+                        </div>
                     </div>
-                    <div class="login-bar-content-student-down justify-content-between ">
+                    <div class="login-bar-content-student-down justify-content-between">
                         <div class="login-box-checkbox-container d-inline-block ">
                             <input type="checkbox" class="login-box-checkbox form-check-input" id="login-student-checkbox">
                             <span class="login-box-checkbox-label form-check-label" name="student-remember-me" id="student-remember-me">自动登录</span>
                         </div>
                         <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-student-forgot">忘记密码？</a>
                     </div>
-                    <button class="login-box-submit btn btn-light" id="login-student-submit">登录</button>
+                    <div class="login-submit-box"><button class="login-box-submit btn btn-outline-primary" id="login-student-submit">登录</button></div>
                 </div>
                 <script>
                     $("#login-student-submit").click(function(){
@@ -343,41 +399,89 @@
                         $.notify("学生登录中",{className:"info",position:"bottom right"});
                         $("#bg-form").ajaxSubmit(function(data){
                             if(data.status==200){
-                                $.notify(data.message,{className:"success",position:"bottom right"})
+                                $.notify(data.message,{className:"success",position:"bottom right"});
                             }
                             else{
-                                $.notify(data.message,{className:"error",position:"bottom right"})
+                                $.notify(data.message,{className:"error",position:"bottom right"});
+                                $("#login-student-username").addClass("is-invalid");
+                                $("#login-student-password").addClass("is-invalid");
+                                $("#student-error").removeClass("hide");
+                                setTimeout(function(){
+                                    $("#login-student-username").removeClass("is-invalid");
+                                    $("#login-student-password").removeClass("is-invalid");
+                                    $("#student-error").addClass("hide");
+                                },10000);
                             }
                         })
                     })
+                    $("#student-username-login").click(function(){
+                            $("#login-student-username").removeClass("is-invalid");
+                    });
+                    $("#student-password-login").click(function(){
+                        $("#login-student-password").removeClass("is-invalid");
+                });
                 </script>
             </div>
-            <div class="login-bar-teacher d-inline-block">
-                <div class="login-bar-content-teacher">     
+            <div class="login-bar-teacher d-inline-block beautiful-curve">
+                <div class="login-bar-content-teacher beautiful-curve">     
                     <div class="login-bar-content-teacher-up">
                         <a class="login-box-gap">.</a>
                         <h3 class="login-box-label">教师登录</h3>
+                        <div class="error-message hide" id="teacher-error">你的用户名或密码错误，请重新填写</div>
                         <input class="login-box-input form-control" id="login-teacher-username" autocomplete="off" placeholder="用户名/教工号">
                         <input class="login-box-input form-control" id="login-teacher-password" type="password" placeholder="密码">
                     </div>
-                    <div class="login-bar-content-teacher-down justify-content-between ">
+                    <div class="login-bar-content-teacher-down justify-content-between">
                         <div class="login-box-checkbox-container d-inline-block ">
                             <input type="checkbox" class="login-box-checkbox form-check-input" id="login-teacher-checkbox">
                             <span class="login-box-checkbox-label form-check-label" name="teacher-remember-me" id="teacher-remember-me">自动登录</span>
                         </div>
                         <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-teacher-forgot">忘记密码？</a>
                     </div>
-                    <button class="login-box-submit btn btn-light" id="login-teacher-submit">登录</button>
+                    <div class="login-submit-box"><button class="login-box-submit btn btn-outline-primary" id="login-teacher-submit">登录</button></div>
                 </div>
-                <div class="login-bar-image-teacher bg-dark">
-                    <img>
-                </div>
+                <script>
+                    $("#login-teacher-submit").click(function(){
+                        $("#bg-username").val($("#login-teacher-username").val());
+                        $("#bg-password").val($("#login-teacher-password").val());
+                        $("#bg-remember-me").prop("checked",$("#login-teacher-checkbox").prop("checked"))
+                        $("#bg-attribute").val(1);
+                        $.notify("教师登录中",{className:"info",position:"bottom right"});
+                        $("#bg-form").ajaxSubmit(function(data){
+                            if(data.status==200){
+                                $.notify(data.message,{className:"success",position:"bottom right"});
+                            }
+                            else{
+                                $.notify(data.message,{className:"error",position:"bottom right"});
+                                $("#login-teacher-username").addClass("is-invalid");
+                                $("#login-teacher-password").addClass("is-invalid");
+                                $("#teacher-error").removeClass("hide");
+                                setTimeout(function(){
+                                    $("#login-teacher-username").removeClass("is-invalid");
+                                    $("#login-teacher-password").removeClass("is-invalid");
+                                    $("#teacher-error").addClass("hide");
+                                },10000);
+                            }
+                        })
+                    })
+                    $("#student-username-login").click(function(){
+                            $("#login-student-username").removeClass("is-invalid");
+                    });
+                    $("#student-password-login").click(function(){
+                        $("#login-student-password").removeClass("is-invalid");
+                });
+                </script>
+                <div class="login-bar-image-teacher bg-dark beautiful-curve"></div>
             </div>
             <button class="btn btn-primary register-bite" id="register-btn">没有账号？点此注册！</button>
         </div>
-        <div class="background carousel slide carousel-fade opacity-75 w-100" id="Carousel" data-bs-ride="carousel">
+        <a href="admin-index.html" class="fakbtn" id="admin">!</a>
+        <div class="bottomline position-absolute bottom-0 m-0 bg-white opacity-25 w-100">
+            <div class=" text-center">Powered by 39ミク technology corpration ltd</div>
+        </div>
+        <div class="background carousel slide carousel-fade opacity-75 w-100 h-100 position-absolute" id="Carousel" data-bs-ride="carousel">
             <div class="carousel-inner h-100 w-100">
-                <div class="carousel-item h-100 w-100 active bg-item">                                                                                                                                                                                                                                                                                                                                                                  
+                <div class="carousel-item h-100 w-100 position-fixed active bg-item">                                                                                                                                                                                                                                                                                                                                                                  
                     <div class="background-image h-100 w-100"  id="background-image-01"></div>
                 </div>
                 <div class="carousel-item h-100 w-100 bg-item">
@@ -408,7 +512,6 @@
                 <a class="nav-brand-front">S</a> <a class="nav-brand-back">ystem</a>
             </div>
         </nav>
-        <a href="admin-index.html" class="fakbtn" id="admin">!</a>
         <script>
             reg=document.getElementById("register-btn");
             reg_quit=document.getElementById("register-quit")
@@ -454,12 +557,6 @@
                 if(num!=0) checkcode.innerHTML="请"+num+"秒后重试";
                 else checkcode.innerHTML="发送验证码"
                 countdown=num;
-            }
-
-            const reg_password=document.querySelector('#form-password');
-            const reg_password_ck=document.querySelector('#re-pwd-ck');
-            const reg_password_re=document.querySelector('#form-password-re');
-            reg_password.onfocus=function(e){
             }
         </script>
     </body>
