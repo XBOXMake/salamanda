@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
+//unused
 @Component
 public class WithAuthenticationDetailsSource implements AuthenticationDetailsSource<HttpServletRequest,WithWebAuthenticationDetails>{
     @Override

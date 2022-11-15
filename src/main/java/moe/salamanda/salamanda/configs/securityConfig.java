@@ -56,21 +56,22 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/students/**").hasRole("STUDENT")
                 .antMatchers("/teachers/**").hasRole("TEACHER")
                 .antMatchers("/admins/**").hasRole("ADMIN")
-                .antMatchers("/index.html","/login","/add-ons/**","/error","/resources/**","/check-code","/admin-index.html").permitAll()
+                .antMatchers("/login.html","/login","/add-ons/**","/error","/resources/**","/check-code","/admin-index.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(filter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilter(filter())
                 .formLogin()
-                .loginPage("/index.html")
+                .loginPage("/login.html")
                 .passwordParameter("password")
                 .usernameParameter("username")
                 .loginProcessingUrl("/login")
-                .failureHandler(new WithAuthenticationFailureHandler())
-                .successHandler(new WithAuthenticationSuccessHandler())
+                .failureHandler(failureHandler())
+                .successHandler(successHandler())
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .cors().disable();
         http.rememberMe()
                 .userDetailsService(userService)
                 .tokenRepository(persistentTokenRepository())
@@ -78,21 +79,31 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public WithAuthenticationProvider provider() throws Exception{
+    public WithAuthenticationProvider provider(){
         WithAuthenticationProvider provider= new WithAuthenticationProvider(userService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 
     @Bean
-    public WithAuthenticationFilter filter() throws Exception{
-        WithAuthenticationFilter authenticationFilter = new WithAuthenticationFilter();
+    public WithAuthenticationFilter filter(){
+        WithAuthenticationFilter authenticationFilter = new WithAuthenticationFilter(successHandler(),failureHandler());
         authenticationFilter.setAuthenticationManager(manager());
         return authenticationFilter;
     }
 
     @Bean
-    public AuthenticationManager manager() throws Exception{
+    public AuthenticationManager manager(){
         return new ProviderManager(Collections.singletonList(provider()));
+    }
+
+    @Bean
+    public WithAuthentcationSuccessHandler successHandler(){
+        return new WithAuthentcationSuccessHandler();
+    }
+
+    @Bean
+    public WithAuthenticationFailureHandler failureHandler(){
+        return new WithAuthenticationFailureHandler();
     }
 }

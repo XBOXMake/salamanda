@@ -4,6 +4,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.servlet.http.HttpServletRequest;
 
+//unused
 public class WithWebAuthenticationDetails extends WebAuthenticationDetails {
     private final Integer attribute;
     public WithWebAuthenticationDetails(HttpServletRequest request){

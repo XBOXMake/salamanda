@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -28,16 +29,17 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("不存在拥有该用户名的账号！");
         }
         List<GrantedAuthority> authList = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole());
-        return new User(user.getUsername(),new BCryptPasswordEncoder().encode(user.getUsername()),authList);
+        return new User(user.getUsername(),PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getUsername()),authList);
     }
 
     public UserDetails loadUserByUsernameAndAttribute(String username,Integer attribute) throws UsernameNotFoundException{
+        System.out.println(username+":"+attribute);
         WithUser user = userRepository.findByUsernameAndAttribute(username,attribute);
         if(ObjectUtils.isEmpty(user)){
             System.out.println("whatthefuck");
             throw new UsernameNotFoundException("不存在拥有该用户名的账号！");
         }
         List<GrantedAuthority> authList = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole());
-        return new User(user.getUsername(),new BCryptPasswordEncoder().encode(user.getUsername()),authList);
+        return new User(user.getUsername(), PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getUsername()),authList);
     }
 }
