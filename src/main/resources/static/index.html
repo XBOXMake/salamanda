@@ -253,9 +253,10 @@
         </style>
     </head>
     <body>
-        <form action="/login" method="post" style="display: none;">
+        <form action="/login" method="POST" style="display: none;">
             <input type="text" name="username" id="bg-username">
             <input type="password" name="password" id="bg-password">
+            <input type="number" name="attribute" id="bg-attribute">
             <input type="checkbox" name="remember-me" id="bg-remember-me">
             <button type="submit" name="submit" id="bg-submit"></button>
         </form>
@@ -334,10 +335,10 @@
                 </div>
                 <script>
                     $("#login-student-submit").click(function(){
-                        $("#bg-username").val('STUDENT&'+$("#login-student-username").val());
+                        $("#bg-username").val($("#login-student-username").val());
                         $("#bg-password").val($("#login-student-password").val());
                         $("#bg-remember-me").prop("checked",$("#login-student-checkbox").prop("checked"))
-                        $("#bg-submit").submit();
+                        $("#bg-attribute").val(1);
                         $("#bg-submit").click();
                         $.notify("学生登录中",{className:"info",position:"bottom right"});
                     })

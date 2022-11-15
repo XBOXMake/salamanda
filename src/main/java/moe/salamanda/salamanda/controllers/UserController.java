@@ -19,9 +19,9 @@ public class UserController {
         String code = RandomService.checkCode();
         try {
             MailService.codeSender(address,code);
-            return "Success";
+            return "Mail-sending Success";
         }catch (Exception e){
-            return "Failed";
+            return "Mail-sending Failed";
         }
     }
 }
