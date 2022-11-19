@@ -8,9 +8,9 @@
         <link rel="stylesheet" href="add-ons/bootstrap.css">
         <script src="add-ons/bootstrap.js"></script>
         <script src="add-ons/jquery-3.6.1.js"></script>
-        <script src="add-ons/vue.js"></script>
         <script src="add-ons/notify.js"></script>
         <script src="add-ons/jquery-form.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
         <!--favicon-->
         <link rel="icon" href="resources/icon/16_favicon.ico" type="image/x-icon">
         <link rel="icon" href="resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
@@ -18,10 +18,12 @@
         <style>
             html{
                 height: 100%;
+                width: 100%;
                 /*vital!!!!!! DONOTDELETE*/
             }
             body{
                 min-height: 100%;
+                min-width: 100%;
                 position: relative;
                 /*vital!!!!!! DONOTDELETE*/
             }
@@ -47,8 +49,12 @@
                 color: gray;
                 text-decoration: none;
             }
+            #navbar-brand{
+                border: 4px aqua;
+                border-radius: 10px;
+            }
             .nav-item{
-                margin-left: 8px;
+                margin-left: 2px;
                 margin-right: 8px;
             }
             .navbar{
@@ -81,15 +87,29 @@
                 bottom: 0;
                 margin: auto;
             }
+            @media screen and (min-height:900px){
+                .admin-login-bg{width: 100%;
+                    right: -100%;}
+            }
+            @media screen and (max-height:900px){
+                .admin-login-bg{width: 1200px;
+                    right: -1200px;}
+            }
             @media screen and (min-width:1000px) {
                 :root{min-height: 900px;}
                 .login-bar{width: 925px; height: 580px;}
+                .login-bg-blur{width: 1000px;height: 600px;}
                 .register-bite{width: 905px;}
             }
             @media screen and (max-width:1000px) {
                 :root{min-height: 1500px;}
                 .login-bar{width: 470px; height: 1070px;}
+                .login-bg-blur{width: 500px;height: 1100px;}
                 .register-bite{width: 450px;}
+            }
+            @media screen and (max-width:1200px) {
+                .admin-login-bg{width: 1500px;
+                    right: -1500px;}
             }
             .login-box-input{
                 margin-left: auto;
@@ -173,10 +193,13 @@
                 font-size: 1;
             }
             .login-submit-box{
-                margin-top: 114px;
+                position: absolute;
+                bottom: 100px;
+                width: 450px;
                 text-align: center;
             }
             .login-box-submit{
+                margin: auto;
                 padding: 5px 75px;
             }
             .register-bite{
@@ -191,9 +214,12 @@
                 font-size: large;
                 font-weight: bolder;
                 color: lightslategray;
+                box-shadow: 0 0 10px black;
             }
             .fakbtn:hover{
                 background-color: lightskyblue;
+                color: red;
+                box-shadow: 0 0 30px darkred;
             }
             #admin{
                 position: fixed;
@@ -221,14 +247,28 @@
             }
             #register-quit{
                 position: absolute;
-                top: 5px;
-                right: 5px;
+                top: 10px;
+                right: 10px;
                 width: 25px;
                 height: 25px;
                 line-height: 15px;
                 font-size: 45px;
                 color: darkgray;
                 transition: all cubic-bezier(0.075, 0.82, 0.165, 1) .5s;
+                background-color: lightblue;
+                border: 4px a;
+                border-radius: 50%;
+                text-decoration: none;
+                text-align: center;
+                font-weight: bolder;
+            }
+            #register-quit:hover{
+                background-color: lightskyblue;
+            }
+            .register-bar-select{
+                width: 300px;
+                margin-left: auto;
+                margin-right: auto;
             }
             .emphisis{
                 color: red;
@@ -288,6 +328,93 @@
                 border: 2px;
                 border-radius: 20px;
             }
+            .login-bg-blur{
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                backdrop-filter: blur(6px);
+                z-index: 1;
+            }
+            .register-bg-blur{
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                backdrop-filter: blur(6px);
+                z-index: 1;
+                height: 830px;
+                width: 630px;
+            }
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+            .identity-code{
+                width: 105px;
+                vertical-align: middle;
+            }
+            .identity-image{
+                vertical-align: middle;
+                width: 150px;
+                height: 50px;
+                background: #1f1e33;
+            }
+            .identity-box{
+                width: 260px;
+                margin: auto;
+            }
+        </style>
+        <style>
+            .tooltip {
+                display: inline-block;
+                background: #ffffff;
+                color: #643045;
+                font-weight: bold;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+            .tooltip[data-show] {
+                opacity: 1;
+            }
+            .arrow,
+            .arrow::before {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: inherit;
+            }
+            .arrow {
+                visibility: hidden;
+            }
+            .arrow::before {
+                visibility: visible;
+                content: '';
+                transform: rotate(45deg);
+            }
+            .tooltip[data-popper-placement^='top'] > .arrow {
+                bottom: -4px;
+            }
+            .tooltip[data-popper-placement^='bottom'] > .arrow {
+                top: -4px;
+            }
+            .tooltip[data-popper-placement^='left'] > .arrow {
+                right: -4px;
+            }
+            .tooltip[data-popper-placement^='right'] > .arrow {
+                left: -4px;
+            }
         </style>
     </head>
     <body>
@@ -300,60 +427,60 @@
         </form>
         <div class="register-bar container position-absolute beautiful-curve">
             <div class="register-bar-quit">
-                <a href="#" class="fakbtn" id="register-quit">x</a>
+                <a href="#" id="register-quit">x</a>
             </div>
             <div class="register-bar-title text-center mb-4 mt-4">
                 <h3>注册</h3>
             </div>
             <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=3)" width="100%"color=#987cb9 SIZE=3>
-            <div class="register-bar-select mb-2 text-center">
+            <div class="error-message hide mb-4" id="register-error">你的注册表格填写错误,请重新填写</div>
+            <div class="register-bar-select mb-2 text-center" aria-describedby="register-selection-info" id="register-selection">
                 <div class="form-title col-auto">
                     <label for="accountSelection" class="form-control-plaintext">账户类型<span class="emphisis">*</span></label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="accountSelection" id="selectTeachers" value=1>
+                    <input class="form-check-input" type="radio" name="accountSelection" id="selectTeachers" value=2>
                     <label class="form-check-label" for="selectTeachers">老师</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="accountSelection" id="selecStudents" value=2>
-                    <label class="form-check-label" for="selectTeachers">学生</label>
+                    <input class="form-check-input" type="radio" name="accountSelection" id="selectStudents" value=1>
+                    <label class="form-check-label" for="selectStudents">学生</label>
+                </div>
+                <div class="form-check form-check-inline hide" id="selectAdmins-box">
+                    <input class="form-check-input" type="radio" name="accountSelection" id="selectAdmins" value=3>
+                    <label class="form-check-label" for="selectAdmins">管理员</label>
                 </div>
             </div>
             <div class="register-bar-basic row mb-2 justify-content-center">
-                <div class="register-bar-form5 col-auto">
+                <div class="register-bar-form5 col-auto" id="register-firstname" aria-describedby="register-firstname-info">
                     <label for="form-firstname" class="form-control-plaintext">姓<span class="emphisis">*</span></label>
                     <input type="text" class="form-control" id="form-firstname">
-                    <div class="error-message hide" id="register-firstname-info">未填写!</div>
                 </div>
-                <div class="register-bar-form6 col-auto">
+                <div class="register-bar-form6 col-auto" id="register-lastname" aria-describedby="register-lastname-info">
                     <label for="form-lastname" class="form-control-plaintext">名<span class="emphisis">*</span></label>
                     <input type="text" class="form-control" id="form-lastname">
-                    <div class="error-message hide" id="register-lastname-info">未填写!</div>
                 </div>
             </div>
-            <div class="register-bar-form1 mb-2">
+            <div class="register-bar-form1 mb-2" id="register-name" aria-describedby="register-name-info">
                 <label for="form-name" class="form-control-plaintext">账户名称<span class="emphisis">*</span></label>
                 <input type="text" class="form-control" id="form-name">
-                <div class="error-message hide" id="register-username-info">未填写!</div>
             </div>
             <div class="register-bar-basic row mb-2 justify-content-center">
-                <div class="register-bar-form2 col-auto">
+                <div class="register-bar-form2 col-auto" id="register-password" aria-describedby="register-password-info">
                     <label for="form-password" class="form-control-plaintext" aria-describedby="pwdck">密码<span class="emphisis">*</span></label>
                     <input type="password" class="form-control" id="form-password">
-                    <div id="register-password-info" style="text-align:center;">密码要求长度大于10位</div>
+                    <div>长度大于10位的,由数字或字母组成</div>
                 </div>
-                <div class="register-bar-form2-re col-auto">
+                <div class="register-bar-form2-re col-auto" id="register-password-re" aria-describedby="register-password-re-info">
                     <label for="form-password-re" class="form-control-plaintext">重复密码<span class="emphisis">*</span></label>
                     <input type="password" class="form-control" id="form-password-re">
-                    <div class="error-message hide" id="register-re-password-info">要求与所填写的密码相同</div>
                 </div>
             </div>
-            <div class="register-bar-form3 mb-2">
+            <div class="register-bar-form3 mb-2" id="register-email" aria-describedby="register-email-info">
                 <label for="form-email" class="form-control-plaintext">邮箱<span class="emphisis">*</span></label>
                 <input type="email" class="form-control" id="form-email" placeholder="name@example.com">
-                <div class="error-message hide" id="register-email-info">错误的邮箱格式</div>
             </div>
-            <div class="register-bar-form4 row g-3 mb-4 justify-content-center">
+            <div class="register-bar-form4 row g-3 mb-4 justify-content-center" id="register-checkcode" aria-describedby="register-checkcode-info">
                 <div class="col-auto form-checkcode-input">
                     <label for="form-checkcode" class="form-control-plaintext">验证码<span class="emphisis">*</span></label>
                     <input type="text" class="form-control" id="form-checkcode">
@@ -362,10 +489,338 @@
                     <label for="form-checkcode" class="form-control-plaintext opacity-0">.</label>
                     <button type="button" class="btn btn-light col" id="form-send-checkcode">发送验证码</button>
                 </div>
-                <div class="error-message hide" id="register-checkcode-info">错误的验证码格式</div>
             </div>
             <div class="register-submit-box"><button class="register-box-submit btn btn-outline-light" id="register-submit">注册</button></div>
+            <div class="tooltip" id="register-selection-info" role="tooltip">
+                未选择用户类型!
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <div class="tooltip" id="register-firstname-info" role="tooltip">
+                未填写姓氏!
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <div class="tooltip" id="register-lastname-info" role="tooltip">
+                未填写名字!
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <div class="tooltip" id="register-name-info" role="tooltip">
+                未填写用户名称!
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <div class="tooltip" id="register-password-info" role="tooltip">
+                要求为长度大于10位的,由数字或字母组成的密码!
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <div class="tooltip" id="register-password-re-info" role="tooltip">
+                要求与所填写的密码相同
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <div class="tooltip" id="register-email-info" role="tooltip">
+                错误的邮箱格式
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <div class="tooltip" id="register-checkcode-info" role="tooltip">
+                错误的验证码格式
+                <div class="arrow" data-popper-arrow></div>
+            </div>
+            <script>
+                const passwordReg = /^[A-z,0-9]{10,}$/;
+                const emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
+                const checkcodeReg = /^[A-z,0-9]{6}$/;
+                const identitycodeReg = /^[A-z,0-9]{5}$/;
+                //REG
+                const boxSelection = document.querySelector('#register-selection');
+                const tipSelection = document.querySelector('#register-selection-info');
+                const popperSelection=instance(boxSelection,tipSelection,'left');
+                //
+                const boxFirstname = document.querySelector('#register-firstname');
+                const tipFirstname = document.querySelector('#register-firstname-info');
+                const popperFirstname=instance(boxFirstname,tipFirstname,'left');
+                //
+                const boxLastname = document.querySelector('#register-lastname');
+                const tipLastname = document.querySelector('#register-lastname-info');
+                const popperLastname=instance(boxLastname,tipLastname,'right');
+                //
+                const boxName = document.querySelector('#register-name');
+                const tipName = document.querySelector('#register-name-info');
+                const popperName=instance(boxName,tipName,'left');
+                //
+                const boxPassword = document.querySelector('#register-password');
+                const tipPassword = document.querySelector('#register-password-info');
+                const popperPassword=instance(boxPassword,tipPassword,'left');
+                //
+                const boxPasswordRe = document.querySelector('#register-password-re');
+                const tipPasswordRe = document.querySelector('#register-password-re-info');
+                const popperPasswordRe=instance(boxPasswordRe,tipPasswordRe,'right');
+                //
+                const boxEmail = document.querySelector('#register-email');
+                const tipEmail = document.querySelector('#register-email-info');
+                const popperEmail=instance(boxEmail,tipEmail,'right');
+                //
+                const boxCheckcode = document.querySelector('#register-checkcode');
+                const tipCheckcode = document.querySelector('#register-checkcode-info');
+                const popperCheckcode=instance(boxCheckcode,tipCheckcode,'right');
+                //INSTANCE CREATING
+                function groupUpdate(){
+                    popperCheckcode.update();
+                    popperEmail.update();
+                    popperFirstname.update();
+                    popperLastname.update();
+                    popperName.update();
+                    popperPassword.update();
+                    popperPasswordRe.update();
+                    popperSelection.update();
+                }
+                function show(tooltip,popperInstance) {
+                    tooltip.setAttribute('data-show', '');
+                    popperInstance.update();
+                }
+                function hide(tooltip) {
+                    tooltip.removeAttribute('data-show');
+                }
+                function instance(contentbox,tooltip,position){
+                    return Popper.createPopper(contentbox,tooltip,{
+                        placement: position,
+                        modifiers:[
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: [0,8]
+                                },
+                            },
+                        ],
+                        strategy:'fixed',
+                    });
+                }
+                //GENERAL FUNCTION
+                $("#register-submit").click(function(){
+                    if(validate()){
+                        $.ajax({
+                            url:'/register',
+                            type:'POST',
+                            data:{
+                                selection:$("input[name='accountSelection']:checked").val(),
+                                firstname:$("#form-firstname").val(),
+                                lastname:$("#form-lastname").val(),
+                                name:$("#form-name").val(),
+                                password:$("#form-password").val(),
+                                email:$("#form-email").val(),
+                                checkcode:$("#form-checkcode").val(),
+                                authcode:$("#register-admin-authcode").val()
+                            },
+                            success:function(response){
+                                if(response.status=="200"){
+                                    $.notify(response.message,{className:"success",position:"bottom right"});
+                                    $("#bg-username").val($("#form-name").val());
+                                    $("#bg-password").val($("#form-password").val());
+                                    $("#bg-attribute").val($("input[name='accountSelection']:checked").val());
+                                    $("#bg-form").ajaxSubmit(function(data){
+                                        if(data.status==200){
+                                            student_count=0;teacher_count=0;
+                                            $.notify("3秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                            setTimeout(function(){
+                                                $.notify("2秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                            },1000)
+                                            setTimeout(function(){
+                                                $.notify("1秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                            },2000)
+                                            setTimeout(function(){
+                                                window.location="/index.html";
+                                            },3000)
+                                        }
+                                        else{
+                                            $.notify(data.message,{className:"error",position:"bottom right"});
+                                        }
+                                    })
+                                }
+                                else $.notify("注册失败："+response.message,{className:"error",position:"bottom right"});
+                            },
+                            error:function(){
+                                $.notify("不知名的失败",{className:"error",position:"bottom right"});
+                            }
+                        })
+                    }
+                });
+                function registerReset(){
+                    $("#selectTeachers").removeClass("is-invalid");
+                    $("#selectStudents").removeClass("is-invalid");
+                    $("#selectAdmins").removeClass("is-invalid");
+                    hide(tipSelection);
+
+                    $("#form-firstname").removeClass("is-invalid");
+                    hide(tipFirstname);
+
+                    $("#form-lastname").removeClass("is-invalid");
+                    hide(tipLastname);
+
+                    $("#form-name").removeClass("is-invalid");
+                    hide(tipName);
+
+                    $("#form-password").removeClass("is-invalid");
+                    hide(tipPassword);
+
+                    $("#form-password-re").removeClass("is-invalid");
+                    hide(tipPasswordRe);
+
+                    $("#form-email").removeClass("is-invalid");
+                    hide(tipEmail);
+
+                    $("#form-checkcode").removeClass("is-invalid");
+                    hide(tipCheckcode);
+
+                    $("#register-error").addClass("hide");
+                }
+                function validate(){
+                    valid=true;
+                    if(!($("#selectTeachers").prop("checked")||$("#selectStudents").prop("checked")||$("#selectAdmins").prop("checked"))){
+                        valid=false;
+                        $("#selectTeachers").addClass("is-invalid");
+                        $("#selectStudents").addClass("is-invalid");
+                        $("#selectAdmins").addClass("is-invalid");
+                        show(tipSelection,popperSelection);
+                    }
+                    if($("#form-firstname").val()==""){
+                        valid=false;
+                        $("#form-firstname").addClass("is-invalid");
+                        show(tipFirstname,popperFirstname);
+                    }
+                    if($("#form-lastname").val()==""){
+                        valid=false;
+                        $("#form-lastname").addClass("is-invalid");
+                        show(tipLastname,popperLastname);
+                    }
+                    if($("#form-name").val()==""){
+                        valid=false;
+                        $("#form-name").addClass("is-invalid");
+                        show(tipName,popperName);
+                    }
+                    if(!passwordReg.test($("#form-password").val())){
+                        valid=false;
+                        $("#form-password").addClass("is-invalid");
+                        show(tipPassword,popperPassword);
+                    }
+                    if($("#form-password").val()!=$("#form-password-re").val()){
+                        valid=false;
+                        $("#form-password-re").addClass("is-invalid");
+                        show(tipPasswordRe,popperPasswordRe);
+                    }
+                    if(!emailReg.test($("#form-email").val())){
+                        valid=false;
+                        $("#form-email").addClass("is-invalid");
+                        show(tipEmail,popperEmail);
+                    }
+                    if(!checkcodeReg.test($("#form-checkcode").val())){
+                        valid=false;
+                        $("#form-checkcode").addClass("is-invalid");
+                        show(tipCheckcode,popperCheckcode);
+                    }
+                    if(!valid){
+                        $("#register-error").removeClass("hide");
+                    }
+                    groupUpdate();
+                    return valid;
+                };
+                //APPLICATION FUNCTION
+                $("#register-selection").click(function(){
+                    $("#selectTeachers").removeClass("is-invalid");
+                    $("#selectStudents").removeClass("is-invalid");
+                    hide(tipSelection);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+
+                $("#register-firstname").click(function(){
+                    $("#form-firstname").removeClass("is-invalid");
+                    hide(tipFirstname);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+                    
+                $("#register-lastname").click(function(){
+                    $("#form-lastname").removeClass("is-invalid");
+                    hide(tipLastname);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+
+                $("#register-name").click(function(){
+                    $("#form-name").removeClass("is-invalid");
+                    hide(tipName);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+
+                $("#register-password").click(function(){
+                    $("#form-password").removeClass("is-invalid");
+                    hide(tipPassword);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+
+                $("#register-password-re").click(function(){
+                    $("#form-password-re").removeClass("is-invalid");
+                    hide(tipPasswordRe);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+
+                $("#register-email").click(function(){
+                    $("#form-email").removeClass("is-invalid");
+                    hide(tipEmail);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+
+                $("#register-checkcode").click(function(){
+                    $("#form-checkcode").removeClass("is-invalid");
+                    hide(tipCheckcode);
+                    $("#register-error").addClass("hide");
+                    groupUpdate();
+                })
+                //LISTENER
+            </script>
         </div>
+        <script>
+            var student_count=0;
+            var teacher_count=0;
+            function countUpdateStudent(){
+                if(student_count>=3){
+                    studentIdentitycodeReset();
+                    $("#student-identity-login").removeClass("hide");
+                }
+            };
+            function countUpdateTeacher(){
+                if(teacher_count>=3){
+                    teacherIdentitycodeReset();
+                    $("#teacher-identity-login").removeClass("hide");
+                }
+            };
+            function studentIdentitycodeReset(){
+                $('#login-student-identitycode').val('')
+                $('#login-student-identitycode-image').attr('src','/teacher-checkcode?'+Math.random())
+            }
+            function teacherIdentitycodeReset(){
+                $('#login-teacher-identitycode').val('')
+                $('#login-teacher-identitycode-image').attr('src','/teacher-checkcode?'+Math.random())
+            }
+            function identitycode_validate(checkcode){
+                var answer=false;
+                $.ajax({
+                    url:'/identitycode-check',
+                    type:'POST',
+                    async:false,
+                    data:{
+                        identitycode:checkcode
+                    },
+                    success:function(response){
+                        if(response.status=="200") answer=true;
+                    },
+                })
+                return answer;
+            }
+            $("#login-student-identitycode-image").on('click',studentIdentitycodeReset);
+            $("#login-teacher-identitycode-image").on('click',teacherIdentitycodeReset);
+        </script>
         <div class="login-bar container position-absolute justify-content-between">
             <div class="login-bar-student d-inline-block beautiful-curve">
                 <div class="login-bar-image-student bg-dark beautiful-curve"></div>
@@ -375,10 +830,17 @@
                         <h3 class="login-box-label">学生登录</h3>
                         <div class="error-message hide" id="student-error">你的用户名或密码错误，请重新填写</div>
                         <div id="student-username-login">
-                        <input class="login-box-input form-control" id="login-student-username" autocomplete="off" placeholder="用户名/学号">
+                            <input class="login-box-input form-control" id="login-student-username" autocomplete="off" placeholder="用户名/学号">
+                            <div class="error-message hide" id="student-username-error">你的用户名未填写！</div>
                         </div>
                         <div id="student-password-login">
-                        <input class="login-box-input form-control" id="login-student-password" type="password" placeholder="密码">
+                            <input class="login-box-input form-control" id="login-student-password" type="password" placeholder="密码">
+                            <div class="error-message hide" id="student-password-error">你的密码未填写！</div>
+                        </div>
+                        <div id="student-identity-login" class="justify-content-between mt-1 mb-1 identity-box hide">
+                            <input class="form-control login-box-input identity-code d-inline-block" type="text" placeholder="验证码" id="login-student-identitycode">
+                            <img class="identity-image d-inline-block" id="login-student-identitycode-image" src="/student-checkcode" alt="no image!!!">
+                            <div class="error-message hide" id="student-identitycode-error">验证码填写错误！</div>
                         </div>
                     </div>
                     <div class="login-bar-content-student-down justify-content-between">
@@ -386,40 +848,109 @@
                             <input type="checkbox" class="login-box-checkbox form-check-input" id="login-student-checkbox">
                             <span class="login-box-checkbox-label form-check-label" name="student-remember-me" id="student-remember-me">自动登录</span>
                         </div>
-                        <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-student-forgot">忘记密码？</a>
+                        <button type="button" class="login-box-wordbtn btn btn-link d-inline-block forget-btn">忘记密码？</a>
                     </div>
                     <div class="login-submit-box"><button class="login-box-submit btn btn-outline-primary" id="login-student-submit">登录</button></div>
                 </div>
                 <script>
                     $("#login-student-submit").click(function(){
-                        $("#bg-username").val($("#login-student-username").val());
-                        $("#bg-password").val($("#login-student-password").val());
-                        $("#bg-remember-me").prop("checked",$("#login-student-checkbox").prop("checked"))
-                        $("#bg-attribute").val(1);
-                        $.notify("学生登录中",{className:"info",position:"bottom right"});
-                        $("#bg-form").ajaxSubmit(function(data){
-                            if(data.status==200){
-                                $.notify(data.message,{className:"success",position:"bottom right"});
+                        if(student_validate()){
+                            if(student_count<3||identitycode_validate($("#login-student-identitycode").val())){
+                                $("#bg-username").val($("#login-student-username").val());
+                                $("#bg-password").val($("#login-student-password").val());
+                                $("#bg-remember-me").prop("checked",$("#login-student-checkbox").prop("checked"))
+                                $("#bg-attribute").val(1);
+                                $.notify("学生登录中",{className:"info",position:"bottom right"});
+                                $("#bg-form").ajaxSubmit(function(data){
+                                    if(data.status==200){
+                                        student_count=0;teacher_count=0;
+                                        $.notify(data.message,{className:"success",position:"bottom right"});
+                                        $.notify("3秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                        setTimeout(function(){
+                                            $.notify("2秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                        },1000)
+                                        setTimeout(function(){
+                                            $.notify("1秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                        },2000)
+                                        setTimeout(function(){
+                                            window.location="/index.html";
+                                        },3000)
+                                    }
+                                    else{
+                                        student_count++;countUpdateStudent()
+                                        $.notify(data.message,{className:"error",position:"bottom right"});
+                                        $("#login-student-username").addClass("is-invalid");
+                                        $("#login-student-password").addClass("is-invalid");
+                                        $("#student-error").removeClass("hide");
+                                        setTimeout(function(){
+                                            $("#login-student-username").removeClass("is-invalid");
+                                            $("#login-student-password").removeClass("is-invalid");
+                                            $("#student-error").addClass("hide");
+                                        },10000);
+                                    }
+                                })
                             }
                             else{
-                                $.notify(data.message,{className:"error",position:"bottom right"});
-                                $("#login-student-username").addClass("is-invalid");
-                                $("#login-student-password").addClass("is-invalid");
-                                $("#student-error").removeClass("hide");
+                                $.notify("验证码错误",{className:"error",position:"bottom right"});
+                                $("#student-identitycode-error").removeClass("hide");
+                                $("#login-student-identitycode").addClass("is-invalid");
+                                studentIdentitycodeReset();
                                 setTimeout(function(){
-                                    $("#login-student-username").removeClass("is-invalid");
-                                    $("#login-student-password").removeClass("is-invalid");
-                                    $("#student-error").addClass("hide");
+                                    $("#student-identitycode-error").addClass("hide");
+                                    $("#login-student-identitycode").removeClass("is-invalid");
                                 },10000);
                             }
-                        })
-                    })
+                        }
+                    });
                     $("#student-username-login").click(function(){
-                            $("#login-student-username").removeClass("is-invalid");
+                        $("#student-username-error").addClass("hide");
+                        $("#login-student-username").removeClass("is-invalid");
                     });
                     $("#student-password-login").click(function(){
+                        $("#student-password-error").addClass("hide");
                         $("#login-student-password").removeClass("is-invalid");
-                });
+                    });
+                    $("#student-identity-login").click(function(){
+                        $("#student-identitycode-error").addClass("hide");
+                        $("#login-student-identitycode").removeClass("is-invalid");
+                    });
+                    function student_validate(){
+                        valid=true;
+                        if($("#login-student-username").val()==""){
+                            valid=false;
+                            $("#student-username-error").removeClass("hide");
+                            $("#login-student-username").addClass("is-invalid");
+                            setTimeout(function(){
+                                $("#student-username-error").addClass("hide");
+                                $("#login-student-username").removeClass("is-invalid");
+                            },10000);
+                        }
+                        if($("#login-student-password").val()==""){
+                            valid=false;
+                            $("#student-password-error").removeClass("hide");
+                            $("#login-student-password").addClass("is-invalid");
+                            setTimeout(function(){
+                                $("#student-password-error").addClass("hide");
+                                $("#login-student-password").removeClass("is-invalid");
+                            },10000);
+                        }
+                        if(student_count>=3){
+                            if(!identitycodeReg.test($("#login-student-identitycode").val())){
+                                valid=false;
+                                $("#student-identitycode-error").removeClass("hide");
+                                $("#login-student-identitycode").addClass("is-invalid");
+                                studentIdentitycodeReset();
+                                setTimeout(function(){
+                                    $("#student-identitycode-error").addClass("hide");
+                                    $("#login-student-identitycode").removeClass("is-invalid");
+                                },10000);
+                            }
+                        }
+                        if(!valid){
+                            student_count++;countUpdateStudent();
+                        }
+                        return valid;
+                    }
                 </script>
             </div>
             <div class="login-bar-teacher d-inline-block beautiful-curve">
@@ -428,56 +959,136 @@
                         <a class="login-box-gap">.</a>
                         <h3 class="login-box-label">教师登录</h3>
                         <div class="error-message hide" id="teacher-error">你的用户名或密码错误，请重新填写</div>
-                        <input class="login-box-input form-control" id="login-teacher-username" autocomplete="off" placeholder="用户名/教工号">
-                        <input class="login-box-input form-control" id="login-teacher-password" type="password" placeholder="密码">
+                        <div id="teacher-username-login">
+                            <input class="login-box-input form-control" id="login-teacher-username" autocomplete="off" placeholder="用户名/教工号">
+                            <div class="error-message hide" id="teacher-username-error">你的用户名未填写！</div>
+                        </div>
+                        <div id="teacher-password-login">
+                            <input class="login-box-input form-control" id="login-teacher-password" type="password" placeholder="密码">
+                            <div class="error-message hide" id="teacher-password-error">你的密码未填写！</div>
+                        </div>
+                        <div id="teacher-identity-login" class="justify-content-between mt-1 mb-1 identity-box hide">
+                            <input class="form-control login-box-input identity-code d-inline-block" type="text" placeholder="验证码" id="login-teacher-identitycode">
+                            <img class="identity-image d-inline-block" id="login-teacher-identitycode-image" src="/teacher-checkcode" alt="no image!!!">
+                            <div class="error-message hide" id="teacher-identitycode-error">验证码填写错误！</div>
+                        </div>
                     </div>
                     <div class="login-bar-content-teacher-down justify-content-between">
                         <div class="login-box-checkbox-container d-inline-block ">
                             <input type="checkbox" class="login-box-checkbox form-check-input" id="login-teacher-checkbox">
                             <span class="login-box-checkbox-label form-check-label" name="teacher-remember-me" id="teacher-remember-me">自动登录</span>
                         </div>
-                        <button type="button" class="login-box-wordbtn btn btn-link d-inline-block" id="login-teacher-forgot">忘记密码？</a>
+                        <button type="button" class="login-box-wordbtn btn btn-link d-inline-block forget-btn">忘记密码？</a>
                     </div>
                     <div class="login-submit-box"><button class="login-box-submit btn btn-outline-primary" id="login-teacher-submit">登录</button></div>
                 </div>
                 <script>
                     $("#login-teacher-submit").click(function(){
-                        $("#bg-username").val($("#login-teacher-username").val());
-                        $("#bg-password").val($("#login-teacher-password").val());
-                        $("#bg-remember-me").prop("checked",$("#login-teacher-checkbox").prop("checked"))
-                        $("#bg-attribute").val(1);
-                        $.notify("教师登录中",{className:"info",position:"bottom right"});
-                        $("#bg-form").ajaxSubmit(function(data){
-                            if(data.status==200){
-                                $.notify(data.message,{className:"success",position:"bottom right"});
+                        if(teacher_validate()){
+                            if(teacher_count<3||identitycode_validate($("#login-teacher-identitycode").val())){
+                                $("#bg-username").val($("#login-teacher-username").val());
+                                $("#bg-password").val($("#login-teacher-password").val());
+                                $("#bg-remember-me").prop("checked",$("#login-teacher-checkbox").prop("checked"))
+                                $("#bg-attribute").val(2);
+                                $.notify("教师登录中",{className:"info",position:"bottom right"});
+                                $("#bg-form").ajaxSubmit(function(data){
+                                    if(data.status==200){
+                                        student_count=0;teacher_count=0;
+                                        $.notify(data.message,{className:"success",position:"bottom right"});
+                                        $.notify("3秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                        setTimeout(function(){
+                                            $.notify("2秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                        },1000)
+                                        setTimeout(function(){
+                                            $.notify("1秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                                        },2000)
+                                        setTimeout(function(){
+                                            window.location="/index.html";
+                                        },3000)
+                                    }
+                                    else{
+                                        $.notify(data.message,{className:"error",position:"bottom right"});
+                                        $("#login-teacher-username").addClass("is-invalid");
+                                        $("#login-teacher-password").addClass("is-invalid");
+                                        $("#teacher-error").removeClass("hide");
+                                        setTimeout(function(){
+                                            $("#login-teacher-username").removeClass("is-invalid");
+                                            $("#login-teacher-password").removeClass("is-invalid");
+                                            $("#teacher-error").addClass("hide");
+                                        },10000);
+                                    }
+                                })
                             }
                             else{
-                                $.notify(data.message,{className:"error",position:"bottom right"});
-                                $("#login-teacher-username").addClass("is-invalid");
-                                $("#login-teacher-password").addClass("is-invalid");
-                                $("#teacher-error").removeClass("hide");
+                                $.notify("验证码错误",{className:"error",position:"bottom right"});
+                                $("#teacher-identitycode-error").removeClass("hide");
+                                $("#login-teacher-identitycode").addClass("is-invalid");
+                                studentIdentitycodeReset();
                                 setTimeout(function(){
-                                    $("#login-teacher-username").removeClass("is-invalid");
-                                    $("#login-teacher-password").removeClass("is-invalid");
-                                    $("#teacher-error").addClass("hide");
+                                    $("#teacher-identitycode-error").addClass("hide");
+                                    $("#login-teacher-identitycode").removeClass("is-invalid");
                                 },10000);
                             }
-                        })
+                        }
                     })
-                    $("#student-username-login").click(function(){
-                            $("#login-student-username").removeClass("is-invalid");
+                    $("#teacher-username-login").click(function(){
+                        $("#teacher-username-error").addClass("hide");
+                        $("#login-teacher-username").removeClass("is-invalid");
                     });
-                    $("#student-password-login").click(function(){
-                        $("#login-student-password").removeClass("is-invalid");
-                });
+                    $("#teacher-password-login").click(function(){
+                        $("#teacher-password-error").addClass("hide");
+                        $("#login-teacher-password").removeClass("is-invalid");
+                    });
+                    $("#teacher-identity-login").click(function(){
+                        $("#teacher-identitycode-error").addClass("hide");
+                        $("#login-teacher-identitycode").removeClass("is-invalid");
+                    });
+                    function teacher_validate(){
+                        valid=true;
+                        if($("#login-teacher-username").val()==""){
+                            valid=false;
+                            $("#teacher-username-error").removeClass("hide");
+                            $("#login-teacher-username").addClass("is-invalid");
+                            setTimeout(function(){
+                                $("#teacher-username-error").addClass("hide");
+                                $("#login-teacher-username").removeClass("is-invalid");
+                            },10000);
+                        }
+                        if($("#login-teacher-password").val()==""){
+                            valid=false;
+                            $("#teacher-password-error").removeClass("hide");
+                            $("#login-teacher-password").addClass("is-invalid");
+                            setTimeout(function(){
+                                $("#teacher-password-error").addClass("hide");
+                                $("#login-teacher-password").removeClass("is-invalid");
+                            },10000);
+                        }
+                        if(teacher_count>=3){
+                            if(!identitycodeReg.test($("#login-teacher-identitycode").val())){
+                                valid=false;
+                                $("#teacher-identitycode-error").removeClass("hide");
+                                $("#login-teacher-identitycode").addClass("is-invalid");
+                                studentIdentitycodeReset();
+                                setTimeout(function(){
+                                    $("#teacher-identitycode-error").addClass("hide");
+                                    $("#login-teacher-identitycode").removeClass("is-invalid");
+                                },10000);
+                            }
+                        }
+                        if(!valid){
+                            teacher_count++;countUpdateTeacher();
+                        }
+                        return valid;
+                    }
                 </script>
                 <div class="login-bar-image-teacher bg-dark beautiful-curve"></div>
             </div>
             <button class="btn btn-primary register-bite" id="register-btn">没有账号？点此注册！</button>
         </div>
-        <a href="admin-index.html" class="fakbtn" id="admin">!</a>
-        <div class="bottomline position-absolute bottom-0 m-0 bg-white opacity-25 w-100">
-            <div class=" text-center">Powered by 39ミク technology corpration ltd</div>
+        <div class="login-bg-blur beautiful-curve" id="bg-blur"></div>
+        <a class="fakbtn" id="admin">!</a>
+        <div class="bottomline position-absolute bottom-0 m-0 w-100" style="z-index: 4;">
+            <div class=" text-center" >Powered by 39ミク technology corpration ltd</div>
         </div>
         <div class="background carousel slide carousel-fade opacity-75 w-100 h-100 position-absolute" id="Carousel" data-bs-ride="carousel">
             <div class="carousel-inner h-100 w-100">
@@ -521,17 +1132,20 @@
                 reg_box.style.display="block";
                 login.style.display="none"
                 window.scrollTo({top:0,left:0,behavior:"smooth"})
-
+                $("#bg-blur").addClass("register-bg-blur");
+                $("#bg-blur").removeClass("login-bg-blur");
+                registerReset();
             }
             reg_quit.onclick=function(e){
                 reg_box.style.display="none";
                 login.style.display="block";
+                $("#bg-blur").removeClass("register-bg-blur");
+                $("#bg-blur").addClass("login-bg-blur");
             }
             var countdown=0;
             checkcode=document.getElementById("form-send-checkcode");
             checkcode.onclick=function(e){
                 let addr=$("#form-email").val();
-                let emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
                 if(countdown==0){
                     if(emailReg.test(addr)){
                         $.ajax({
@@ -539,11 +1153,19 @@
                             type:'POST',
                             data:{
                                 address:addr
+                            },
+                            success:function(response){
+                                if(response.status=="200"){
+                                    for(let i=30;i>=0;i--)
+                                        window.setTimeout("checoupdate("+i+")",30*1000-i*1000);
+                                    $.notify("发送验证码成功",{className:"success",position:"top center"});
+                                }
+                                else $.notify("邮件发送错误："+response.message,{className:"error",position:"top center"});
+                            },
+                            error:function(){
+                                $.notify("邮件发送错误",{className:"error",position:"top center"});
                             }
                         });
-                        for(let i=30;i>=0;i--)
-                            window.setTimeout("checoupdate("+i+")",30*1000-i*1000);
-                        $.notify("发送验证码成功",{className:"success",position:"top center"});
                     }
                     else{
                         $.notify("错误邮箱，请确定后再发送验证码",{className:"error",position:"top center"});
@@ -558,6 +1180,458 @@
                 else checkcode.innerHTML="发送验证码"
                 countdown=num;
             }
+        </script>
+        <style>
+            .admin-register-bg{
+                min-height: 900px;
+                width: 950px;
+                height: 100%;
+                position: fixed;
+                z-index: 4;
+                right: -950px;
+                overflow: hidden;
+                background-size: cover;
+            }
+            .admin-login-bg{
+                min-height: 800px;
+                height: 100%;
+                position: fixed;
+                z-index: 3;
+                overflow: hidden;
+                background-size: cover; 
+            }
+            #admin-bg-1{
+                background-image: url('resources/image/background/login-1.png'); 
+                transition:all ease-in-out 1s;
+            }
+            #admin-bg-2{
+                background-image: url('resources/image/background/login-2.png');
+                transition:all cubic-bezier(0.075, 0.82, 0.165, 1) 0.56s
+            }
+            #admin-bg-3{
+                background-image: url('resources/image/background/login-3.png');
+                transition:all cubic-bezier(0.23, 1, 0.320, 1) 0.8s
+            }
+            #admin-bg-4{
+                background-image: url('resources/image/background/login-4.png');
+                transition:all cubic-bezier(0.895, 0.03, 0.685, 0.22) 0.7s;
+            }
+            #admin-bg-5{
+                background-image: url('resources/image/background/login-5.png');
+                transition:all cubic-bezier(0.47, 0, 0.745, 0.715) 0.42s;
+            }
+            #admin-bg-6{
+                background-image: url('resources/image/background/login-6.png');
+                transition:all cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.7s;
+            }
+            .admin-show{
+                right: 0%;
+            }
+            .admin-sign-1{
+                background-image: url('resources/image/sign/login-sign-1.png');
+                position: fixed;
+                z-index: 5;
+                background-size: cover; 
+                overflow: hidden;
+                height: 200px;
+                width: 320px;
+                right: -400px;
+                bottom: 200px;
+                transform: rotateZ(-15deg);
+                transition: all cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.6s;
+            }
+            .admin-sign-show-1{
+                height: 250px;
+                width: 400px;
+                right: -10px;
+                bottom: -100px;
+                transform: rotateZ(-65deg);
+            }
+            .admin-sign-2{
+                background-image: url('resources/image/sign/login-sign-2.png');
+                position: fixed;
+                z-index: 5;
+                background-size: cover; 
+                overflow: hidden;
+                height: 20px;
+                width: 20px;
+                right: -300px;
+                bottom: -100px;
+                transition: all cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.6s;
+                transform: rotateZ(-114deg);
+            }
+            .admin-sign-show-2{
+                height: 300px;
+                width: 300px;
+                right: -100px;
+                bottom: -100px;
+                transform: rotateZ(-514deg);
+            }
+            .admin-sign-3{
+                background-image: url('resources/image/sign/login-sign-3.png');
+                position: fixed;
+                z-index: 4;
+                background-size: cover; 
+                overflow: hidden;
+                height: 90px;
+                width: 420px;
+                right: -114px;
+                top: -514px;
+                transform: rotateZ(19deg);
+                transition: all cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.55s;
+            }
+            .admin-sign-show-3{
+                height: 90px;
+                width: 420px;
+                right: 100px;
+                top: 350px;
+                transform: scale(1.5) rotateZ(-11deg);
+            }
+            .admin-sign-4{
+                background-image: url('resources/image/sign/login-sign-4.png');
+                position: fixed;
+                z-index: 4;
+                background-size: cover; 
+                overflow: hidden;
+                height: 15px;
+                width: 50px;
+                right: -600px;
+                top:350px;
+                transform: rotateZ(-11deg);
+                transition: all cubic-bezier(0.6, 0.04, 0.98, 0.335) 0.55s;
+            }
+            .admin-sign-show-4{
+                height: 150px;
+                width: 500px;
+                right: 10px;
+                top: 80px;
+                transform: rotateZ(15deg);
+            }
+            #admin{
+                z-index: 6;
+            }
+            .admin-login-box{
+                position: fixed;
+                z-index: 5;
+                right: -2000px;
+                top: 500px;
+                height: 2000px;
+                width: 1250px;
+                transition: cubic-bezier(0.755, 0.05, 0.855, 0.06) 0.8s;
+                transform: scale(1.2) rotateZ(-6deg);
+            }
+            .admin-login-box-show{
+                right: 200px;
+                top: 550px;
+                height: 500px;
+                width: 250px;
+            }
+            .admin-register-box{
+                position: fixed;
+                z-index: 5;
+                right: -200px;
+                top: 300px;
+                height: 400px;
+                width: 250px;
+                transition: cubic-bezier(0.755, 0.05, 0.855, 0.06) 0.6s;
+                transform: scale(0.001);
+            }
+            .admin-register-box-show{
+                right: 200px;
+                top: 300px;
+                height: 400px;
+                width: 250px;
+                transform: rotateZ(15deg)
+            }
+            #admin-username-login{
+                transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) 0.8s;
+            }
+            #admin-password-login{
+                transition: transform 0.7s cubic-bezier(0.075, 0.82, 0.165, 1) 0.9s;
+            }
+            .admin-username{
+                transform: rotateZ(9deg);
+            }
+            .admin-password{
+                transform: rotateZ(-13deg);
+            }
+            .admin-submit-login{
+                margin-top: 200px;
+                text-align: left;
+            }
+            #admin-authcode-register{
+                transform: scale(1.5) rotate(334deg);
+            }
+            .admin-submit-register{
+                text-align:end;
+                margin-top: 211px;
+                transform: scale(2) rotateZ(-7deg);
+            }
+            .admin-hide{
+                visibility: hidden;
+            }
+        </style>
+        <div class="admin-sign-1" id="admin-sn-1"></div>
+        <div class="admin-register-bg" id="admin-bg-1"></div>
+        <div class="admin-register-bg" id="admin-bg-2"></div>
+        <div class="admin-register-bg" id="admin-bg-3"></div>
+        <div class="admin-sign-2" id="admin-sn-2"></div>
+        <div class="admin-login-bg" id="admin-bg-4"></div>
+        <div class="admin-login-bg" id="admin-bg-5"></div>
+        <div class="admin-login-bg" id="admin-bg-6"></div>
+        <div class="admin-sign-3" id="admin-sn-3"></div>
+        <div class="admin-sign-4" id="admin-sn-4"></div>
+        <div class="admin-login-box" id="admin-login">
+            <div class="error-message admin-hide" id="admin-error">你的用户名或密码错误，请重新填写</div>
+            <div id="admin-username-login" class=" mb-4 mt-4 ">
+                <input class="login-box-input form-control-lg form-control" id="login-admin-username" autocomplete="off" placeholder="用户名/学号">
+                <div class="error-message admin-hide" id="admin-username-error">你的用户名未填写！</div>
+            </div>
+            <div id="admin-password-login" class=" mb-4 mt-4 ">
+                <input class="login-box-input form-control-lg form-control" id="login-admin-password" type="password" placeholder="密码">
+                <div class="error-message admin-hide" id="admin-password-error">你的密码未填写！</div>
+            </div>
+            <div class="login-submit-box admin-submit-login"><button class="login-box-submit btn btn-outline-danger btn-lg" id="login-admin-submit">登录</button></div>
+        </div>
+        <div class="admin-register-box" id="admin-register">
+            <div id="admin-authcode-register" class=" mb-4 mt-4 ">
+                <input class="register-box-input form-control-lg form-control" id="register-admin-authcode" autocomplete="off" placeholder="认证码">
+            </div>
+            <div class="register-submit-box admin-submit-register"><button class="btn btn-danger btn-lg" id="register-admin-submit">开启管理员注册权限</button></div>
+        </div>
+        <script>
+            var admin_count=1;
+            var admin_validated=false;
+            $("#admin").click(function(){
+                if(admin_count==1){
+                    $("#admin-bg-4").addClass("admin-show");
+                    $("#admin-bg-5").addClass("admin-show");
+                    $("#admin-bg-6").addClass("admin-show");
+                    $("#admin-sn-1").addClass("admin-sign-show-1");
+                    $("#admin-sn-3").addClass("admin-sign-show-3");
+                    $("#admin-login").addClass("admin-login-box-show");
+                    $("#admin-username-login").addClass("admin-username");
+                    $("#admin-password-login").addClass("admin-password");
+                    $("#admin").text(admin_count);
+                }
+                if(admin_count==2){
+                    $("#admin-sn-1").removeClass("admin-sign-show-1");
+                    $("#admin-sn-3").removeClass("admin-sign-show-3");
+                    $("#admin-login").removeClass("admin-login-box-show");
+                    $("#admin-username-login").removeClass("admin-username");
+                    $("#admin-password-login").removeClass("admin-password");
+                    if(!admin_validated){
+                        $("#admin-bg-1").addClass("admin-show");
+                        $("#admin-bg-2").addClass("admin-show");
+                        $("#admin-bg-3").addClass("admin-show");
+                        $("#admin-sn-1").removeClass("admin-sign-show-1");
+                        $("#admin-sn-3").removeClass("admin-sign-show-3");
+                        $("#admin-login").removeClass("admin-login-box-show");
+                        $("#admin-sn-2").addClass("admin-sign-show-2");
+                        $("#admin-sn-4").addClass("admin-sign-show-4");
+                        $("#admin-register").addClass("admin-register-box-show");
+                        $("#admin").text(admin_count);
+                    }
+                    else{
+                        admin_count++;
+                    }
+                }
+                if(admin_count==3){
+                    $("#admin-bg-1").removeClass("admin-show");
+                    $("#admin-bg-2").removeClass("admin-show");
+                    $("#admin-bg-3").removeClass("admin-show");
+                    $("#admin-bg-4").removeClass("admin-show");
+                    $("#admin-bg-5").removeClass("admin-show");
+                    $("#admin-bg-6").removeClass("admin-show");
+                    $("#admin-sn-2").removeClass("admin-sign-show-2");
+                    $("#admin-sn-4").removeClass("admin-sign-show-4");
+                    $("#admin-register").removeClass("admin-register-box-show");
+                    $("#admin").text("!");
+                }
+                admin_count=admin_count==3?1:admin_count+1;
+            });
+            $("#register-admin-submit").click(function(){
+                if(admin_validate()){
+                    $("#selectAdmins-box").removeClass("hide");
+                    $.notify("解锁管理员权限成功",{className:"success",position:"top center"});
+                }
+                else{
+                    $.notify("解锁管理员权限失败",{className:"error",position:"top center"});
+                }
+            })
+            function admin_validate(){
+                authentication=false;
+                if($("#register-admin-authcode").val()!=""){
+                    $.ajax({
+                        url:'/auth-code',
+                        type:'POST',
+                        data:{
+                            authcode:$("#register-admin-authcode").val()
+                        },
+                        async:false,
+                        success:function(response){
+                            if(response.status=="200"){
+                                admin_validated=true;
+                                authentication=true;
+                            }
+                            else $.notify("授权码错误",{className:"error",position:"top center"});
+                        },
+                        error:function(){
+                            $.notify("不知名错误",{className:"error",position:"top center"});
+                        }
+                    });
+                }
+                else{
+                    for(let i=0;i<10;i++){
+                        setTimeout(function(){$("#register-admin-authcode").addClass("is-invalid");},500*i*2-500)
+                        setTimeout(function(){$("#register-admin-authcode").removeClass("is-invalid");},500*i*2)
+                    }
+                }
+                return authentication;
+            }
+            $("#login-admin-submit").click(function(){
+                if(admin_login_validate()){
+                    $("#bg-username").val($("#login-admin-username").val());
+                    $("#bg-password").val($("#login-admin-password").val());
+                    $("#bg-attribute").val(3);
+                    $.notify("管理员登录中",{className:"info",position:"bottom right"});
+                    $("#bg-form").ajaxSubmit(function(data){
+                        if(data.status==200){
+                            student_count=0;teacher_count=0;
+                            $.notify(data.message,{className:"success",position:"bottom right"});
+                            $.notify("3秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                            setTimeout(function(){
+                                $.notify("2秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                            },1000)
+                            setTimeout(function(){
+                                $.notify("1秒钟后跳转到主页",{className:"info",position:"bottom right"});
+                            },2000)
+                            setTimeout(function(){
+                                window.location="/index.html";
+                            },3000)
+                        }
+                        else{
+                            $.notify(data.message,{className:"error",position:"bottom right"});
+                            $("#login-admin-username").addClass("is-invalid");
+                            $("#login-admin-password").addClass("is-invalid");
+                            $("#admin-error").removeClass("hide");
+                            setTimeout(function(){
+                                $("#login-admin-username").removeClass("is-invalid");
+                                $("#login-admin-password").removeClass("is-invalid");
+                                $("#admin-error").addClass("hide");
+                            },10000);
+                        }
+                    })
+                    
+                }
+            })
+            function admin_login_validate(){
+                valid=true;
+                if($("#login-admin-username").val()==""){
+                    valid=false;
+                    $("#admin-username-error").removeClass("admin-hide");
+                    $("#login-admin-username").addClass("is-invalid");
+                    setTimeout(function(){
+                        $("#admin-username-error").addClass("admin-hide");
+                        $("#login-admin-username").removeClass("is-invalid");
+                    },10000);
+                }
+                if($("#login-admin-password").val()==""){
+                    valid=false;
+                    $("#admin-password-error").removeClass("admin-hide");
+                    $("#login-admin-password").addClass("is-invalid");
+                    setTimeout(function(){
+                        $("#admin-password-error").addClass("admin-hide");
+                        $("#login-admin-password").removeClass("is-invalid");
+                    },10000);
+                }
+                return valid;
+            }
+        </script>
+        <style>
+            .forget-bar{
+                margin: auto;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 2;
+                width: 500px;
+                height: 250px;
+                opacity: 0.95;
+                background-color: #39c5bb;
+            }
+            #forget-quit{
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 25px;
+                height: 25px;
+                line-height: 15px;
+                font-size: 45px;
+                color: darkgray;
+                transition: all cubic-bezier(0.075, 0.82, 0.165, 1) .5s;
+                border: 4px a;
+                border-radius: 50%;
+                text-decoration: none;
+                text-align: center;
+                font-weight: bolder;
+            }
+            #forget-quit:hover{
+                background-color: #1f1e33;
+            }
+        </style>
+        <div class=" container forget-bar beautiful-curve position-absolute hide" id="forget-box">
+            <div class="forget-bar-quit">
+                <a href="#" id="forget-quit">x</a>
+            </div>
+            <div class="forget-bar-title text-center mb-4 mt-4">
+                <h3>忘记密码</h3>
+            </div>
+            <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=3)" width="100%"color=#987cb9 SIZE=3>
+            <div class="forget-bar-form mb-4" id="forget-email">
+                <label for="forget-bar-form-email" class="form-control-plaintext">邮箱<span class="emphisis">*</span></label>
+                <input type="email" class="form-control" id="forget-bar-form-email" placeholder="name@example.com">
+            </div>
+            <div class="forget-submit-box text-center mt-4"><button class="forget-box-submit btn btn-outline-light" id="forget-submit">确定</button></div>
+        </div>
+        <script>
+            $(".forget-btn").click(function(){
+                console.log("!!!!!!!!")
+                $("#forget-box").removeClass("hide");
+                $("#forget-bar-form-email").val("")
+            })
+            $(".forget-bar-form").click(function(){
+                $("#forget-bar-form-email").removeClass("is-invalid");
+            })
+            $("#forget-quit").click(function(){
+                $("#forget-box").addClass("hide");
+            })
+            $("#forget-submit").click(function(){
+                let addr=$("#forget-bar-form-email").val();
+                if(emailReg.test(addr)){
+                    $.ajax({
+                        url:'/forget',
+                        type:'POST',
+                        data:{
+                            address:addr
+                        },
+                        success:function(response){
+                            if(response.status=="200"){
+                                $.notify("发送成功",{className:"success",position:"top center"});
+                            }
+                            else $.notify("邮件发送错误："+response.message,{className:"error",position:"top center"});
+                        },
+                        error:function(){
+                            $.notify("邮件发送错误",{className:"error",position:"top center"});
+                        }
+                    });
+                }
+                else{
+                    $.notify("错误邮箱，请确定后再发送验证码",{className:"error",position:"top center"});
+                    $("#forget-bar-form-email").addClass("is-invalid");
+                }
+            })
         </script>
     </body>
 </html>

@@ -15,7 +15,6 @@ import java.util.Map;
 public class WithAuthentcationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException{
-        System.out.println("succeeded");
         response.setContentType("application/json;charset-UTF-8");
         response.setCharacterEncoding("UTF-8");
         Map<String,Object> result = new HashMap<String,Object>();

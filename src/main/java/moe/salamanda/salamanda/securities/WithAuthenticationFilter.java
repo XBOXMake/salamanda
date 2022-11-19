@@ -29,11 +29,8 @@ public class WithAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         if(!request.getParameter("attribute").equals(null)){
             UsernamePasswordAuthenticationToken authRequest;
             String username = request.getParameter("username").trim();
-            System.out.println("username:"+username);
             String password = request.getParameter("password").trim();
-            System.out.println("password:"+password);
             String attribute = request.getParameter("attribute").trim();
-            System.out.println("attribute:"+attribute);
             authRequest = new WithAuthenticationToken(username,password,Integer.parseInt(attribute));
             super.setDetails(request,authRequest);
             return super.getAuthenticationManager().authenticate(authRequest);

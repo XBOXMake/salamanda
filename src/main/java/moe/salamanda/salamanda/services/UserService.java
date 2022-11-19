@@ -16,11 +16,25 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
-//OldVersion
 @Service("userDetailService")
 public class UserService implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    public void insertUser(WithUser user){
+        userRepository.save(user);
+    }
+    public WithUser getUserByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+    public WithUser getUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+    public void resetPassword(String email,String password){
+        WithUser user = userRepository.findByEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -29,17 +43,15 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("不存在拥有该用户名的账号！");
         }
         List<GrantedAuthority> authList = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole());
-        return new User(user.getUsername(),PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getUsername()),authList);
+        return new User(user.getUsername(),PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getPassword()),authList);
     }
 
     public UserDetails loadUserByUsernameAndAttribute(String username,Integer attribute) throws UsernameNotFoundException{
-        System.out.println(username+":"+attribute);
         WithUser user = userRepository.findByUsernameAndAttribute(username,attribute);
         if(ObjectUtils.isEmpty(user)){
-            System.out.println("whatthefuck");
             throw new UsernameNotFoundException("不存在拥有该用户名的账号！");
         }
         List<GrantedAuthority> authList = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole());
-        return new User(user.getUsername(), PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getUsername()),authList);
+        return new User(user.getUsername(), PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getPassword()),authList);
     }
 }

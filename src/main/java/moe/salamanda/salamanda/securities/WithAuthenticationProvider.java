@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class WithAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
@@ -51,7 +52,7 @@ public class WithAuthenticationProvider extends AbstractUserDetailsAuthenticatio
             loadedUser = getUserService().loadUserByUsername(username);
         }
         if(loadedUser.equals(null)){
-            throw new AuthenticationServiceException("WHat the fuck?It is null!!!");
+            throw new AuthenticationServiceException("What the fuck?It is null!!!");
         }
         return loadedUser;
     }

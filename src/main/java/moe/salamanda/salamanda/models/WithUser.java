@@ -34,7 +34,9 @@ public class WithUser implements Serializable{
     private String email;
     //basic part
 
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
     private String thumbnail_url;
     @Temporal(TemporalType.DATE)

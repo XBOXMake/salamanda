@@ -14,7 +14,6 @@ import java.util.Map;
 public class WithAuthenticationFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        System.out.println("failed");
         response.setContentType("application/json;charset-UTF-8");
         response.setCharacterEncoding("UTF-8");
         Map<String,Object> result = new HashMap<>();

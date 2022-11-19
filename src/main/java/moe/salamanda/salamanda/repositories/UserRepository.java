@@ -13,9 +13,12 @@ public interface UserRepository extends JpaRepository<WithUser,Long> {
     @Query(value = "select * form user",nativeQuery = true)
     ArrayList<WithUser> findAll();
 
-    @Query(value = "Select * from user where username= :name",nativeQuery = true)
+    @Query(value = "Select * from user where LOWER(username)= :name",nativeQuery = true)
     WithUser findByUsername(@Param("name") String username);
 
-    @Query(value = "Select * from user where (username= :name and attribute= :attribute)",nativeQuery = true)
+    @Query(value = "Select * from user where LOWER(email)= :mail",nativeQuery = true)
+    WithUser findByEmail(@Param("mail") String email);
+
+    @Query(value = "Select * from user where (LOWER(username)= :name and attribute= :attribute)",nativeQuery = true)
     WithUser findByUsernameAndAttribute(@Param("name") String username,@Param("attribute") Integer attribute);
 }

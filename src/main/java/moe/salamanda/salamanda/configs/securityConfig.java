@@ -56,7 +56,9 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/students/**").hasRole("STUDENT")
                 .antMatchers("/teachers/**").hasRole("TEACHER")
                 .antMatchers("/admins/**").hasRole("ADMIN")
-                .antMatchers("/login.html","/login","/add-ons/**","/error","/resources/**","/check-code","/admin-index.html").permitAll()
+                .antMatchers("/index.html").hasAnyAuthority("ADMIN","STUDENT","TEACHER")
+                .antMatchers("/add-ons/**","/error","/resources/**","/check-code","/student-checkcode","/teacher-checkcode","/identitycode-check","/auth-code").permitAll()
+                .antMatchers("/login.html","/login","/register","/forget").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(filter())
@@ -70,8 +72,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().disable()
-                .cors().disable();
+                .csrf().disable();
         http.rememberMe()
                 .userDetailsService(userService)
                 .tokenRepository(persistentTokenRepository())
