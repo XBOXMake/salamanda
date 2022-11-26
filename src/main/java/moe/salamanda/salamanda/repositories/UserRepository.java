@@ -1,6 +1,6 @@
 package moe.salamanda.salamanda.repositories;
 
-import moe.salamanda.salamanda.models.WithUser;
+import moe.salamanda.salamanda.models.general.WithUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

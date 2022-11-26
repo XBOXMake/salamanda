@@ -1,10 +1,11 @@
-package moe.salamanda.salamanda.models;
+package moe.salamanda.salamanda.models.general;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,6 +21,7 @@ public class WithUser implements Serializable{
 
     @NotBlank
     @Length(max = 30)
+    @Column(unique = true)
     private String username;
 
     @NotBlank
@@ -31,19 +33,22 @@ public class WithUser implements Serializable{
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
+
+    @NotBlank
+    @Length(max = 11,min = 11)
+    private String phone;
     //basic part
 
     @NotBlank
     private String firstName;
     @NotBlank
     private String lastName;
-    private String thumbnail_url;
-    @Temporal(TemporalType.DATE)
-    private Date birthday;
     @Max(2)//female
     @Min(1)//male
     private Integer sex;
+    private File thumbnail;
     //information part
 
     @Max(3)

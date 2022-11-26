@@ -1,6 +1,6 @@
 package moe.salamanda.salamanda.services;
 
-import moe.salamanda.salamanda.models.AuthenticationCode;
+import moe.salamanda.salamanda.models.general.AuthenticationCode;
 import moe.salamanda.salamanda.repositories.AuthenticationCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

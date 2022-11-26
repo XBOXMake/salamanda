@@ -72,7 +72,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().disable();
+                .csrf().disable().cors().disable();
         http.rememberMe()
                 .userDetailsService(userService)
                 .tokenRepository(persistentTokenRepository())

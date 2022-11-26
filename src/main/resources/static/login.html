@@ -9,7 +9,7 @@
         <script src="add-ons/bootstrap.min.js"></script>
         <script src="add-ons/jquery-3.6.1.min.js"></script>
         <script src="add-ons/notify.min.js"></script>
-        <script src="add-ons/jquery-form.min.js"></script>
+        <script src="add-ons/jquery-form.js"></script>
         <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
         <!--favicon-->
         <link rel="icon" href="resources/icon/16_favicon.ico" type="image/x-icon">
@@ -87,11 +87,10 @@
                 bottom: 0;
                 margin: auto;
             }
-            @media screen and (min-height:900px){
-                .admin-login-bg{width: 100%;
-                    right: -100%;}
+            @media screen and (min-height:1100px){
+                .admin-login-bg{width: 100%;right: -100%;}
             }
-            @media screen and (max-height:900px){
+            @media screen and (max-height:1100px){
                 .admin-login-bg{width: 1200px;
                     right: -1200px;}
             }
@@ -329,6 +328,7 @@
                 border-radius: 20px;
             }
             .login-bg-blur{
+                opacity: 0.70;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -339,6 +339,7 @@
                 z-index: 1;
             }
             .register-bg-blur{
+                opacity: 0.70;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -434,56 +435,58 @@
             </div>
             <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=3)" width="100%"color=#987cb9 SIZE=3>
             <div class="error-message hide mb-4" id="register-error">你的注册表格填写错误,请重新填写</div>
-            <div class="register-bar-select mb-2 text-center" aria-describedby="register-selection-info" id="register-selection">
+            <div class="register-bar-select mb-2 text-center">
                 <div class="form-title col-auto">
                     <label for="accountSelection" class="form-control-plaintext">账户类型<span class="emphisis">*</span></label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="accountSelection" id="selectTeachers" value=2>
-                    <label class="form-check-label" for="selectTeachers">老师</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="accountSelection" id="selectStudents" value=1>
-                    <label class="form-check-label" for="selectStudents">学生</label>
-                </div>
-                <div class="form-check form-check-inline hide" id="selectAdmins-box">
-                    <input class="form-check-input" type="radio" name="accountSelection" id="selectAdmins" value=3>
-                    <label class="form-check-label" for="selectAdmins">管理员</label>
+                <div aria-describedby="register-selection-info" id="register-selection">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="accountSelection" id="selectTeachers" value=2>
+                        <label class="form-check-label" for="selectTeachers">老师</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="accountSelection" id="selectStudents" value=1>
+                        <label class="form-check-label" for="selectStudents">学生</label>
+                    </div>
+                    <div class="form-check form-check-inline hide" id="selectAdmins-box">
+                        <input class="form-check-input" type="radio" name="accountSelection" id="selectAdmins" value=3>
+                        <label class="form-check-label" for="selectAdmins">管理员</label>
+                    </div>
                 </div>
             </div>
             <div class="register-bar-basic row mb-2 justify-content-center">
-                <div class="register-bar-form5 col-auto" id="register-firstname" aria-describedby="register-firstname-info">
+                <div class="register-bar-form5 col-auto" id="register-firstname" >
                     <label for="form-firstname" class="form-control-plaintext">姓<span class="emphisis">*</span></label>
-                    <input type="text" class="form-control" id="form-firstname">
+                    <input type="text" class="form-control" id="form-firstname" aria-describedby="register-firstname-info">
                 </div>
-                <div class="register-bar-form6 col-auto" id="register-lastname" aria-describedby="register-lastname-info">
+                <div class="register-bar-form6 col-auto" id="register-lastname">
                     <label for="form-lastname" class="form-control-plaintext">名<span class="emphisis">*</span></label>
-                    <input type="text" class="form-control" id="form-lastname">
+                    <input type="text" class="form-control" id="form-lastname" aria-describedby="register-lastname-info">
                 </div>
             </div>
-            <div class="register-bar-form1 mb-2" id="register-name" aria-describedby="register-name-info">
+            <div class="register-bar-form1 mb-2" id="register-name">
                 <label for="form-name" class="form-control-plaintext">账户名称<span class="emphisis">*</span></label>
-                <input type="text" class="form-control" id="form-name">
+                <input type="text" class="form-control" id="form-name" aria-describedby="register-name-info">
             </div>
             <div class="register-bar-basic row mb-2 justify-content-center">
-                <div class="register-bar-form2 col-auto" id="register-password" aria-describedby="register-password-info">
+                <div class="register-bar-form2 col-auto" id="register-password">
                     <label for="form-password" class="form-control-plaintext" aria-describedby="pwdck">密码<span class="emphisis">*</span></label>
-                    <input type="password" class="form-control" id="form-password">
+                    <input type="password" class="form-control" id="form-password" aria-describedby="register-password-info">
                     <div>长度大于10位的,由数字或字母组成</div>
                 </div>
-                <div class="register-bar-form2-re col-auto" id="register-password-re" aria-describedby="register-password-re-info">
+                <div class="register-bar-form2-re col-auto" id="register-password-re">
                     <label for="form-password-re" class="form-control-plaintext">重复密码<span class="emphisis">*</span></label>
-                    <input type="password" class="form-control" id="form-password-re">
+                    <input type="password" class="form-control" id="form-password-re" aria-describedby="register-password-re-info">
                 </div>
             </div>
-            <div class="register-bar-form3 mb-2" id="register-email" aria-describedby="register-email-info">
+            <div class="register-bar-form3 mb-2" id="register-email">
                 <label for="form-email" class="form-control-plaintext">邮箱<span class="emphisis">*</span></label>
-                <input type="email" class="form-control" id="form-email" placeholder="name@example.com">
+                <input type="email" class="form-control" id="form-email" placeholder="name@example.com" aria-describedby="register-email-info">
             </div>
-            <div class="register-bar-form4 row g-3 mb-4 justify-content-center" id="register-checkcode" aria-describedby="register-checkcode-info">
+            <div class="register-bar-form4 row g-3 mb-4 justify-content-center" id="register-checkcode">
                 <div class="col-auto form-checkcode-input">
                     <label for="form-checkcode" class="form-control-plaintext">验证码<span class="emphisis">*</span></label>
-                    <input type="text" class="form-control" id="form-checkcode">
+                    <input type="text" class="form-control" id="form-checkcode" aria-describedby="register-checkcode-info">
                 </div>
                 <div class="col-auto form-checkcode-input">
                     <label for="form-checkcode" class="form-control-plaintext opacity-0">.</label>
@@ -533,33 +536,33 @@
                 const tipSelection = document.querySelector('#register-selection-info');
                 const popperSelection=instance(boxSelection,tipSelection,'left');
                 //
-                const boxFirstname = document.querySelector('#register-firstname');
+                const boxFirstname = document.querySelector('#form-firstname');
                 const tipFirstname = document.querySelector('#register-firstname-info');
                 const popperFirstname=instance(boxFirstname,tipFirstname,'left');
                 //
-                const boxLastname = document.querySelector('#register-lastname');
+                const boxLastname = document.querySelector('#form-lastname');
                 const tipLastname = document.querySelector('#register-lastname-info');
                 const popperLastname=instance(boxLastname,tipLastname,'right');
                 //
-                const boxName = document.querySelector('#register-name');
+                const boxName = document.querySelector('#form-name');
                 const tipName = document.querySelector('#register-name-info');
                 const popperName=instance(boxName,tipName,'left');
                 //
-                const boxPassword = document.querySelector('#register-password');
+                const boxPassword = document.querySelector('#form-password');
                 const tipPassword = document.querySelector('#register-password-info');
                 const popperPassword=instance(boxPassword,tipPassword,'left');
                 //
-                const boxPasswordRe = document.querySelector('#register-password-re');
+                const boxPasswordRe = document.querySelector('#form-password-re');
                 const tipPasswordRe = document.querySelector('#register-password-re-info');
                 const popperPasswordRe=instance(boxPasswordRe,tipPasswordRe,'right');
                 //
-                const boxEmail = document.querySelector('#register-email');
+                const boxEmail = document.querySelector('#form-email');
                 const tipEmail = document.querySelector('#register-email-info');
                 const popperEmail=instance(boxEmail,tipEmail,'right');
                 //
-                const boxCheckcode = document.querySelector('#register-checkcode');
+                const boxCheckcode = document.querySelector('#form-checkcode');
                 const tipCheckcode = document.querySelector('#register-checkcode-info');
-                const popperCheckcode=instance(boxCheckcode,tipCheckcode,'right');
+                const popperCheckcode=instance(boxCheckcode,tipCheckcode,'left');
                 //INSTANCE CREATING
                 function groupUpdate(){
                     popperCheckcode.update();
@@ -1088,7 +1091,7 @@
         <div class="login-bg-blur beautiful-curve" id="bg-blur"></div>
         <a class="fakbtn" id="admin">!</a>
         <div class="bottomline position-absolute bottom-0 m-0 w-100" style="z-index: 4;">
-            <div class=" text-center" >Powered by 39ミク technology corpration ltd</div>
+            <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
         <div class="background carousel slide carousel-fade opacity-75 w-100 h-100 position-absolute" id="Carousel" data-bs-ride="carousel">
             <div class="carousel-inner h-100 w-100">

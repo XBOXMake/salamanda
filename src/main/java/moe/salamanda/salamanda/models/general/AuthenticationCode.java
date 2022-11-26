@@ -1,14 +1,15 @@
-package moe.salamanda.salamanda.models;
+package moe.salamanda.salamanda.models.general;
 
 import lombok.Data;
 import moe.salamanda.salamanda.services.AuthCodeService;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "authcode")
-public class AuthenticationCode {
+public class AuthenticationCode implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

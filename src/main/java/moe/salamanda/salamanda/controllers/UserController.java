@@ -1,9 +1,8 @@
 package moe.salamanda.salamanda.controllers;
 
-import moe.salamanda.salamanda.models.WithUser;
+import moe.salamanda.salamanda.models.general.WithUser;
 import moe.salamanda.salamanda.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
