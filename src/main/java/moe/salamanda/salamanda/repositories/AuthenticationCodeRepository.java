@@ -8,4 +8,5 @@ import org.springframework.data.repository.query.Param;
 public interface AuthenticationCodeRepository extends JpaRepository<AuthenticationCode,Long> {
     @Query(value = "Select * from authcode where authcode= :code",nativeQuery = true)
     AuthenticationCode findByAuthCode(@Param("code") String authCode);
+
 }

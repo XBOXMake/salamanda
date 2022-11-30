@@ -24,12 +24,12 @@ public class BlogComment implements Serializable {
     private Long id;
 
     @ManyToOne(targetEntity = BlogContent.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "blog_comment_id")
+    @JoinColumn(name = "blog_comment_to_id")
     @JsonBackReference
     private BlogContent blog;
 
     @ManyToOne(targetEntity = Student.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "blog_comment_id")
+    @JoinColumn(name = "blog_comment_from_id")
     @JsonBackReference
     private Student by;
 

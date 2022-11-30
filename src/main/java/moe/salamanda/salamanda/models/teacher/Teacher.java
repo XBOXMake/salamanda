@@ -1,6 +1,7 @@
 package moe.salamanda.salamanda.models.teacher;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import moe.salamanda.salamanda.models.course.Course;
@@ -17,11 +18,12 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Accessors(chain = true)
-@Table(name = "teacher")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@EqualsAndHashCode(callSuper = true)
 public class Teacher extends WithUser implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Teacher(WithUser user){
+        super(user);
+    }
 
     private String teacherID;
     @Length(max = 100)

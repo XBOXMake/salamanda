@@ -37,7 +37,8 @@ public class BlogContent implements Serializable {
     @Length(max = 300000)
     private String content;
 
-    private List<File> files;
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<BlogFile> files;
 
     @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<BlogComment> comments;

@@ -38,8 +38,7 @@ public class Course implements Serializable {
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date schedule;
-    @NotEmpty
-    private int limit;//人数限制
+    private int limitation;//人数限制
     @NotEmpty
     private int grade;//学分
 

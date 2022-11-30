@@ -4,33 +4,25 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import moe.salamanda.salamanda.models.student.Student;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.io.File;
 
-//博客点赞
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "blog_like")
+@Table(name = "blog_file")
 @Accessors(chain = true)
-public class BlogLike implements Serializable {
+public class BlogFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(targetEntity = BlogContent.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "blog_like_to_id")
+    @JoinColumn(name = "blog_file_id")
     @JsonBackReference
     private BlogContent blog;
 
-    @ManyToOne(targetEntity = Student.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "blog_like_from_id")
-    @JsonBackReference
-    private Student by;
-
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private String filename;
+    private File file;
 }

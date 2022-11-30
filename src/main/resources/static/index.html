@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Jump to - Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <script src="add-ons/jquery-3.6.1.min.js"></script>
+        <script src="add-ons/jquery-form.js"></script>
+        <script src="add-ons/notify.min.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+    </head>
+    <body>
+        <script>
+            function getCookie(cname){
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for(var i=0; i<ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+                }
+                return "";
+            }
+            let attribute = getCookie("attribute");
+            if(attribute == 1) window.location="student/index.html"
+            else if(attribute == 2) window.location="teacher/index.html"
+            else if(attribute == 3) window.location="admin/index.html"
+            else $.notify("不知名的失败",{className:"error",position:"bottom right"});
+        </script>
+    </body>
+</html>

@@ -20,9 +20,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Student extends WithUser implements Serializable {
+    public Student(WithUser user){
+        super(user);
+    }
+
     private String studentID;
     private String withGrade;//专业
     private int withClass;//班级

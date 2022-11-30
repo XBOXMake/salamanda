@@ -1,6 +1,10 @@
 package moe.salamanda.salamanda.services;
 
 import moe.salamanda.salamanda.models.general.WithUser;
+import moe.salamanda.salamanda.models.student.Student;
+import moe.salamanda.salamanda.models.teacher.Teacher;
+import moe.salamanda.salamanda.repositories.StudentRepository;
+import moe.salamanda.salamanda.repositories.TeacherRepository;
 import moe.salamanda.salamanda.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,9 +23,19 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     public void insertUser(WithUser user){
         userRepository.save(user);
+    }
+    public void insertTeacher(Teacher user){
+        teacherRepository.save(user);
+    }
+    public void insertStudent(Student user){
+        studentRepository.save(user);
     }
     public WithUser getUserByUsername(String username){
         return userRepository.findByUsername(username);

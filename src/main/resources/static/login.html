@@ -192,10 +192,10 @@
                 font-size: 1;
             }
             .login-submit-box{
-                position: absolute;
                 bottom: 100px;
                 width: 450px;
                 text-align: center;
+                margin-top: 160px;
             }
             .login-box-submit{
                 margin: auto;
@@ -1373,6 +1373,19 @@
             .admin-hide{
                 visibility: hidden;
             }
+            @media screen and (max-height:1000px){
+                .admin-login-box-show{
+                    top: 30%;
+                }
+                .admin-sign-show-3{
+                    transform: scale(2) rotateZ(7deg);
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                }
+            }
         </style>
         <div class="admin-sign-1" id="admin-sn-1"></div>
         <div class="admin-register-bg" id="admin-bg-1"></div>
@@ -1500,6 +1513,7 @@
                     $.notify("管理员登录中",{className:"info",position:"bottom right"});
                     $("#bg-form").ajaxSubmit(function(data){
                         if(data.status==200){
+                            seesionStore();
                             student_count=0;teacher_count=0;
                             $.notify(data.message,{className:"success",position:"bottom right"});
                             $.notify("3秒钟后跳转到主页",{className:"info",position:"bottom right"});

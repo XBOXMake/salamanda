@@ -1,6 +1,8 @@
 package moe.salamanda.salamanda.controllers;
 
 import moe.salamanda.salamanda.models.general.WithUser;
+import moe.salamanda.salamanda.models.student.Student;
+import moe.salamanda.salamanda.models.teacher.Teacher;
 import moe.salamanda.salamanda.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,8 +52,9 @@ public class UserController {
         throw new RuntimeException("已存在该用户名");
     }
 
-    private boolean authCheck(String authcode){
-        return authCodeService.checkAuthCode(authcode);
+    private boolean authCheck(String authcode,String atrribute){
+        if(atrribute == "3") return authCodeService.checkAuthCode(authcode);
+        else return true;
     }
 
     @RequestMapping("/register")
@@ -64,7 +67,7 @@ public class UserController {
             if (session != null) {
                 if (checkcodeCheck(session, checkcode, email)) {
                     if (noRepeatCheck(name,email)) {
-                        if(authCheck(authcode)){
+                        if(authCheck(authcode,attribute)){
                             WithUser user = new WithUser();
                             user.setAttribute(Integer.parseInt(attribute));
                             user.setFirstName(firstname);
@@ -72,9 +75,11 @@ public class UserController {
                             user.setUsername(name);
                             user.setEmail(email);
                             user.setPassword(password);
-                            userService.insertUser(user);
+                            if (attribute == "1") userService.insertStudent(new Student(user));
+                            else if(attribute == "2") userService.insertTeacher(new Teacher(user));
+                            else userService.insertUser(user);
+                            if(attribute == "3")authCodeService.useAuthCode(authcode,name);
                             ResponseService.successResponse(request, response, "注册成功");
-                            authCodeService.useAuthCode(authcode,name);
                             return;
                         }
                     }
@@ -165,7 +170,7 @@ public class UserController {
     @ResponseBody
     public void authcodeCheck(@RequestParam("authcode") String authcode, HttpServletRequest request,HttpServletResponse response) throws Exception{
         try {
-                if(authCheck(authcode)){
+                if(authCheck(authcode,"3")){
                     ResponseService.successResponse(request,response,"授权码可使用");
                 }
         } catch (Exception e) {

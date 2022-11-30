@@ -22,12 +22,12 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(targetEntity = Student.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "comment_from_id")
     @JsonBackReference
     private Student from;
 
     @ManyToOne(targetEntity = Student.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "comment_to_id")
     @JsonBackReference
     private Student to;
 

@@ -29,7 +29,6 @@ public class Activity implements Serializable {
     @JsonBackReference
     private Student student;
 
-    @NotEmpty
     @Min(1)
     @Max(3)
     private int attribute;
@@ -50,6 +49,8 @@ public class Activity implements Serializable {
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date dateEnd;
-    private List<File> files;
+
+    @OneToMany(mappedBy = "activity",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<ActivityFiles> files;
 
 }

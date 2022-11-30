@@ -36,7 +36,6 @@ public class WithUser implements Serializable{
     @Column(unique = true)
     private String email;
 
-    @NotBlank
     @Length(max = 11,min = 11)
     private String phone;
     //basic part
@@ -70,6 +69,20 @@ public class WithUser implements Serializable{
             case "ADMIN": return 3;
             default: return 0;
         }
+    }
+
+    public WithUser(WithUser user){
+        id = user.id;
+        username = user.username;
+        password = user.password;
+        introductions = user.introductions;
+        email = user.email;
+        phone = user.phone;
+        firstName = user.firstName;
+        lastName = user.lastName;
+        sex = user.sex;
+        thumbnail = user.thumbnail;
+        Attribute = user.Attribute;
     }
     //identity part
 }
