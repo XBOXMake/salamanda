@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/teachers/**").hasRole("TEACHER")
                 .antMatchers("/admins/**").hasRole("ADMIN")
                 .antMatchers("/index.html").hasAnyAuthority("ADMIN","STUDENT","TEACHER")
-                .antMatchers("/add-ons/**","/error","/resources/**","/check-code","/student-checkcode","/teacher-checkcode","/identitycode-check","/auth-code","/logout","/signout.html").permitAll()
+                .antMatchers("/util/**","/add-ons/**","/error","/resources/**","/check-code","/student-checkcode","/teacher-checkcode","/identitycode-check","/auth-code","/logout","/signout.html").permitAll()
                 .antMatchers("/login.html","/login","/register","/forget").anonymous()
                 .anyRequest().authenticated()
                 .and()

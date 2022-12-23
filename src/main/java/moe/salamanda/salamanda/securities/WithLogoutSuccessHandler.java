@@ -1,6 +1,8 @@
 package moe.salamanda.salamanda.securities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import moe.salamanda.salamanda.services.RedisService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -17,19 +19,21 @@ import java.util.Map;
 
 @Component
 public class WithLogoutSuccessHandler implements LogoutSuccessHandler {
+    @Autowired
+    RedisService redisService;
+
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException{
         try{
-            Cookie usernameCookie = new Cookie("username", WebUtils.getCookie(request, "username").getValue());
-            usernameCookie.setHttpOnly(false);
-            usernameCookie.setSecure(false);
-            usernameCookie.setMaxAge(0);
-            Cookie attributeCookie = new Cookie("attribute", WebUtils.getCookie(request, "attribute").getValue());
-            attributeCookie.setHttpOnly(false);
-            attributeCookie.setSecure(false);
-            attributeCookie.setMaxAge(0);
-            response.addCookie(usernameCookie);
-            response.addCookie(attributeCookie);
+            String cookieCode = WebUtils.getCookie(request,"LOG").getValue();
+            Cookie cookie = new Cookie("LOG", cookieCode);
+            cookie.setHttpOnly(false);
+            cookie.setSecure(false);
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            redisService.delete(redisService.DEFAULT_ATTRIBUTE_PREFIX+cookieCode);
+            redisService.delete(redisService.DEFAULT_USERNAME_PREFIX+cookieCode);
+            redisService.delete(cookieCode);
             response.sendRedirect("/signout.html");
         }catch (Exception e){
             if(e.getClass().equals(IOException.class)||e.getClass().equals(ServletException.class)) throw e;

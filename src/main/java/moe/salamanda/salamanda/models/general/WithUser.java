@@ -62,6 +62,15 @@ public class WithUser implements Serializable{
             default: return null;
         }
     }
+
+    public static String getRoleName(String attribute){
+        switch (attribute){
+            case "1": return "student";
+            case "2": return "teacher";
+            case "3": return "admin";
+            default: return null;
+        }
+    }
     public static Integer getRoleAttribute(String role){
         switch (role){
             case "STUDENT": return 1;

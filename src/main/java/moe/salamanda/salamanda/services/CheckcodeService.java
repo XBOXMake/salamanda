@@ -100,15 +100,4 @@ public class CheckcodeService {
         return image;
     }
 
-    public void responseIdentifyImg(BufferedImage image, HttpServletResponse response){
-        response.setContentType("image/jpeg");
-        response.setHeader("Pragma","No-cache");
-        response.setHeader("Cache-Control","no-cache");
-        response.setDateHeader("Expire",0);
-        try{
-            ImageIO.write(image,"JPEG",response.getOutputStream());
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 }

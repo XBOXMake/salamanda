@@ -72,7 +72,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.html">
                     <img class="" src="../resources/icon/icon.png" width="48px" height="48px">
                     Salamanda
                 </a>
@@ -110,12 +110,11 @@
                     <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img class="me-2 img-thumbnail" src="../resources/icon/icon.png" width="45px" height="45px">
+                                    <img class="me-2 img-thumbnail" src="/util/getThumbnail" width="45px" height="45px">
                                     <span id="nav-username">username</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">我的资料</a></li>
-                                <li><a class="dropdown-item" href="#">修改信息</a></li>
+                                <li><a class="dropdown-item" href="userpage.html">个人资料</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/logout">退出账户</a></li>
                             </ul>
@@ -125,19 +124,11 @@
             </div>
         </nav>
         <script>
-            function getCookie(cname){
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for(var i=0; i<ca.length; i++) {
-                    var c = ca[i].trim();
-                    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-                }
-                return "";
-            }
-            let username = getCookie("username");
-            $("#nav-username").text(username==""?"NULL":username);
+            $.get("/util/getUsername",function(data){
+                $("#nav-username").text(data);
+            })
         </script>
-        <div class="bottomline position-absolute bottom-0 m-0 w-100" style="z-index: 4;">
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
     </body>

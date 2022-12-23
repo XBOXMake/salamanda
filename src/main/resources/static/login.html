@@ -806,14 +806,15 @@
                 $('#login-teacher-identitycode').val('')
                 $('#login-teacher-identitycode-image').attr('src','/teacher-checkcode?'+Math.random())
             }
-            function identitycode_validate(checkcode){
+            function identitycode_validate(checkcode,attribute){
                 var answer=false;
                 $.ajax({
                     url:'/identitycode-check',
                     type:'POST',
                     async:false,
                     data:{
-                        identitycode:checkcode
+                        identitycode:checkcode,
+                        attr:attribute
                     },
                     success:function(response){
                         if(response.status=="200") answer=true;
@@ -858,7 +859,7 @@
                 <script>
                     $("#login-student-submit").click(function(){
                         if(student_validate()){
-                            if(student_count<3||identitycode_validate($("#login-student-identitycode").val())){
+                            if(student_count<3||identitycode_validate($("#login-student-identitycode").val(),'student')){
                                 $("#bg-username").val($("#login-student-username").val());
                                 $("#bg-password").val($("#login-student-password").val());
                                 $("#bg-remember-me").prop("checked",$("#login-student-checkbox").prop("checked"))
@@ -988,12 +989,11 @@
                 <script>
                     $("#login-teacher-submit").click(function(){
                         if(teacher_validate()){
-                            if(teacher_count<3||identitycode_validate($("#login-teacher-identitycode").val())){
+                            if(teacher_count<3||identitycode_validate($("#login-teacher-identitycode").val(),'teacher')){
                                 $("#bg-username").val($("#login-teacher-username").val());
                                 $("#bg-password").val($("#login-teacher-password").val());
                                 $("#bg-remember-me").prop("checked",$("#login-teacher-checkbox").prop("checked"))
                                 $("#bg-attribute").val(2);
-                                $.notify("教师登录中",{className:"info",position:"bottom right"});
                                 $("#bg-form").ajaxSubmit(function(data){
                                     if(data.status==200){
                                         student_count=0;teacher_count=0;
@@ -1090,7 +1090,7 @@
         </div>
         <div class="login-bg-blur beautiful-curve" id="bg-blur"></div>
         <a class="fakbtn" id="admin">!</a>
-        <div class="bottomline position-absolute bottom-0 m-0 w-100" style="z-index: 4;">
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
         <div class="background carousel slide carousel-fade opacity-75 w-100 h-100 position-absolute" id="Carousel" data-bs-ride="carousel">

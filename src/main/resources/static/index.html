@@ -15,20 +15,11 @@
     </head>
     <body>
         <script>
-            function getCookie(cname){
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for(var i=0; i<ca.length; i++) {
-                    var c = ca[i].trim();
-                    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-                }
-                return "";
-            }
-            let attribute = getCookie("attribute");
-            if(attribute == 1) window.location="student/index.html"
-            else if(attribute == 2) window.location="teacher/index.html"
-            else if(attribute == 3) window.location="admin/index.html"
-            else $.notify("不知名的失败",{className:"error",position:"bottom right"});
+            $.get("/util/getIndex",function(data){
+                $(location).prop('href',data);
+            }).fail(function (){
+                $.notify("不知名的失败",{className:"error",position:"bottom right"});
+            })
         </script>
     </body>
 </html>

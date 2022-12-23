@@ -14,6 +14,18 @@ public class RandomService {
         char character = (char) (number<10?'0'+number:'A'+number-10);
         return character;
     }
+    protected static char getRandomChar(boolean DigitOrCharater){
+        return (char) (DigitOrCharater==true?'0'+random.nextInt(10):'A'+random.nextInt(26));
+    }
+
+    public static String getCyrptedCookie(){
+        String str = new String();
+        for(int i=1;i<=32;i++){
+            str += getRandomChar(false);
+        }
+        return str;
+    }
+
     public static String password(){
         String password = "";
         for(int i=1;i<=16;i++){

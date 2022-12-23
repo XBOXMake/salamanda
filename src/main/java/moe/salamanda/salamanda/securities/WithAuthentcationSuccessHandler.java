@@ -1,6 +1,9 @@
 package moe.salamanda.salamanda.securities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import moe.salamanda.salamanda.services.RandomService;
+import moe.salamanda.salamanda.services.RedisService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,18 +20,25 @@ import java.util.Map;
 
 @Component
 public class WithAuthentcationSuccessHandler implements AuthenticationSuccessHandler {
+    @Autowired
+    RedisService redisService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException{
-        Cookie usernameCookie = new Cookie("username",request.getParameter("username").trim());
-        usernameCookie.setHttpOnly(false);
-        usernameCookie.setSecure(false);
-        if(!ObjectUtils.isEmpty(request.getParameter("remember-me"))) usernameCookie.setMaxAge(60*60*24);
-        Cookie attributeCookie = new Cookie("attribute",request.getParameter("attribute").trim());
-        attributeCookie.setHttpOnly(false);
-        attributeCookie.setSecure(false);
-        if(!ObjectUtils.isEmpty(request.getParameter("remember-me"))) attributeCookie.setMaxAge(60*60*24);
-        response.addCookie(usernameCookie);
-        response.addCookie(attributeCookie);
+        String cookieCode = redisService.getCrypt();
+        redisService.add(redisService.DEFAULT_USERNAME_PREFIX+cookieCode,request.getParameter("username").trim());
+        redisService.add(redisService.DEFAULT_ATTRIBUTE_PREFIX+cookieCode,request.getParameter("attribute").trim());
+        redisService.add(cookieCode,"true");
+        Cookie cookie = new Cookie("LOG",cookieCode);
+        cookie.setHttpOnly(false);
+        cookie.setSecure(false);
+        if(!ObjectUtils.isEmpty(request.getParameter("remember-me"))) {
+            redisService.setExpire(redisService.DEFAULT_USERNAME_PREFIX+cookieCode, redisService.EXPIRE_TIME,redisService.EXPIRE_TIME_TYPE);
+            redisService.setExpire(redisService.DEFAULT_ATTRIBUTE_PREFIX+cookieCode, redisService.EXPIRE_TIME,redisService.EXPIRE_TIME_TYPE);
+            redisService.setExpire(cookieCode, redisService.EXPIRE_TIME,redisService.EXPIRE_TIME_TYPE);
+            cookie.setMaxAge(60 * 60 * 24);
+        }
+        response.addCookie(cookie);
         response.setContentType("application/json;charset-UTF-8");
         response.setCharacterEncoding("UTF-8");
         Map<String,Object> result = new HashMap<String,Object>();

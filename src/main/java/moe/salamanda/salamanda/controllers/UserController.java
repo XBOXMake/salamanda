@@ -20,19 +20,25 @@ import java.lang.String;
 
 @Controller
 public class UserController {
+    private final static String IDENTITY_CODE_KEY="LOLOLOLOLOLOLOLOLOLOLOLOLOLOLOL";
+
     @Autowired
     private UserService userService;
     @Autowired
     private CheckcodeService checkcodeService;
     @Autowired
     private AuthCodeService authCodeService;
+    @Autowired
+    private FileService fileService;
 
 
     private boolean checkcodeCheck(HttpSession session,String checkcode,String email){
-        String code = session.getAttribute("checkcode").toString().trim();
-        String mail = session.getAttribute("email").toString().trim();
-        if(code.equals(checkcode)) {
-            if(email.equals(mail)){
+        String code = session.getAttribute("checkcode").toString();
+        String mail = session.getAttribute("email").toString();
+        String realCode = CryptService.decrypt(code,email);
+        String realMail = CryptService.decrypt(mail,checkcode);
+        if(realCode.equals(checkcode)) {
+            if(email.equals(realMail)){
                 return true;
             }
             throw new RuntimeException("注册邮箱与先前申请验证码的邮箱不一致");
@@ -97,8 +103,8 @@ public class UserController {
         try{
             String code = RandomService.checkCode();
             MailService.codeSender(address, code);
-            session.setAttribute("checkcode", code);
-            session.setAttribute("email",address);
+            session.setAttribute("checkcode", CryptService.encrypt(address,code));
+            session.setAttribute("email",CryptService.encrypt(code,address));
             ResponseService.successResponse(request, response, "成功发送验证码");
         }catch (Exception e){
             ResponseService.failureResponse(request,response,e);
@@ -127,21 +133,21 @@ public class UserController {
     @ResponseBody
     public void studentCheckcodeImage(HttpServletResponse response,HttpSession session){
         String checkcode = checkcodeService.getCheckcode();
-        session.setAttribute("identityCode",checkcode);
+        session.setAttribute("identityCode-student",CryptService.encrypt(checkcode,IDENTITY_CODE_KEY));
         BufferedImage image=checkcodeService.getCheckcodeImage(checkcode,150,50);
-        checkcodeService.responseIdentifyImg(image,response);
+        fileService.responseIdentifyImg(image,response);
     }
     @RequestMapping("/teacher-checkcode")
     @ResponseBody
     public void teacherCheckcodeImage(HttpServletResponse response,HttpSession session){
         String checkcode = checkcodeService.getCheckcode();
-        session.setAttribute("identityCode",checkcode);
+        session.setAttribute("identityCode-teacher",CryptService.encrypt(checkcode,IDENTITY_CODE_KEY));
         BufferedImage image=checkcodeService.getCheckcodeImage(checkcode,150,50);
-        checkcodeService.responseIdentifyImg(image,response);
+        fileService.responseIdentifyImg(image,response);
     }
 
-    private boolean identitycodeCheckMethod(HttpSession session,String identitycode){
-        String code = session.getAttribute("identityCode").toString().trim();
+    private boolean identitycodeCheckMethod(HttpSession session,String identitycode,String attribute){
+        String code = CryptService.decrypt(session.getAttribute("identityCode-"+attribute).toString(),IDENTITY_CODE_KEY);
         if(code.toUpperCase().equals(identitycode.toUpperCase())) {
             return true;
         }
@@ -151,11 +157,11 @@ public class UserController {
 
     @RequestMapping("/identitycode-check")
     @ResponseBody
-    public void identitycodeCheck(@RequestParam("identitycode") String identitycode, HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public void identitycodeCheck(@RequestParam("identitycode") String identitycode,@RequestParam("attr") String attribute, HttpServletRequest request,HttpServletResponse response) throws Exception{
         try {
             HttpSession session = request.getSession(false);
             if (session != null) {
-                if (identitycodeCheckMethod(session,identitycode)) {
+                if (identitycodeCheckMethod(session,identitycode,attribute)) {
                     ResponseService.successResponse(request,response,"验证码一致");
                     return;
                 }
