@@ -13,7 +13,7 @@ import java.io.IOException;
 public class FileService {
     public String getSavePath(){
         ApplicationHome applicationHome = new ApplicationHome(this.getClass());
-        return applicationHome.getDir().getParentFile().getAbsolutePath();
+        return applicationHome.getDir().getParentFile().getParentFile().getAbsolutePath();
     }
 
     public void responseIdentifyImg(BufferedImage image, HttpServletResponse response){
