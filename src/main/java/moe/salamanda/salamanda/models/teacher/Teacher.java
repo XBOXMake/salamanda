@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import moe.salamanda.salamanda.models.course.Course;
 import moe.salamanda.salamanda.models.general.WithUser;
 import org.hibernate.validator.constraints.Length;
 
@@ -20,6 +19,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue(value = "Teacher")
 public class Teacher extends WithUser implements Serializable {
     public Teacher(WithUser user){
         super(user);
@@ -28,7 +28,7 @@ public class Teacher extends WithUser implements Serializable {
     private String teacherID;
     @Length(max = 100)
     private String researchDirect;
-    @Length(max = 1000)
+    @Length(max = 300)
     private String papers;
     private File image;
 

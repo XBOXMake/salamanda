@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Student Course Page - Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
+        <link rel="stylesheet" href="../../add-ons/dataTables.css">
+        <script src="../../add-ons/bootstrap.min.js"></script>
+        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
+        <script src="../../add-ons/notify.min.js"></script>
+        <script src="../../add-ons/jquery-form.js"></script>
+        <script src="../../add-ons/dataTables.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <style>
+            .tooltip {
+                display: inline-block;
+                background: #ffffff;
+                color: #643045;
+                font-weight: bold;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+            .tooltip[data-show] {
+                opacity: 1;
+            }
+            .arrow,
+            .arrow::before {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: inherit;
+            }
+            .arrow {
+                visibility: hidden;
+            }
+            .arrow::before {
+                visibility: visible;
+                content: '';
+                transform: rotate(45deg);
+            }
+            .tooltip[data-popper-placement^='top'] > .arrow {
+                bottom: -4px;
+            }
+            .tooltip[data-popper-placement^='bottom'] > .arrow {
+                top: -4px;
+            }
+            .tooltip[data-popper-placement^='left'] > .arrow {
+                right: -4px;
+            }
+            .tooltip[data-popper-placement^='right'] > .arrow {
+                left: -4px;
+            }
+        </style>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="../index.html">
+                    <img class="" src="../../resources/icon/icon.png" width="48px" height="48px">
+                    Salamanda
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">主页</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                课程中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="score.html">成绩查询</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                学工管理
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../student/practice.html">社会实践</a></li>
+                                <li><a class="dropdown-item" href="../student/activity.html">课外活动</a></li>
+                                <li><a class="dropdown-item" href="../student/achievement.html">成果奖励</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                其他应用
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../utils/personal.html">个人画像</a></li>
+                                <li><a class="dropdown-item" href="../utils/comment.html">学生互评</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="me-2 img-thumbnail" src="/util/getThumbnail" width="45px" height="45px">
+                                    <span id="nav-username">username</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../personal/userpage.html">个人资料</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logout">退出账户</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script>
+            $.get("/util/getUsername",function(data){
+                $("#nav-username").text(data);
+            })
+        </script>
+		<style>
+            .table th{
+                text-align: center;
+                vertical-align: middle;
+            }
+            .table td{
+                text-align: center;
+                vertical-align: middle;
+            }
+        </style>
+		<div class=" m-5 bg-light p-3">
+            <table class="display table table-striped nowrap w-100" id="table">
+                <thead>
+                <tr>
+                    <th>课程号</th>
+                    <th>课程名</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>上课时间</th>
+                    <th>学分</th>
+                    <th>最大选课人数</th>
+                    <th>课程描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <script>
+                $.get('/student/course/getCourse',function(data){console.log(data)})
+                var table = $("#table").DataTable({
+                    responsive:{
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.modal( {
+                                header: function ( row ) {
+                                    var data = row.data();
+                                    return 'Details for '+data[0]+':'+data[1];
+                                }
+                            } ),
+                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                tableClass: 'table'
+                            } )
+                        }
+                    },
+                    ajax: {
+                        url:'/student/course/getCourse',
+                        dataSrc:function(data){
+                            return data
+                        }
+                    },
+					columns:[
+						{ data : 'id' },
+						{ data : 'name' },
+						{ data : 'dateStart' },
+						{ data : 'dateEnd' },
+						{ data : 'schedule' },
+						{ data : 'grade' },
+						{ data : 'limitation' },
+						{ data : 'description'}
+					]
+                });
+                function editResponse(data){
+                    alert('data:'+data+"buttona");
+                }
+                function changeStatus(data){
+                    alert('data:'+data+"buttonb");
+                }
+            </script>
+        </div>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+            <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
+        </div>
+    </body>
+</html>

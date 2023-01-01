@@ -37,4 +37,14 @@ public class ResponseService {
         String str = new ObjectMapper().writeValueAsString(result);
         response.getWriter().println(str);
     }
+
+    public static void response(HttpServletResponse response,HttpServletRequest request,Integer number) throws Exception{
+        response.setContentType("application/json;charset-UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        Map<String,Object> result = new HashMap<>();
+        result.put("victory",number);
+        result.put("status",200);
+        String str = new ObjectMapper().writeValueAsString(result);
+        response.getWriter().println(str);
+    }
 }

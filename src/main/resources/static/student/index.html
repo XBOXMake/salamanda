@@ -10,6 +10,7 @@
         <script src="../add-ons/jquery-3.6.1.min.js"></script>
         <script src="../add-ons/notify.min.js"></script>
         <script src="../add-ons/jquery-form.js"></script>
+        <script src="../add-ons/ckeditor.js"></script>
         <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
         <!--favicon-->
         <link rel="icon" href="../resources/icon/16_favicon.ico" type="image/x-icon">
@@ -89,9 +90,9 @@
                                 课程中心
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">课程管理</a></li>
-                                <li><a class="dropdown-item" href="#">选课管理</a></li>
-                                <li><a class="dropdown-item" href="#">成绩查询</a></li>
+                                <li><a class="dropdown-item" href="course/course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="course/select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="course/score.html">成绩查询</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -99,11 +100,9 @@
                                 学工管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">社会实践</a></li>
-                                <li><a class="dropdown-item" href="#">课外活动</a></li>
-                                <li><a class="dropdown-item" href="#">成果奖励</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">学生互评</a></li>
+                                <li><a class="dropdown-item" href="student/practice.html">社会实践</a></li>
+                                <li><a class="dropdown-item" href="student/activity.html">课外活动</a></li>
+                                <li><a class="dropdown-item" href="student/achievement.html">成果奖励</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -111,8 +110,8 @@
                                 其他应用
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">个人画像</a></li>
-                                <li><a class="dropdown-item" href="#">工单提交</a></li>
+                                <li><a class="dropdown-item" href="utils/personal.html">个人画像</a></li>
+                                <li><a class="dropdown-item" href="utils/comment.html">学生互评</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -123,7 +122,7 @@
                                     <span id="nav-username">username</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="userpage.html">个人资料</a></li>
+                                <li><a class="dropdown-item" href="personal/userpage.html">个人资料</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/logout">退出账户</a></li>
                             </ul>
@@ -137,7 +136,134 @@
                 $("#nav-username").text(data);
             })
         </script>
-        <div class="bottomline position-absolute bottom-0 m-0 w-100" style="z-index: 4;">
+        <style>
+            #content-title{
+                font-size: larger;
+                font-weight: bold;
+            }
+            #content-username{
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+            }
+        </style>
+        <div class="container my-5">
+            <div>
+                刷点博客轻松一下？
+            </div>
+            <div class=" my-4 p-2 bg-light">
+                <div>
+                    <div class=" text-center" id="content-title">TITLE</div>
+                    <div>
+                        <img class="me-2 img-thumbnail" src="" id="content-thumbnail" width="45px" height="45px">
+                        <span id="content-username">blog-username</span>
+                    </div>
+                    <div>
+                        发布时间：<span id="content-time">time</span>
+                    </div>
+                    <div id="content" class=" my-5">test</div>
+                </div>
+            </div>
+        </div>
+        <div class="container my-5">
+            <div class=" text-center my-2" style="font-size: 20px;">编写一篇属于你自己的博客？</div>
+            <input type="text" class=" form-control form-text my-4 w-50 mx-auto text-center" id="editor-title" placeholder="标题">
+            <div id="editor"></div>
+            <div class="btn-group justify-content-around w-100">
+                <div class=" m-3">
+                    <button class="btn btn-primary" id="editor-last">上一个</button>
+                </div>
+                <div class=" m-3">
+                    <button class="btn btn-primary" id="editor-submit">提交</button>
+                </div>
+                <div class=" m-3">
+                    <button class="btn btn-primary" id="editor-next">下一个</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            var num = 0,status = 'init';let editor
+            ClassicEditor
+                .create(document.querySelector('#editor'),{
+                    toolbar: {
+                        items: [ 'bold', 'italic', '|', 'undo', 'redo', '|', 'numberedList', 'bulletedList' ],
+                        shouldNotGroupWhenFull: true
+                    }                    
+                })
+                .then(newEditor => {
+                    editor = newEditor
+                })
+                .catch( error => {console.error(error)});
+            $('#editor-submit').click(function(){
+                const editorData = editor.getData();
+                const editorTitle = $("#editor-title").val();
+                console.log("!!!!!!!!");
+                $.ajax({
+                    url:'/student/createBlog',
+                    async:false,
+                    type:'POST',
+                    data:{
+                        title:editorTitle,
+                        content:editorData,
+                    },
+                    success:function(data){
+                        if(data.status==200){
+                            $('#content-username').text($('#nav-username').text())
+                            let time = new Date();num = 1;
+                            $('#content-time').text(time.getFullYear()+'/'+time.getMonth()+'/'+time.getDay());
+                            $('#content-thumbnail').attr('src','/util/getThumbnail');
+                            $("#content").text('');
+                            $("#content").append(editorData);
+                            $("#content-title").text(editorTitle)
+                            $.notify("发布成功！",{className:"success",position:"bottom right"});
+                        }
+                        else{
+                            $.notify(data.message,{className:"error",position:"bottom right"});
+                        }
+                    },
+                    error:function(){
+                        console.log("!!!!!!!!?");
+                        $.notify("发布失败！",{className:"error",position:"bottom right"});
+                    }
+                })
+            });
+            $('#editor-last').click(function(){num--;status='last';getContent(num)});
+            $('#editor-next').click(function(){num++;status='next';getContent(num)});
+            getContent(num);
+            function getContent(pos){
+                $.ajax({
+                    url:'/student/getBlog',
+                    async:false,
+                    type:'GET',
+                    data:{
+                        position:pos,
+                    },
+                    success:function(data){
+                        if(data.exist == 'yes'){
+                            $('#content-username').text(data.username);
+                            $('#content-time').text(data.time);
+                            $('#content-thumbnail').attr('src',data.thumbnail);
+                            $("#content").text('');
+                            $("#content").append(data.content);
+                            $("#content-title").text(data.title);
+                        }
+                        else if(data.exist == 'no'){
+                            if(status == 'next') {$.notify("已是最前",{className:"info",position:"bottom right"});num--}
+                            else if(status == 'last') {$.notify("已是最后",{className:"info",position:"bottom right"});num++;}
+                            else{
+                                $('#content-username').text('');
+                                $('#content-time').text('');
+                                $('#content-thumbnail').attr('src','/get-thumbnail');
+                                $("#content").text('');
+                                $("#content-title").text('');
+                            }
+                            
+                        }
+                    }
+                })
+            }
+        </script>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
     </body>

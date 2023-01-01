@@ -14,6 +14,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @Entity
 @Table(name = "user")
+@DiscriminatorValue("Admin")
 public class WithUser implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +37,7 @@ public class WithUser implements Serializable{
     @Column(unique = true)
     private String email;
 
-    @Length(max = 11,min = 11)
+    @Length(max = 11,min = 0)
     private String phone;
     //basic part
 
@@ -44,7 +45,7 @@ public class WithUser implements Serializable{
     private String firstName;
     @NotBlank
     private String lastName;
-    @Max(2)//female
+    @Max(3)//female
     @Min(1)//male
     private Integer sex;
     private File thumbnail;

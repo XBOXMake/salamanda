@@ -1,7 +1,7 @@
 package moe.salamanda.salamanda.services;
 
 import moe.salamanda.salamanda.models.general.AuthenticationCode;
-import moe.salamanda.salamanda.repositories.AuthenticationCodeRepository;
+import moe.salamanda.salamanda.repositories.general.AuthenticationCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -9,7 +9,7 @@ import org.springframework.util.ObjectUtils;
 @Service
 public class AuthCodeService {
     @Autowired
-    AuthenticationCodeRepository repository;
+    private AuthenticationCodeRepository repository;
     public static String codeGenerator(){
         StringBuilder code = new StringBuilder("$114514:");
         for(int i=1;i<12;i++) code.append(RandomService.getRandomChar());

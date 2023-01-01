@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Information A Changing - Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
+        <script src="../../add-ons/bootstrap.min.js"></script>
+        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
+        <script src="../../add-ons/notify.min.js"></script>
+        <script src="../../add-ons/jquery-form.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+        <!--favicon-->
+        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <style>
+            .tooltip {
+                display: inline-block;
+                background: grey;
+                color: #ffffff;
+                font-weight: bold;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+            .tooltip[data-show] {
+                opacity: 1;
+            }
+            .arrow,
+            .arrow::before {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: inherit;
+            }
+            .arrow {
+                visibility: hidden;
+            }
+            .arrow::before {
+                visibility: visible;
+                content: '';
+                transform: rotate(45deg);
+            }
+            .tooltip[data-popper-placement^='top'] > .arrow {
+                bottom: -4px;
+            }
+            .tooltip[data-popper-placement^='bottom'] > .arrow {
+                top: -4px;
+            }
+            .tooltip[data-popper-placement^='left'] > .arrow {
+                right: -4px;
+            }
+            .tooltip[data-popper-placement^='right'] > .arrow {
+                left: -4px;
+            }
+        </style>
+        <style>
+            #upload-image-origin{
+                max-width: 450px;
+                max-height: 550px;
+            }
+            .thumbnail-verdict{
+                max-width: 200px;
+            }
+        </style>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <style>
+            .sidebar{
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 100;
+                top: 0;
+                left: 0;
+                background-color: #bbbbbb;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 60px;
+            }
+            
+            .sidebar-info{
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+                word-break: keep-all;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .sidebar-info:hover {
+                color: #f1f1f1;
+            }
+            
+            .sidebar-closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+                color: #818181;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+
+            .sidebar-closebtn:hover {
+                color: #ff0000a6;
+            }
+            
+            .sidebar-openbtn {
+                font-size: 20px;
+                cursor: pointer;
+                background-color: #f1f1f1;
+                color:dimgray;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 10px;
+                transition: 0.3s;
+            }
+            
+            .sidebar-openbtn:hover {
+                background-color: #b1b1b1;
+            }
+            
+            @media screen and (max-height: 450px) {
+                .sidebar {padding-top: 15px;}
+                .sidebar-info {font-size: 18px;}
+            }
+
+            #sidebar-username{
+                color: #616161;
+                transition: 0.3s;
+                font-size: 25px;
+                word-break: keep-all;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #sidebar-username:hover{
+                color: #111;
+            }
+            
+            .sidebar-introduce{
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                padding-bottom: 20px;
+            }
+            </style>
+    </head>
+    <body>
+        <div class="sidebar" id="sidebar">
+            <a href="javascript:void(0)" class="sidebar-closebtn" onclick="closeNav()">×</a>
+            <hr>
+            <a class="sidebar-info" href="userpage.html">个人资料</a>
+            <hr>
+            <a class="sidebar-info" href="thumbnail.html">修改头像</a>
+            <hr>
+            <a class="sidebar-info" href="informationA.html">修改资料</a>
+            <hr>
+            <a class="sidebar-info" href="password.html">修改密码</a>
+            <hr>
+            <a class="sidebar-info" href="email.html">修改邮箱</a>
+            <hr>
+            <a class="sidebar-info" href="/logout">登出</a>
+            <hr>
+            <div class="sidebar-introduce">
+                <hr>
+                <a class="sidebar-info" href="userpage.html">
+                    <img id="sidebar-thumbnail" class="img-thumbnail me-1" src="/util/getThumbnail" width="50px" height="50px">
+                    <span id="sidebar-username">username</span>
+                </a>
+            </div>
+        </div>
+        <script>
+            function openNav() {
+              document.getElementById("sidebar").style.width = "250px";
+              $(".sidebar-info").css('visability','visible');
+            }
+            function closeNav() {
+              document.getElementById("sidebar").style.width = "0";
+              $(".sidebar-info").css('visability','hidden');
+            }
+        </script>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+            <div class="container-fluid">
+                <button class="sidebar-openbtn me-3" onclick="openNav()">☰</button>  
+                <a class="navbar-brand" href="../index.html">
+                    <img class="" src="../../resources/icon/icon.png" width="48px" height="48px">
+                    Salamanda
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">主页</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                课程中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../course/course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="../course/select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="../course/score.html">成绩管理</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                管理中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../user/student.html">学生管理</a></li>
+                                <li><a class="dropdown-item" href="../user/teacher.html">教师管理</a></li>
+                                <li><a class="dropdown-item" href="../user/admin.html">管理员管理</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>  
+        <script>
+            $.get("/util/getUsername",function(data){
+                $("#sidebar-username").text(data);
+            })
+        </script>
+        <div class="container m-3 p-3 bg-light mx-auto form-bar">
+            <style>
+                .form-bar{
+                    max-width: 600px;
+                }
+                .label-text{
+                    text-align: center;
+                    vertical-align: middle;
+                    font-size: 20px;
+                }
+                .w-phone{
+                    width: 200px;
+                }
+                .w-firstname{
+                    width: 100px;
+                }
+                .w-lastname{
+                    width: 150px;
+                }
+                .w-sex{
+                    width: 200px;
+                }
+                .w-introduction{
+                    width: 90%;
+                }
+                .warn{
+                    color: red;
+                    font-weight: bold;
+                }
+            </style>
+            <div class=" container w-100 my-4">
+                <h3 class=" text-center">修改资料</h3>
+            </div>
+            <div class="container my-5">
+                <div class="row my-4">
+                    <div class=" col-5">
+                        <div class="my-1 row mx-2" id="firstname-bar">
+                            <label for="input-firstname" class="form-label label-text my-auto col-auto">姓<span class="warn">*</span>:</label>
+                            <div class="col-auto">
+                                <input type="text" class="form-control w-firstname" id="input-firstname">
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-6">
+                        <div class="my-1 row mx-2" id="lastname-bar">
+                            <label for="input-lastname" class="form-label label-text my-auto col-auto">名<span class="warn">*</span>:</label>
+                            <div class="col-auto">
+                                <input type="text" class="form-control w-lastname" id="input-lastname">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-4 row ms-2" id="phone-bar">
+                    <label for="input-phone" class="form-label label-text my-auto col-auto">电话号码:</label>
+                    <div class="col">
+                        <input type="text" class="form-control w-phone ms-2" id="input-phone">
+                    </div>
+                </div>
+                <div class="my-4 row ms-2 w-sex" id="sex-bar">
+                    <label for="input-sex" class="form-label label-text my-auto col-auto">性别:</label>
+                    <div class="col">
+                        <select class="form-select" aria-label="sex" id="input-sex">
+                            <option selected></option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                            <option value="3">未知</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="my-4 ms-3 me-3" id="introduction-bar">
+                    <label for="input-introduction" class="form-label label-text mb-2">自我介绍:</label>
+                    <div class=" w-introduction mx-auto my-2">
+                        <textarea rows="6" class="form-control ms-2" id="input-introduction"></textarea>
+                    </div>
+                    <div class=" w-100 text-end my-2">
+                        <span class=" text-black-50 w-introduction-info text-end" id="input-introduction-count">300</span>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="container btn-group my-4">
+                <div class="w-25 mx-auto">
+                    <button type="button" class="btn btn-secondary form-control" id="btn-reset">重置</button>
+                </div>
+                <div class="w-25 mx-auto">
+                    <button type="button" class="btn btn-primary form-control" id="btn-upload">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="tooltip" id="input-firstname-info" role="tooltip">
+            未填写!
+            <div class="arrow" data-popper-arrow></div>
+        </div>
+        <div class="tooltip" id="input-lastname-info" role="tooltip">
+            未填写!
+            <div class="arrow" data-popper-arrow></div>
+        </div>
+        <div class="tooltip" id="input-phone-info" role="tooltip">
+            电话号码必须仅由数字组成且符合格式!
+            <div class="arrow" data-popper-arrow></div>
+        </div>
+        <div class="tooltip" id="input-introduction-info" role="tooltip">
+            自我介绍不得超过三百字!
+            <div class="arrow" data-popper-arrow></div>
+        </div>
+        <script>
+            var initFirstname,initLastname,initPhone,initSex,initIntroduction;
+            $("#input-introduction").bind("input propertychange change",function(){
+                $("#input-introduction-count").text(300-$("#input-introduction").val().length);
+                if(300-$("#input-introduction").val().length<0){
+                    $("#input-introduction-count").addClass("warn")
+                    $("#input-introduction-count").removeClass("text-black-50")
+                }
+                else{
+                    $("#input-introduction-count").addClass("text-black-50")
+                    $("#input-introduction-count").removeClass("warn")
+                }
+            })
+            const boxFirstname = document.querySelector('#input-firstname');
+            const tipFirstname = document.querySelector('#input-firstname-info');
+            const popperFirstname=instance(boxFirstname,tipFirstname,'right');
+            const boxLastname = document.querySelector('#input-lastname');
+            const tipLastname = document.querySelector('#input-lastname-info');
+            const popperLastname=instance(boxLastname,tipLastname,'right');
+            const boxPhone = document.querySelector('#input-phone');
+            const tipPhone = document.querySelector('#input-phone-info');
+            const popperPhone=instance(boxPhone,tipPhone,'right');
+            const boxIntroduction = document.querySelector('#input-introduction');
+            const tipIntroduction = document.querySelector('#input-introduction-info');
+            const popperIntroduction=instance(boxIntroduction,tipIntroduction,'right');
+            $.get("/util/getInitInformationA",function(data){
+                initFirstname = data.firstname;
+                initLastname = data.lastname;
+                initPhone = data.phone;
+                initSex = data.sex;
+                initIntroduction = data.introduction;
+                $("#input-firstname").val(initFirstname)
+                $("#input-lastname").val(initLastname)
+                $("#input-phone").val(initPhone)
+                $("#input-sex").val(initSex)
+                $("#input-introduction").val(initIntroduction)
+            })
+            $("#btn-reset").click(function(){
+                $("#input-firstname").val(initFirstname)
+                $("#input-lastname").val(initLastname)
+                $("#input-phone").val(initPhone)
+                $("#input-sex").val(initSex)
+                $("#input-introduction").val(initIntroduction)
+                $("#input-introduction-count").text(300-$("#input-introduction").val().length);
+                if(300-$("#input-introduction").val().length<0){
+                    $("#input-introduction-count").addClass("warn")
+                    $("#input-introduction-count").removeClass("text-black-50")
+                }
+                else{
+                    $("#input-introduction-count").addClass("text-black-50")
+                    $("#input-introduction-count").removeClass("warn")
+                }
+                setTimeout($('#firstname-bar').click(),0)
+                setTimeout($('#lastname-bar').click(),0)
+                setTimeout($('#phone-bar').click(),0)
+                setTimeout($('#introduction-bar').click(),0)
+            }) 
+            $('#btn-upload').click(function(){
+                if(validate()){
+                    $.ajax({
+                        url:'/util/changeInformationA',
+                        type:'POST',
+                        async:false,
+                        data:{
+                            firstname:$("#input-firstname").val(),
+                            lastname:$("#input-lastname").val(),
+                            withphone:$("#input-phone").val(),
+                            sex:$("#input-sex").val(),
+                            introduction:$("#input-introduction").val()
+                        },
+                        success:function(data){
+                            if(data.status==200){
+                                if(data.victory == 114){
+                                    $.notify("修改成功",{className:"success",position:"bottom right"});
+                                }
+                                else{
+                                    if(data.victory == 1){
+                                        $.notify("姓未填写",{className:"error",position:"bottom right"});
+                                        $('#input-firstname').addClass("is-invalid");
+                                        show(tipFirstname,popperFirstname);
+                                    }
+                                    else if(data.victory == 2){
+                                        $.notify("名未填写",{className:"error",position:"bottom right"});
+                                        $('#input-lastname').addClass("is-invalid");
+                                        show(tipLastname,popperLastname);
+                                    }
+                                    else if(data.victory == 3){
+                                        $.notify("电话号码非纯数字",{className:"error",position:"bottom right"});
+                                        $('#input-phone').addClass("is-invalid");
+                                        show(tipPhone,popperPhone);
+                                    }
+                                    else if(data.victory == 4){
+                                        $.notify("自我介绍超过300字符",{className:"error",position:"bottom right"});
+                                        $('#input-introduction').addClass("is-invalid");
+                                        show(tipIntroduction,popperIntroduction);
+                                    }
+                                    else{
+                                        $.notify("不知名的失败",{className:"error",position:"bottom right"});
+                                    }
+                                }
+                            }
+                            else{
+                                $.notify(data.message,{className:"error",position:"bottom right"});
+                            }
+                        },
+                        error:function(){
+                            $.notify("不知名的失败",{className:"error",position:"bottom right"});
+                        }
+                    })
+                }
+            })
+            function validate(){
+                let vara = $('#input-firstname').val();
+                let varb = $('#input-lastname').val();
+                let varc = $("#input-introduction")
+                if(vara == ""){
+                    $('#input-firstname').addClass("is-invalid");
+                    show(tipFirstname,popperFirstname);
+                    return false;
+                }
+                if(varb == ""){
+                    $('#input-lastname').addClass("is-invalid");
+                    show(tipLastname,popperLastname);
+                    return false;
+                }
+                if(varc.length>300){
+                    $('#input-introduction').addClass("is-invalid");
+                    show(tipIntroduction,popperIntroduction);
+                    return false;
+                }
+                return true;
+            }
+            $('#firstname-bar').click(function(){
+                $('#input-firstname').removeClass("is-invalid");
+                hide(tipFirstname);
+            })
+            $('#lastname-bar').click(function(){
+                $('#input-lastname').removeClass("is-invalid");
+                hide(tipLastname);
+            })
+            $('#phone-bar').click(function(){
+                $('#input-phone').removeClass("is-invalid");
+                hide(tipPhone);
+            })
+            $('#introduction-bar').click(function(){
+                $('#input-introduction').removeClass("is-invalid");
+                hide(tipIntroduction);
+            })
+            //INSTANCE CREATING
+            function show(tooltip,popperInstance) {
+                tooltip.setAttribute('data-show', '');
+                popperInstance.update();
+            }
+            function hide(tooltip) {
+                tooltip.removeAttribute('data-show');
+            }
+            function instance(contentbox,tooltip,position){
+                return Popper.createPopper(contentbox,tooltip,{
+                    placement: position,
+                    modifiers:[
+                        {
+                            name: 'offset',
+                            options: {
+                                offset: [0,8]
+                            },
+                        },
+                    ],
+                    strategy:'fixed',
+                });
+            }
+        </script>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+            <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
+        </div>
+    </body>
+</html>

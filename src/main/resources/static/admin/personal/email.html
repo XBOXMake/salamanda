@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Email Changing - Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
+        <script src="../../add-ons/bootstrap.min.js"></script>
+        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
+        <script src="../../add-ons/notify.min.js"></script>
+        <script src="../../add-ons/jquery-form.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <style>
+            .tooltip {
+                display: inline-block;
+                background: grey;
+                color: #ffffff;
+                font-weight: bold;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+            .tooltip[data-show] {
+                opacity: 1;
+            }
+            .arrow,
+            .arrow::before {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: inherit;
+            }
+            .arrow {
+                visibility: hidden;
+            }
+            .arrow::before {
+                visibility: visible;
+                content: '';
+                transform: rotate(45deg);
+            }
+            .tooltip[data-popper-placement^='top'] > .arrow {
+                bottom: -4px;
+            }
+            .tooltip[data-popper-placement^='bottom'] > .arrow {
+                top: -4px;
+            }
+            .tooltip[data-popper-placement^='left'] > .arrow {
+                right: -4px;
+            }
+            .tooltip[data-popper-placement^='right'] > .arrow {
+                left: -4px;
+            }
+        </style>
+        <style>
+            #upload-image-origin{
+                max-width: 450px;
+                max-height: 550px;
+            }
+            .thumbnail-verdict{
+                max-width: 200px;
+            }
+        </style>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <style>
+            .sidebar{
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 100;
+                top: 0;
+                left: 0;
+                background-color: #bbbbbb;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 60px;
+            }
+            
+            .sidebar-info{
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+                word-break: keep-all;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .sidebar-info:hover {
+                color: #f1f1f1;
+            }
+            
+            .sidebar-closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+                color: #818181;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+
+            .sidebar-closebtn:hover {
+                color: #ff0000a6;
+            }
+            
+            .sidebar-openbtn {
+                font-size: 20px;
+                cursor: pointer;
+                background-color: #f1f1f1;
+                color:dimgray;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 10px;
+                transition: 0.3s;
+            }
+            
+            .sidebar-openbtn:hover {
+                background-color: #b1b1b1;
+            }
+            
+            @media screen and (max-height: 450px) {
+                .sidebar {padding-top: 15px;}
+                .sidebar-info {font-size: 18px;}
+            }
+
+            #sidebar-username{
+                color: #616161;
+                transition: 0.3s;
+                font-size: 25px;
+                word-break: keep-all;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #sidebar-username:hover{
+                color: #111;
+            }
+            
+            .sidebar-introduce{
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                padding-bottom: 20px;
+            }
+            </style>
+    </head>
+    <body>
+        <div class="sidebar" id="sidebar">
+            <a href="javascript:void(0)" class="sidebar-closebtn" onclick="closeNav()">×</a>
+            <hr>
+            <a class="sidebar-info" href="userpage.html">个人资料</a>
+            <hr>
+            <a class="sidebar-info" href="thumbnail.html">修改头像</a>
+            <hr>
+            <a class="sidebar-info" href="informationA.html">修改资料</a>
+            <hr>
+            <a class="sidebar-info" href="password.html">修改密码</a>
+            <hr>
+            <a class="sidebar-info" href="email.html">修改邮箱</a>
+            <hr>
+            <a class="sidebar-info" href="/logout">登出</a>
+            <hr>
+            <div class="sidebar-introduce">
+                <hr>
+                <a class="sidebar-info" href="userpage.html">
+                    <img id="sidebar-thumbnail" class="img-thumbnail me-1" src="/util/getThumbnail" width="50px" height="50px">
+                    <span id="sidebar-username">username</span>
+                </a>
+            </div>
+        </div>
+        <script>
+            function openNav() {
+              document.getElementById("sidebar").style.width = "250px";
+              $(".sidebar-info").css('visability','visible');
+            }
+            function closeNav() {
+              document.getElementById("sidebar").style.width = "0";
+              $(".sidebar-info").css('visability','hidden');
+            }
+        </script>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+            <div class="container-fluid">
+                <button class="sidebar-openbtn me-3" onclick="openNav()">☰</button>  
+                <a class="navbar-brand" href="../index.html">
+                    <img class="" src="../../resources/icon/icon.png" width="48px" height="48px">
+                    Salamanda
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">主页</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                课程中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../course/course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="../course/select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="../course/score.html">成绩管理</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                管理中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../user/student.html">学生管理</a></li>
+                                <li><a class="dropdown-item" href="../user/teacher.html">教师管理</a></li>
+                                <li><a class="dropdown-item" href="../user/admin.html">管理员管理</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav> 
+        <script>
+            $.get("/util/getUsername",function(data){
+                $("#sidebar-username").text(data);
+            })
+        </script>
+        <div class="container m-3 p-3 bg-light mx-auto form-bar">
+            <style>
+                .form-bar{
+                    max-width: 600px;
+                }
+                .label-text{
+                    text-align: center;
+                    vertical-align: middle;
+                    font-size: 20px;
+                }
+                .w-email{
+                    width: 250px;
+                }
+                .w-checkcode{
+                    width: 100px;
+                }
+            </style>
+            <div class=" container w-100 my-4">
+                <h3 class=" text-center">修改邮箱</h3>
+            </div>
+            <div class="container my-5">
+                <div class="my-1 row mx-4 my-3" id="email-bar-retro">
+                    <label for="input-email-retro" class="form-label label-text mx-2 my-auto col-auto">旧邮箱</label>
+                    <div class="col">
+                        <input type="email" class="form-control w-email ms-2" id="input-email-retro" placeholder="name@example.com" disabled>
+                    </div>
+                </div>
+                <div class="my-1 row mx-4 my-3" id="email-bar">
+                    <label for="input-email" class="form-label label-text mx-2 my-auto col-auto">新邮箱</label>
+                    <div class="col">
+                        <input type="email" class="form-control w-email ms-2" id="input-email" placeholder="name@example.com">
+                    </div>
+                </div>
+                <div class="my-1 row mx-4 my-3" id="checkcode-bar">
+                    <label for="input-checkcode-re" class="form-label label-text mx-2 my-auto col-auto">验证码</label>
+                    <div class="col-auto">
+                        <input type="text" class="form-control w-checkcode ms-2" id="input-checkcode">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-info form-control" id="input-checkcode-btn">发送验证码</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container btn-group my-4">
+                <div class="w-25 mx-auto">
+                    <button type="button" class="btn btn-secondary form-control" id="btn-reset">重置</button>
+                </div>
+                <div class="w-25 mx-auto">
+                    <button type="button" class="btn btn-primary form-control" id="btn-upload">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="tooltip" id="input-email-info" role="tooltip">
+            错误的邮箱格式
+            <div class="arrow" data-popper-arrow></div>
+        </div>
+        <div class="tooltip" id="input-checkcode-info" role="tooltip">
+            验证码错误或未填写
+            <div class="arrow" data-popper-arrow></div>
+        </div>
+        <script>
+            $.get('/util/getEmail',function(data){
+                $('#input-email-retro').val(data);
+            })
+            const emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
+            const checkcodeReg = /^[A-z,0-9]{6}$/;
+            const boxEmail = document.querySelector('#input-email');
+            const tipEmail = document.querySelector('#input-email-info');
+            const popperEmail=instance(boxEmail,tipEmail,'right');
+            const boxCheckcode = document.querySelector('#input-checkcode');
+            const tipCheckcode = document.querySelector('#input-checkcode-info');
+            const popperCheckcode=instance(boxCheckcode,tipCheckcode,'bottom');
+            $('#btn-reset').click(function(){
+                $('#input-email').val('');
+                $('#input-checkcode').val('');
+                $('#input-email').removeClass('is-invalid');
+                $('#input-checkcode').removeClass('is-invalid');
+                hide(tipCheckcode);
+                hide(tipEmail);
+            })
+            $('#btn-upload').click(function(){
+                if(validate()){
+                    $.ajax({
+                        url:'/util/changeEmail',
+                        type:'POST',
+                        async:false,
+                        data:{
+                            email:$('#input-email').val(),
+                            checkcode:$('#input-checkcode').val()
+                        },
+                        success:function(data){
+                            if(data.status==200){
+                                if(data.victory == 114){
+                                    $.notify("修改成功，1秒钟后页面刷新",{className:"success",position:"bottom right"});
+                                    setTimeout(function(){
+                                        window.location="email.html";
+                                    },1000)
+                                }
+                                else{
+                                    if(data.victory == 1){
+                                        $.notify("与旧邮箱相同或已被占用！",{className:"error",position:"bottom right"});
+                                        $('#input-email').addClass("is-invalid");
+                                        show(tipEmail,popperEmail);
+                                    }
+                                    else if(data.victory == 2){
+                                        $.notify("验证码和邮箱不匹配！",{className:"error",position:"bottom right"});
+                                        $('#input-checkcode').addClass("is-invalid");
+                                        show(tipCheckcode,popperCheckcode);
+                                        $('#input-email').addClass("is-invalid");
+                                        show(tipEmail,popperEmail);
+                                    }
+                                    else{
+                                        $.notify("不知名的失败",{className:"error",position:"bottom right"});
+                                    }
+                                }
+                            }
+                            else{
+                                $.notify(data.message,{className:"error",position:"bottom right"});
+                            }
+                        },
+                        error:function(){
+                            $.notify("不知名的失败",{className:"error",position:"bottom right"});
+                        }
+                    })
+                }
+            })
+            function validate(){
+                let vara = $('#input-email').val();
+                let varb = $('#input-checkcode').val();
+                if(!emailReg.test(vara)){
+                    $('#input-email').addClass("is-invalid");
+                    show(tipEmail,popperEmail);
+                    return false;
+                }
+                if(!checkcodeReg.test(varb)){
+                    $('#input-checkcode').addClass("is-invalid");
+                    show(tipCheckcode,popperCheckcode);
+                    return false;
+                }
+                return true;
+            }
+            $('#email-bar').click(function(){
+                $('#input-email').removeClass('is-invalid');
+                hide(tipEmail);
+            })
+            $('#checkcode-bar').click(function(){
+                $('#input-checkcode').removeClass("is-invalid");
+                hide(tipCheckcode);
+            })
+            //checkcode
+            var countdown=0;
+            $("#input-checkcode-btn").click(function(){
+                let addr=$("#input-email").val();
+                if(countdown==0){
+                    if(emailReg.test(addr)){
+                        $.ajax({
+                            url:'/check-code',
+                            type:'POST',
+                            data:{
+                                address:addr
+                            },
+                            success:function(response){
+                                if(response.status=="200"){
+                                    for(let i=30;i>=0;i--)
+                                        window.setTimeout("checoupdate("+i+")",30*1000-i*1000);
+                                    $.notify("发送验证码成功",{className:"success",position:"bottom right"});
+                                }
+                                else $.notify("邮件发送错误："+response.message,{className:"error",position:"bottom right"});
+                            },
+                            error:function(){
+                                $.notify("邮件发送错误",{className:"error",position:"bottom right"});
+                            }
+                        });
+                    }
+                    else{
+                        $.notify("错误邮箱，请确定后再发送验证码",{className:"error",position:"bottom right"});
+                    }
+                }
+                else{
+                    $.notify("请等待"+countdown+"秒后再发送",{className:"warn",position:"bottom right"});
+                }
+            })
+            function checoupdate(num){
+                if(num!=0) $("#input-checkcode-btn").text("请"+num+"秒后重试");
+                else $("#input-checkcode-btn").text("发送验证码")
+                countdown=num;
+            }
+            //INSTANCE CREATING
+            function show(tooltip,popperInstance) {
+                tooltip.setAttribute('data-show', '');
+                popperInstance.update();
+            }
+            function hide(tooltip) {
+                tooltip.removeAttribute('data-show');
+            }
+            function instance(contentbox,tooltip,position){
+                return Popper.createPopper(contentbox,tooltip,{
+                    placement: position,
+                    modifiers:[
+                        {
+                            name: 'offset',
+                            options: {
+                                offset: [0,8]
+                            },
+                        },
+                    ],
+                    strategy:'fixed',
+                });
+            }
+        </script>
+       
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+            <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
+        </div>
+    </body>
+</html>

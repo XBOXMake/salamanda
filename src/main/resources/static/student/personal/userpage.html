@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Personal Page - Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
+        <script src="../../add-ons/bootstrap.min.js"></script>
+        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
+        <script src="../../add-ons/notify.min.js"></script>
+        <script src="../../add-ons/jquery-form.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <style>
+            .tooltip {
+                display: inline-block;
+                background: #ffffff;
+                color: #643045;
+                font-weight: bold;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+            .tooltip[data-show] {
+                opacity: 1;
+            }
+            .arrow,
+            .arrow::before {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: inherit;
+            }
+            .arrow {
+                visibility: hidden;
+            }
+            .arrow::before {
+                visibility: visible;
+                content: '';
+                transform: rotate(45deg);
+            }
+            .tooltip[data-popper-placement^='top'] > .arrow {
+                bottom: -4px;
+            }
+            .tooltip[data-popper-placement^='bottom'] > .arrow {
+                top: -4px;
+            }
+            .tooltip[data-popper-placement^='left'] > .arrow {
+                right: -4px;
+            }
+            .tooltip[data-popper-placement^='right'] > .arrow {
+                left: -4px;
+            }
+        </style>
+        <style>
+            #upload-image-origin{
+                max-width: 450px;
+                max-height: 550px;
+            }
+            .thumbnail-verdict{
+                max-width: 200px;
+            }
+        </style>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <style>
+            .sidebar{
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 100;
+                top: 0;
+                left: 0;
+                background-color: #bbbbbb;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 60px;
+            }
+            
+            .sidebar-info{
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+                word-break: keep-all;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .sidebar-info:hover {
+                color: #f1f1f1;
+            }
+            
+            .sidebar-closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+                color: #818181;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+
+            .sidebar-closebtn:hover {
+                color: #ff0000a6;
+            }
+            
+            .sidebar-openbtn {
+                font-size: 20px;
+                cursor: pointer;
+                background-color: #f1f1f1;
+                color:dimgray;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 10px;
+                transition: 0.3s;
+            }
+            
+            .sidebar-openbtn:hover {
+                background-color: #b1b1b1;
+            }
+            
+            @media screen and (max-height: 450px) {
+                .sidebar {padding-top: 15px;}
+                .sidebar-info {font-size: 18px;}
+            }
+
+            #sidebar-username{
+                color: #616161;
+                transition: 0.3s;
+                font-size: 25px;
+                word-break: keep-all;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #sidebar-username:hover{
+                color: #111;
+            }
+            
+            .sidebar-introduce{
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                padding-bottom: 20px;
+            }
+            </style>
+    </head>
+    <body>
+        <div class="sidebar" id="sidebar">
+            <a href="javascript:void(0)" class="sidebar-closebtn" onclick="closeNav()">×</a>
+            <hr>
+            <a class="sidebar-info" href="userpage.html">个人资料</a>
+            <hr>
+            <a class="sidebar-info" href="thumbnail.html">修改头像</a>
+            <hr>
+            <a class="sidebar-info" href="informationA.html">修改资料</a>
+            <hr>
+            <a class="sidebar-info" href="informationB.html">修改信息</a>
+            <hr>
+            <a class="sidebar-info" href="password.html">修改密码</a>
+            <hr>
+            <a class="sidebar-info" href="email.html">修改邮箱</a>
+            <hr>
+            <a class="sidebar-info" href="/logout">登出</a>
+            <hr>
+            <div class="sidebar-introduce">
+                <hr>
+                <a class="sidebar-info" href="userpage.html">
+                    <img id="sidebar-thumbnail" class="img-thumbnail me-1" src="/util/getThumbnail" width="50px" height="50px">
+                    <span id="sidebar-username">username</span>
+                </a>
+            </div>
+        </div>
+        <script>
+            function openNav() {
+              document.getElementById("sidebar").style.width = "250px";
+              $(".sidebar-info").css('visability','visible');
+            }
+            function closeNav() {
+              document.getElementById("sidebar").style.width = "0";
+              $(".sidebar-info").css('visability','hidden');
+            }
+        </script>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+            <div class="container-fluid">
+                <button class="sidebar-openbtn me-3" onclick="openNav()">☰</button>  
+                <a class="navbar-brand" href="../index.html">
+                    <img class="" src="../../resources/icon/icon.png" width="48px" height="48px">
+                    Salamanda
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">主页</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                课程中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../course/course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="../course/select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="../course/score.html">成绩查询</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                学工管理
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../student/practice.html">社会实践</a></li>
+                                <li><a class="dropdown-item" href="../student/activity.html">课外活动</a></li>
+                                <li><a class="dropdown-item" href="../student/achievement.html">成果奖励</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                其他应用
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../utils/personal.html">个人画像</a></li>
+                                <li><a class="dropdown-item" href="../utils/comment.html">学生互评</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav> 
+        <script>
+            $.get("/util/getUsername",function(data){
+                $("#sidebar-username").text(data);
+            })
+        </script>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+            <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
+        </div>
+    </body>
+</html>

@@ -994,6 +994,7 @@
                                 $("#bg-password").val($("#login-teacher-password").val());
                                 $("#bg-remember-me").prop("checked",$("#login-teacher-checkbox").prop("checked"))
                                 $("#bg-attribute").val(2);
+                                $.notify("教师登录中",{className:"info",position:"bottom right"});
                                 $("#bg-form").ajaxSubmit(function(data){
                                     if(data.status==200){
                                         student_count=0;teacher_count=0;

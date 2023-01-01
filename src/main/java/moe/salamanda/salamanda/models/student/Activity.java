@@ -49,8 +49,4 @@ public class Activity implements Serializable {
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date dateEnd;
-
-    @OneToMany(mappedBy = "activity",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<ActivityFiles> files;
-
 }
