@@ -3,7 +3,7 @@
     <head>
         <!--initalizing-->
         <meta charset="UTF-8">
-        <title>Student Activity Page - Saramanda Management</title>
+        <title>Admin Subject Manage Page - Saramanda Management</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
         <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
         <link rel="stylesheet" href="../../add-ons/dataTables.css">
@@ -88,31 +88,22 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                课程中心
+                                系统管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../course/course.html">课程管理</a></li>
-                                <li><a class="dropdown-item" href="../course/select.html">选课管理</a></li>
-                                <li><a class="dropdown-item" href="../course/score.html">成绩查询</a></li>
+                                <li><a class="dropdown-item" href="../manage/subject.html">专业管理</a></li>
+                                <li><a class="dropdown-item" href="../manage/class.html">班级管理</a></li>
+                                <li><a class="dropdown-item" href="../manage/authcode.html">授权码管理</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                学工管理
+                                用户管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="practice.html">社会实践</a></li>
-                                <li><a class="dropdown-item" href="activity.html">课外活动</a></li>
-                                <li><a class="dropdown-item" href="achievement.html">成果奖励</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                其他应用
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../utils/personal.html">个人画像</a></li>
-                                <li><a class="dropdown-item" href="../utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="../user/student.html">学生管理</a></li>
+                                <li><a class="dropdown-item" href="../user/teacher.html">教师管理</a></li>
+                                <li><a class="dropdown-item" href="../user/admin.html">管理员管理</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -137,7 +128,7 @@
                 $("#nav-username").text(data);
             })
         </script>
-		<style>
+        <style>
             .table th{
                 text-align: center;
                 vertical-align: middle;
@@ -146,24 +137,17 @@
                 text-align: center;
                 vertical-align: middle;
             }
-            .warn{
-                color: red;
-                font-weight: bold;
-            }
         </style>
 		<div class="container m-5 bg-light p-3 mx-auto">
-            <h3 class=" text-center">课外活动管理</h3>
+            <h3 class=" text-center">专业管理</h3>
             <div>
                 <button type="button" class="my-3 btn btn-outline-secondary" id="create" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id=0>新建</button>
             </div>
             <table class="display table table-striped nowrap w-100" id="table">
                 <thead>
                 <tr>
-                    <th>名称</th>
-                    <th>起始时间</th>
-                    <th>结束时间</th>
-                    <th>内容</th>
-                    <th>成果</th>
+                    <th>序号</th>
+                    <th>专业名</th>
                     <th>选项</th>
                 </tr>
                 </thead>
@@ -181,33 +165,8 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3" id="input-name-bar">
-                                <label for="input-name" class="col-form-label">名称:</label>
+                                <label for="input-year" class="col-form-label">专业名:</label>
                                 <input type="text" class="form-control" id="input-name">
-                                <div class=" w-100 text-end my-2">
-                                    <span class=" text-black-50 text-end" id="input-name-count">20</span>
-                                </div>
-                            </div>
-                            <div class="mb-3" id="input-dateStart-bar">
-                                <label for="input-dateStart" class="col-form-label">起始时间:</label>
-                                <input type="date" class="form-control" id="input-dateStart">
-                            </div>
-                            <div class="mb-3" id="input-dateEnd-bar">
-                                <label for="input-dateEnd" class="col-form-label">结束时间:</label>
-                                <input type="date" class="form-control" id="input-dateEnd">
-                            </div>
-                            <div class="mb-3" id="input-contentA-bar">
-                                <label for="input-contentA" class="col-form-label">内容:</label>
-                                <textarea rows="6" class="form-control" id="input-contentA"></textarea>
-                                <div class=" w-100 text-end my-2">
-                                    <span class=" text-black-50 text-end" id="input-contentA-count">300</span>
-                                </div>
-                            </div>
-                            <div class="mb-3" id="input-contentB-bar">
-                                <label for="input-contentB" class="col-form-label">结果:</label>
-                                <textarea rows="6" class="form-control" id="input-contentB"></textarea>
-                                <div class=" w-100 text-end my-2">
-                                    <span class=" text-black-50 text-end" id="input-contentB-count">300</span>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -237,183 +196,81 @@
             </div>
         </div>
         <script>
-            //
-            function check(position,size){
-                position.text(size);
-                if(size<0){
-                    position.addClass("warn")
-                    position.removeClass("text-black-50")
-                }
-                else{
-                    position.addClass("text-black-50")
-                    position.removeClass("warn")
-                }
-            }
-            $("#input-name").bind("input propertychange change",function(){
-                check($("#input-name-count"),20-$("#input-name").val().length)
-            })
-            $("#input-contentA").bind("input propertychange change",function(){
-                check($("#input-contentA-count"),300-$("#input-contentA").val().length)
-            })
-            $("#input-contentB").bind("input propertychange change",function(){
-                check($("#input-contentB-count"),300-$("#input-contentB").val().length)
-            })
             //init
-            var initName,initDateStart,initDateEnd,initContentA,initContentB
+            var initName
             function init(id){
                 if(id!=0)$.ajax({
-                    url:'/student/student/getInitActivity',
-                    type:'get',
+                    url:'/admin/manage/getInitSubject',
+                    type:'GET',
                     async:false,
                     data:{
                         id:id
                     },
                     success:function(data){
                         initName=data.name;
-                        initDateStart=data.dateStart;
-                        initDateEnd=data.dateEnd;
-                        initContentA=data.contentA;
-                        initContentB=data.contentB;
                     }
                 })
                 else{
                     initName=null;
-                    initDateStart=null;
-                    initDateEnd=null;
-                    initContentA=null;
-                    initContentB=null;
                 }
-                reset();
+                $('#input-name').val(initName)
+                $('#input-name-bar').click()
             }
             function delete_(id){
                 $.ajax({
-                    url:'/student/student/deleteActivity',
-                    type:'post',
+                    url:'/admin/manage/deleteSubject',
+                    type:'POST',
                     data:{
                         id:id,
                     },
                     async:false,
                     success:function(data){
                         if(data.victory == 114){
-                            $.notify("删除成功",{className:"success",position:"top center"});
+                            $.notify("删除成功",{className:"success",position:"right bottom"});
                             $("#delete-close").click();
                             table.ajax.reload(null,false);
                         }
-                        else $.notify("删除失败",{className:"error",position:"top center"});
+                        else $.notify("删除失败",{className:"error",position:"right bottom"});
                     },
                 })
             }
-            function reset(){
-                $('#input-name').val(initName)
-                $('#input-dateStart').val(initDateStart)
-                $('#input-dateEnd').val(initDateEnd)
-                $('#input-contentA').val(initContentA)
-                $('#input-contentB').val(initContentB)
-                check($("#input-name-count"),20-$("#input-name").val().length)
-                check($("#input-contentA-count"),300-$("#input-contentA").val().length)
-                check($("#input-contentB-count"),300-$("#input-contentB").val().length)
-                $('#input-name-bar').click()
-                $('#input-dateStart-bar').click()
-                $('#input-dateEnd-bar').click()
-                $('#input-contentA-bar').click()
-                $('#input-contentB-bar').click()
-            }
             function submit(id){
-                if(validate()){
-                    $.ajax({
-                        url:'/student/student/saveActivity',
-                        type:'post',
-                        data:{
-                            id:id,
-                            role:"activity",
-                            name:$('#input-name').val(),
-                            dateStart:$('#input-dateStart').val(),
-                            dateEnd:$('#input-dateEnd').val(),
-                            contentA:$('#input-contentA').val(),
-                            contentB:$('#input-contentB').val(),
-                        },
-                        async:false,
-                        success:function(data){
-                            if(data.victory == 114){
-                                $.notify("保存成功",{className:"success",position:"right bottom"});
-                                $("#edit-close").click();
-                                table.ajax.reload(null,false);
-                            }
-                            else if(data.victory == 1){
-                                $.notify("保存失败：名字过长！",{className:"error",position:"right bottom"});
-                                $('#input-name').addClass('is-invalid');
-                            }
-                            else if(data.victory == 2){
-                                $.notify("保存失败：起始日期大于终止日期",{className:"error",position:"right bottom"});
-                                $('#input-dateStart').addClass('is-invalid');
-                                $('#input-dateEnd').addClass('is-invalid');
-                            }
-                            else if(data.victory == 3){
-                                $.notify("保存失败：内容过长！",{className:"error",position:"right bottom"});
-                                $('#input-contentA').addClass('is-invalid');
-                            }
-                            else if(data.victory == 4){
-                                $.notify("保存失败：成果过长！",{className:"error",position:"right bottom"});
-                                $('#input-contentB').addClass('is-invalid');
-                            }
-                            else if(data.victory == 5){
-                                $.notify("保存失败：起始日期未填写",{className:"error",position:"right bottom"});
-                                $('#input-dateStart').addClass('is-invalid');
-                            }
-                            else if(data.victory == 6){
-                                $.notify("保存失败：终止日期未填写",{className:"error",position:"right bottom"});
-                                $('#input-dateStart').addClass('is-invalid');
-                            }
-                            else $.notify("保存失败",{className:"error",position:"right bottom"});
+                if(validate()){$.ajax({
+                    url:'/admin/manage/saveSubject',
+                    type:'POST',
+                    data:{
+                        id:id,
+                        name:$('#input-name').val(),
+                    },
+                    async:false,
+                    success:function(data){
+                        if(data.victory == 114){
+                            $.notify("保存成功",{className:"success",position:"right bottom"});
+                            $("#edit-close").click();
+                            table.ajax.reload(null,false);
                         }
-                    })
-                }
+                        else if(data.victory == 1){
+                            $.notify("保存失败：专业名不能为无",{className:"error",position:"right bottom"});
+                            $('#input-name').addClass('is-invalid');
+                        }
+                        else $.notify("保存失败",{className:"error",position:"right bottom"});
+                    }
+                })}
             }
             function validate(){
-                if($('#input-name').val().length>20){
-                    $.notify("保存失败：名字长度不应当大于20",{className:"error",position:"right bottom"});
+                if($('#input-name').val()==null){
+                    $.notify("保存失败：专业名不能为无",{className:"error",position:"right bottom"});
                     $('#input-name').addClass('is-invalid');
-                    return false;
-                }
-                if($('#input-dateStart').val()==null){
-                    $.notify("保存失败：起始日期未填写",{className:"error",position:"right bottom"});
-                    $('#input-dateStart').addClass('is-invalid');
-                    return false;
-                }
-                if($('#input-dateEnd').val()==null){
-                    $.notify("保存失败：终止日期未填写",{className:"error",position:"right bottom"});
-                    $('#input-dateStart').addClass('is-invalid');
-                    return false;
-                }
-                if($('#input-contentA').val().length>300){
-                    $.notify("保存失败：内容长度不应当大于300",{className:"error",position:"right bottom"});
-                    $('#input-contentA').addClass('is-invalid');
-                    return false;
-                }
-                if($('#input-contentB').val().length>300){
-                    $.notify("保存失败：成果长度不应当大于300",{className:"error",position:"right bottom"});
-                    $('#input-contentB').addClass('is-invalid');
                     return false;
                 }
                 return true;
             }
             $('#input-reset').click(function(){
-                reset();
+                $('#input-name').val(initName)
+                $('#input-name-bar').click()
             })
             $('#input-name-bar').click(function(){
                 $('#input-name').removeClass('is-invalid');
-            })
-            $('#input-dateStart-bar').click(function(){
-                $('#input-dateStart').removeClass('is-invalid');
-            })
-            $('#input-dateEnd-bar').click(function(){
-                $('#input-dateEnd').removeClass('is-invalid');
-            })
-            $('#input-contentA-bar').click(function(){
-                $('#input-contentA').removeClass("is-invalid");
-            })
-            $('#input-contentB-bar').click(function(){
-                $('#input-contentB').removeClass("is-invalid");
             })
             //modal
             const modalEdit = document.getElementById('edit-modal')
@@ -433,7 +290,7 @@
             modalDelete.addEventListener('show.bs.modal', event => {
                 const button = event.relatedTarget
                 const id = button.getAttribute('data-id')
-                $('#delete-content').text('这项');
+                $('#delete-content').text(id);
                 $('#input-delete').unbind('click').bind('click',function(){delete_(id)})
             })
             //table
@@ -443,7 +300,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return '更多信息——'+data[0];
+                                return '更多信息——'+data[0]+':'+data[1];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -452,17 +309,14 @@
                     }
                 },
                 ajax: {
-                    url:'/student/student/getActivity?role=activity',
+                    url:'/admin/manage/getSubject',
                     dataSrc:function(data){
                         return data
                     }
                 },
                 columns:[
+                    { data : 'id' },
                     { data : 'name' },
-                    { data : 'dateStart' },
-                    { data : 'dateEnd' },
-                    { data : 'contentA' },
-                    { data : 'contentB' },
                     { data : 'option' },
                 ],
                 columnDefs:[

@@ -1,9 +1,13 @@
 package moe.salamanda.salamanda.controllers.general;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import moe.salamanda.salamanda.models.general.AuthenticationCode;
 import moe.salamanda.salamanda.models.general.WithClass;
+import moe.salamanda.salamanda.models.general.WithSubject;
 import moe.salamanda.salamanda.models.general.WithUser;
 import moe.salamanda.salamanda.models.student.Student;
 import moe.salamanda.salamanda.models.teacher.Teacher;
+import moe.salamanda.salamanda.repositories.general.WithSubjectRepository;
 import moe.salamanda.salamanda.repositories.student.StudentRepository;
 import moe.salamanda.salamanda.repositories.teacher.TeacherRepository;
 import moe.salamanda.salamanda.repositories.general.UserRepository;
@@ -35,7 +39,7 @@ public class UtilController {
     @Autowired
     private UserService userService;
     @Autowired
-    private FileService fileService;
+    private AuthCodeService authCodeService;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -45,6 +49,8 @@ public class UtilController {
     private UserRepository userRepository;
     @Autowired
     private WithClassRepository withClassRepository;
+    @Autowired
+    private WithSubjectRepository withSubjectRepository;
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -76,7 +82,6 @@ public class UtilController {
             return "NULL";
         }
     }
-
 
     @PostMapping("/util/changeEmail")
     public void changeEmail(@RequestParam("email") String email,@RequestParam("checkcode") String checkcode,HttpServletResponse response,HttpServletRequest request) throws Exception{
@@ -332,5 +337,40 @@ public class UtilController {
         for(int i = 0;i < password.length();i++)
             if(!Character.isLetterOrDigit(password.charAt(i))) return false;
         return true;
+    }
+
+    @PostMapping("/util/addAuthcode")
+    public void addAuthcode(HttpServletResponse response,HttpServletRequest request){
+        try{
+            AuthenticationCode code = authCodeService.createAuthCode();
+            response.setContentType("application/json;charset-UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            Map<String, Object> result = new HashMap<>();
+            result.put("victory", 114);
+            result.put("id",code.getId());
+            result.put("authcode", code.getAuthenticationCode());
+            result.put("usestatus", code.isUsed() == false ? "未使用" : "已使用");
+            result.put("usedby", code.getIsUsedBy());
+            result.put("status", 200);
+            String str = new ObjectMapper().writeValueAsString(result);
+            response.getWriter().println(str);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping("/util/getSubject")
+    @ResponseBody
+    public List getSubject(HttpServletRequest request,HttpServletResponse response){
+        List<Map> list = new ArrayList<>();
+        List<WithSubject> withSubjectList = withSubjectRepository.findAll();
+        for (WithSubject withSubject : withSubjectList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("key", withSubject.getId());
+            map.put("value", withSubject.getName());
+            list.add(map);
+        }
+        return list;
     }
 }

@@ -25,7 +25,7 @@ public class Activity implements Serializable {
     private Long id;
 
     @ManyToOne(targetEntity = Student.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "activity_id")
+    @JoinColumn(name = "student_id")
     @JsonBackReference
     private Student student;
 
@@ -35,13 +35,13 @@ public class Activity implements Serializable {
     //1 社会实践 2 课外活动 3 成果奖励
 
     @NotBlank
-    @Length(max = 10)
+    @Length(max = 20)
     private String name;
     @NotBlank
-    @Length(max = 100)
+    @Length(max = 300)
     private String contentA;//内容
     @NotBlank
-    @Length(max = 100)
+    @Length(max = 300)
     private String contentB;//成果
     @NotNull
     @Temporal(TemporalType.DATE)
@@ -49,4 +49,23 @@ public class Activity implements Serializable {
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date dateEnd;
+
+    public String getRole(){
+        switch (attribute){
+            case 1:return "achievement";
+            case 2:return "activity";
+            case 3:return "practice";
+            default:return null;
+        }
+    }
+
+    public static Integer getAttribute(String role){
+        switch (role){
+            case "achievement":return 1;
+            case "activity":return 2;
+            case "practice":return 3;
+            default:return 0;
+        }
+
+    }
 }

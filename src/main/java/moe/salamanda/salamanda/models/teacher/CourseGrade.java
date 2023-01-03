@@ -27,12 +27,12 @@ public class CourseGrade implements Serializable {
     private Date date;
 
     @ManyToOne(targetEntity = Student.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "grade_to_id")
+    @JoinColumn(name = "grade_from_id")
     @JsonBackReference
     private Student student;
 
     @ManyToOne(targetEntity = Course.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "grade_from_id")
+    @JoinColumn(name = "grade_to_id")
     @JsonBackReference
     private Course course;
 

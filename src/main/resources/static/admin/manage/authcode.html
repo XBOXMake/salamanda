@@ -3,13 +3,15 @@
     <head>
         <!--initalizing-->
         <meta charset="UTF-8">
-        <title>Admin Score Page - Saramanda Management</title>
+        <title>Admin Authcode Manage Page - Saramanda Management</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
         <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
+        <link rel="stylesheet" href="../../add-ons/dataTables.css">
         <script src="../../add-ons/bootstrap.min.js"></script>
         <script src="../../add-ons/jquery-3.6.1.min.js"></script>
         <script src="../../add-ons/notify.min.js"></script>
         <script src="../../add-ons/jquery-form.js"></script>
+        <script src="../../add-ons/dataTables.js"></script>
         <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
         <!--favicon-->
         <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
@@ -86,17 +88,17 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                课程中心
+                                系统管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../course/course.html">课程管理</a></li>
-                                <li><a class="dropdown-item" href="../course/select.html">选课管理</a></li>
-                                <li><a class="dropdown-item" href="../course/score.html">成绩管理</a></li>
+                                <li><a class="dropdown-item" href="../manage/subject.html">专业管理</a></li>
+                                <li><a class="dropdown-item" href="../manage/class.html">班级管理</a></li>
+                                <li><a class="dropdown-item" href="../manage/authcode.html">授权码管理</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                管理中心
+                                用户管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="../user/student.html">学生管理</a></li>
@@ -126,6 +128,81 @@
                 $("#nav-username").text(data);
             })
         </script>
+        <style>
+            .table th{
+                text-align: center;
+                vertical-align: middle;
+            }
+            .table td{
+                text-align: center;
+                vertical-align: middle;
+            }
+        </style>
+		<div class="container m-5 bg-light p-3 mx-auto">
+            <h3 class=" text-center">授权码管理</h3>
+            <div>
+                <button type="button" class="my-3 btn btn-outline-secondary" id="create">新建</button>
+            </div>
+            <table class="display table table-striped nowrap w-100" id="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>授权码</th>
+                    <th>状态</th>
+                    <th>使用者</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <script>
+                var table = $("#table").DataTable({
+                    responsive:{
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.modal( {
+                                header: function ( row ) {
+                                    var data = row.data();
+                                    return '更多信息——'+data[0]+':'+data[1];
+                                }
+                            } ),
+                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                tableClass: 'table'
+                            } )
+                        }
+                    },
+                    ajax: {
+                        url:'/admin/manage/getAuthcode',
+                        dataSrc:function(data){
+                            return data
+                        }
+                    },
+					columns:[
+                        { data : 'id' },
+						{ data : 'authcode' },
+						{ data : 'usestatus' },
+						{ data : 'usedby' },
+					],
+                });
+                $('#create').click(function(){
+                    $.post('/util/addAuthcode',function(data){
+                        if(data.victory == 114){
+                            $.notify("新建成功！",{className:"success",position:"bottom right"});
+                            table.rows.add(
+                                [{
+                                    'id':data.id,
+                                    'authcode':data.authcode,
+                                    'usestatus':data.usestatus,
+                                    'usedby':data.usedby,
+                                }]
+                            ).draw()
+                        }
+                        else{
+                            $.notify('新建失败！',{className:"error",position:"bottom right"});
+                        }
+                    })
+                })
+            </script>
+        </div>
         <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>

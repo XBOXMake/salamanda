@@ -326,8 +326,8 @@
             $.get('/util/getWith',function(data){
                 $(data).each(function(a,b){
                     addSelection(b.value,b.key);
-                    $("#input-with").val(initWith)
                 })
+                $("#input-with").val(initWith)
             })
             //
             var initWith,initBirthday,initImage = '',uploadImage;

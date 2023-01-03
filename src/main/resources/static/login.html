@@ -195,7 +195,6 @@
                 bottom: 100px;
                 width: 450px;
                 text-align: center;
-                margin-top: 160px;
             }
             .login-box-submit{
                 margin: auto;
@@ -800,7 +799,7 @@
             };
             function studentIdentitycodeReset(){
                 $('#login-student-identitycode').val('')
-                $('#login-student-identitycode-image').attr('src','/teacher-checkcode?'+Math.random())
+                $('#login-student-identitycode-image').attr('src','/student-checkcode?'+Math.random())
             }
             function teacherIdentitycodeReset(){
                 $('#login-teacher-identitycode').val('')
@@ -822,8 +821,6 @@
                 })
                 return answer;
             }
-            $("#login-student-identitycode-image").on('click',studentIdentitycodeReset);
-            $("#login-teacher-identitycode-image").on('click',teacherIdentitycodeReset);
         </script>
         <div class="login-bar container position-absolute justify-content-between">
             <div class="login-bar-student d-inline-block beautiful-curve">
@@ -854,7 +851,7 @@
                         </div>
                         <button type="button" class="login-box-wordbtn btn btn-link d-inline-block forget-btn">忘记密码？</a>
                     </div>
-                    <div class="login-submit-box"><button class="login-box-submit btn btn-outline-primary" id="login-student-submit">登录</button></div>
+                    <div class="login-submit-box my-5"><button class="login-box-submit btn btn-outline-primary" id="login-student-submit">登录</button></div>
                 </div>
                 <script>
                     $("#login-student-submit").click(function(){
@@ -984,7 +981,7 @@
                         </div>
                         <button type="button" class="login-box-wordbtn btn btn-link d-inline-block forget-btn">忘记密码？</a>
                     </div>
-                    <div class="login-submit-box"><button class="login-box-submit btn btn-outline-primary" id="login-teacher-submit">登录</button></div>
+                    <div class="login-submit-box my-5"><button class="login-box-submit btn btn-outline-primary" id="login-teacher-submit">登录</button></div>
                 </div>
                 <script>
                     $("#login-teacher-submit").click(function(){
@@ -1186,6 +1183,18 @@
             }
         </script>
         <style>
+            .admin-bg-0{
+                position: absolute;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background-image: url('resources/image/background/login-0.png');
+                transition: cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.5s;
+                z-index: 2;
+            }
+            .admin-bg-0-show{
+                left: 0;
+            }
             .admin-register-bg{
                 min-height: 900px;
                 width: 950px;
@@ -1360,7 +1369,6 @@
                 transform: rotateZ(-13deg);
             }
             .admin-submit-login{
-                margin-top: 200px;
                 text-align: left;
             }
             #admin-authcode-register{
@@ -1374,17 +1382,14 @@
             .admin-hide{
                 visibility: hidden;
             }
-            @media screen and (max-height:1000px){
+            @media screen and (max-height:1200px){
                 .admin-login-box-show{
                     top: 30%;
                 }
                 .admin-sign-show-3{
-                    transform: scale(2) rotateZ(7deg);
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    margin: auto;
+                    transform: scale(1.5) rotateZ(7deg);
+                    top: 200px;
+                    right: 100px;
                 }
             }
         </style>
@@ -1398,6 +1403,7 @@
         <div class="admin-login-bg" id="admin-bg-6"></div>
         <div class="admin-sign-3" id="admin-sn-3"></div>
         <div class="admin-sign-4" id="admin-sn-4"></div>
+        <div class="admin-bg-0" id="admin-bg"></div>
         <div class="admin-login-box" id="admin-login">
             <div class="error-message admin-hide" id="admin-error">你的用户名或密码错误，请重新填写</div>
             <div id="admin-username-login" class=" mb-4 mt-4 ">
@@ -1408,7 +1414,7 @@
                 <input class="login-box-input form-control-lg form-control" id="login-admin-password" type="password" placeholder="密码">
                 <div class="error-message admin-hide" id="admin-password-error">你的密码未填写！</div>
             </div>
-            <div class="login-submit-box admin-submit-login"><button class="login-box-submit btn btn-outline-danger btn-lg" id="login-admin-submit">登录</button></div>
+            <div class="login-submit-box admin-submit-login my-5"><button class="login-box-submit btn btn-danger btn-lg" id="login-admin-submit">登录</button></div>
         </div>
         <div class="admin-register-box" id="admin-register">
             <div id="admin-authcode-register" class=" mb-4 mt-4 ">
@@ -1429,6 +1435,7 @@
                     $("#admin-login").addClass("admin-login-box-show");
                     $("#admin-username-login").addClass("admin-username");
                     $("#admin-password-login").addClass("admin-password");
+                    $("#admin-bg").addClass("admin-bg-0-show")
                     $("#admin").text(admin_count);
                 }
                 if(admin_count==2){
@@ -1463,6 +1470,7 @@
                     $("#admin-sn-2").removeClass("admin-sign-show-2");
                     $("#admin-sn-4").removeClass("admin-sign-show-4");
                     $("#admin-register").removeClass("admin-register-box-show");
+                    $("#admin-bg").removeClass("admin-bg-0-show")
                     $("#admin").text("!");
                 }
                 admin_count=admin_count==3?1:admin_count+1;
@@ -1514,7 +1522,6 @@
                     $.notify("管理员登录中",{className:"info",position:"bottom right"});
                     $("#bg-form").ajaxSubmit(function(data){
                         if(data.status==200){
-                            seesionStore();
                             student_count=0;teacher_count=0;
                             $.notify(data.message,{className:"success",position:"bottom right"});
                             $.notify("3秒钟后跳转到主页",{className:"info",position:"bottom right"});
@@ -1650,6 +1657,8 @@
                     $("#forget-bar-form-email").addClass("is-invalid");
                 }
             })
+            $("#login-student-identitycode-image").on('click',studentIdentitycodeReset);
+            $("#login-teacher-identitycode-image").on('click',teacherIdentitycodeReset);
         </script>
     </body>
 </html>

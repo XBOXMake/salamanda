@@ -147,7 +147,7 @@
                 vertical-align: middle;
             }
         </style>
-		<div class=" m-5 bg-light p-3">
+		<div class="container m-5 bg-light p-3">
             <table class="display table table-striped nowrap w-100" id="table">
                 <thead>
                 <tr>
@@ -165,7 +165,6 @@
                 </tbody>
             </table>
             <script>
-                $.get('/student/course/getCourse',function(data){console.log(data)})
                 var table = $("#table").DataTable({
                     responsive:{
                         details: {
@@ -197,12 +196,6 @@
 						{ data : 'description'}
 					]
                 });
-                function editResponse(data){
-                    alert('data:'+data+"buttona");
-                }
-                function changeStatus(data){
-                    alert('data:'+data+"buttonb");
-                }
             </script>
         </div>
         <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">

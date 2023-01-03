@@ -31,8 +31,9 @@ public class AuthCodeService {
         repository.save(authenticationCode);
     }
 
-    public void createAuthCode(){
+    public AuthenticationCode createAuthCode(){
         AuthenticationCode authenticationCode = new AuthenticationCode();
         repository.save(authenticationCode);
+        return authenticationCode;
     }
 }

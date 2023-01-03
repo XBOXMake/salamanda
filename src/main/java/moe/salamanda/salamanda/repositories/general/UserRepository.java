@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<WithUser,Long> {
@@ -21,4 +22,7 @@ public interface UserRepository extends JpaRepository<WithUser,Long> {
 
     @Query(value = "Select * from user where (LOWER(username)= :name and attribute= :attribute)",nativeQuery = true)
     WithUser findByUsernameAndAttribute(@Param("name") String username,@Param("attribute") Integer attribute);
+
+    @Query(value = "Select * from user where attribute= :attribute",nativeQuery = true)
+    List<WithUser> findByAttribute(@Param("attribute") Integer attribute);
 }

@@ -1,5 +1,6 @@
 package moe.salamanda.salamanda.models.general;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -21,13 +22,18 @@ public class WithClass {
     private Long id;
 
     @Max(9999)
-    @Min(2000)
+    @Min(1)
     private Integer year;
-    private String subject;
+    @Max(99)
     private Integer withClass;
 
+    @ManyToOne(targetEntity = WithSubject.class,cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "subject_id")
+    @JsonBackReference
+    private WithSubject withSubject;
+
     public static String total(WithClass withClass){
-        return withClass.getYear().toString()+"级"+withClass.getSubject()+withClass.getWithClass().toString()+"班";
+        return withClass.getYear().toString()+"级"+withClass.getWithSubject().getName()+withClass.getWithClass().toString()+"班";
     }
 
     @OneToMany(mappedBy = "withClass",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)

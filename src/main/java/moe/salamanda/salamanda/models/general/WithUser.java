@@ -64,6 +64,16 @@ public class WithUser implements Serializable{
         }
     }
 
+    public String getSexes(){
+        if(sex == null) return "";
+        switch (sex){
+            case 1: return "男";
+            case 2: return "女";
+            case 3: return "未知";
+            default: return null;
+        }
+    }
+
     public static String getRoleName(String attribute){
         switch (attribute){
             case "1": return "student";

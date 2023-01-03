@@ -139,6 +139,7 @@ public class UserController {
     public void studentCheckcodeImage(HttpServletResponse response,HttpSession session){
         String checkcode = checkcodeService.getCheckcode();
         session.setAttribute("identityCode-student",CryptService.encrypt(checkcode,IDENTITY_CODE_KEY));
+        System.out.println(checkcode);
         BufferedImage image=checkcodeService.getCheckcodeImage(checkcode,150,50);
         fileService.responseIdentifyImg(image,response);
     }

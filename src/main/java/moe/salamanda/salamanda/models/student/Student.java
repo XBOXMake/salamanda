@@ -28,22 +28,30 @@ public class Student extends WithUser implements Serializable {
         super(user);
     }
 
-    private String studentID;
     private File image;
+
+    public static String getStudentID(Student student){
+        String ID = student.getWithClass().getYear().toString();
+        while (ID.length()<4) ID=ID+'0';
+        String temp = student.getWithClass().getWithSubject().getId().toString();
+        while(temp.length()<3) temp = '0'+temp;
+        ID = ID + temp;
+        temp = student.getWithClass().getWithClass().toString();
+        while(temp.length()<2) temp = '0'+temp;
+        ID = ID + temp;
+        temp = Integer.toString(student.getWithClass().getStudentList().indexOf(student)+1);
+        while(temp.length()<3) temp = '0'+temp;
+        ID = ID + temp;
+        return ID;
+    }
 
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
     @ManyToOne(targetEntity = WithClass.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "class_id")
     @JsonBackReference
     private WithClass withClass;
-
-    @OneToMany(mappedBy = "from",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Comment> commentsA;//评论了谁-学生互评
-
-    @OneToMany(mappedBy = "to",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Comment> commentsB;//被谁评论-学生互评
 
     @OneToMany(mappedBy = "author",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Blog> blogs;//博客

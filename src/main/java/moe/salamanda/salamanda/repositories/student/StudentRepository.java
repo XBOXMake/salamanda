@@ -11,8 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student,Long> {
-    @Query(value = "Select * form user where attribute= 1",nativeQuery = true)
-    ArrayList<Student> findAll();
 
     @Query(value = "Select * from user where attribute= 1 and LOWER(username)= :name",nativeQuery = true)
     Student findByUsername(@Param("name") String username);

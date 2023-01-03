@@ -26,7 +26,7 @@ public class Blog implements Serializable {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "blog_id")
+    @JoinColumn(name = "student_id")
     @JsonBackReference
     private Student author;
 

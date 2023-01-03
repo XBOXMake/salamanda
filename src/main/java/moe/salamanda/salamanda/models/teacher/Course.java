@@ -49,7 +49,7 @@ public class Course implements Serializable {
     private String description;
 
     @ManyToOne(targetEntity = Teacher.class,cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "teacher_id")
     @JsonBackReference
     private Teacher teacher;
 
