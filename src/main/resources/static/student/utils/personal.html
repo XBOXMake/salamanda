@@ -1,10 +1,287 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>无标题文档</title>
-</head>
-
-<body>
-</body>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Student Personal-Image Page - Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
+        <script src="../../add-ons/bootstrap.min.js"></script>
+        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
+        <script src="../../add-ons/notify.min.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <style>
+            .tooltip {
+                display: inline-block;
+                background: #ffffff;
+                color: #643045;
+                font-weight: bold;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+            .tooltip[data-show] {
+                opacity: 1;
+            }
+            .arrow,
+            .arrow::before {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: inherit;
+            }
+            .arrow {
+                visibility: hidden;
+            }
+            .arrow::before {
+                visibility: visible;
+                content: '';
+                transform: rotate(45deg);
+            }
+            .tooltip[data-popper-placement^='top'] > .arrow {
+                bottom: -4px;
+            }
+            .tooltip[data-popper-placement^='bottom'] > .arrow {
+                top: -4px;
+            }
+            .tooltip[data-popper-placement^='left'] > .arrow {
+                right: -4px;
+            }
+            .tooltip[data-popper-placement^='right'] > .arrow {
+                left: -4px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="../index.html">
+                    <img class="" src="../../resources/icon/icon.png" width="48px" height="48px">
+                    Salamanda
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">主页</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                课程中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../course/course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="../course/select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="../course/score.html">成绩查询</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                学工管理
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../student/practice.html">社会实践</a></li>
+                                <li><a class="dropdown-item" href="../student/activity.html">课外活动</a></li>
+                                <li><a class="dropdown-item" href="../student/achievement.html">成果奖励</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                其他应用
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../utils/personal.html">个人画像</a></li>
+                                <li><a class="dropdown-item" href="../utils/comment.html">学生互评</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="me-2 img-thumbnail" src="/util/getThumbnail" width="45px" height="45px">
+                                    <span id="nav-username">username</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../personal/userpage.html">个人资料</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logout">退出账户</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script>
+            $.get("/util/getUsername",function(data){
+                $("#nav-username").text(data);
+            })
+        </script>
+        <style>
+            .ball{
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                background: #000;
+            }
+            .text{
+                font-size: 40px;
+                white-space: nowrap
+            }
+            .hide{
+                visibility: hidden;
+            }
+            .color-1{
+                color: gray;
+                background-color: gray;
+            }
+            .color-2{
+                color: red;
+                background-color: red;
+            }
+            .color-3{
+                color: green;
+                background-color: green;
+            }
+            .color-4{
+                color: blue;
+                background-color: blue;
+            }
+            .change{
+                margin-top: calc(-1082px * var(--i-top));
+                margin-bottom: calc(-1082px * var(--i-bottom));
+                transition: all ease-in-out 2s;
+            }
+        </style>
+        <div class="container bg-light text-center mx-auto my-5 p-5">
+            <h1 class="mb-5">个人画像</h1>
+            <div class="row justify-content-around text-center align-items-center">
+                <div class="col-lg-5">
+                    <div>
+                        <img src="../../resources/image/sign/human1.svg" class="color-1 bg-light change" id="image-1" type="image/svg+xml" />
+                        <img src="../../resources/image/sign/human2.svg" class="color-2 bg-light change" id="image-2" type="image/svg+xml" />
+                        <img src="../../resources/image/sign/human3.svg" class="color-3 bg-light change" id="image-3" type="image/svg+xml" />
+                        <img src="../../resources/image/sign/human4.svg" class="color-4 bg-light change" id="image-4" type="image/svg+xml" />
+                    </div>
+                </div>
+                <div class="col-lg-auto">
+                    <div class="row align-items-center my-5 hide" id="bar-1">
+                        <div class="ball color-1 col-6"></div>
+                        <span class="text col-6 color-1 bg-light" id="text-1">:其他:100.0%</span>
+                    </div>
+                    <div class="row align-items-center my-5 hide" id="bar-2">
+                        <div class="ball color-2 col-6"></div>
+                        <span class="text col-6 color-2 bg-light" id="text-2">:</span>
+                    </div>
+                    <div class="row align-items-center my-5 hide" id="bar-3">
+                        <div class="ball color-3 col-6"></div>
+                        <span class="text col-6 color-3 bg-light" id="text-3">:</span>
+                    </div>
+                    <div class="row align-items-center my-5 hide" id="bar-4">
+                        <div class="ball color-4 col-6"></div>
+                        <span class="text col-6 color-4 bg-light" id="text-4">:</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var im1 = $('#image-1')
+            var im2 = $('#image-2')
+            var im3 = $('#image-3')
+            var im4 = $('#image-4')
+            clip(im1,0,0);
+            clip(im2,1,0);
+            clip(im3,1,0);
+            clip(im4,1,0);
+            $('#bar-1').removeClass('hide');
+            
+            $.get('/student/getPicture',function(data){
+                if(data.total == 0){
+                    clip(im1,0,0);
+                    clip(im2,1,0);
+                    clip(im3,1,0);
+                    clip(im4,1,0);
+                }
+                else if(data.total == 1){
+                    clip(im1,0,1-(1-formatDecimal(data.val1)));
+                    clip(im2,1-formatDecimal(data.val1),1-(1-formatDecimal(data.val1)));
+                    clip(im3,1-formatDecimal(data.val1),1-(1-formatDecimal(data.val1)));
+                    clip(im4,1-formatDecimal(data.val1),0);
+                    $('#text-1').text('其他'+':'+toPercent(1-formatDecimal(data.val1)));
+                    $('#text-4').text(data.key1+':'+toPercent(formatDecimal(data.val1)));
+                    $('#bar-4').removeClass('hide');
+                }
+                else if(data.total == 2){
+                    clip(im1,0,1-(1-formatDecimal(data.val1)-formatDecimal(data.val2)));
+                    clip(im2,1-formatDecimal(data.val1)-formatDecimal(data.val2),1-(1-formatDecimal(data.val1)-formatDecimal(data.val2)));
+                    clip(im3,1-formatDecimal(data.val1)-formatDecimal(data.val2),1-(1-formatDecimal(data.val1)));
+                    clip(im4,1-formatDecimal(data.val1),0);
+                    $('#text-1').text('其他'+':'+toPercent(1-formatDecimal(data.val1)-formatDecimal(data.val2)));
+                    $('#text-4').text(data.key1+':'+toPercent(formatDecimal(data.val1)));
+                    $('#text-3').text(data.key2+':'+toPercent(formatDecimal(data.val2)));
+                    $('#bar-4').removeClass('hide');
+                    $('#bar-3').removeClass('hide');
+                }
+                else{
+                    clip(im1,0,1-(1-formatDecimal(data.val1)-formatDecimal(data.val2)-formatDecimal(data.val3)));
+                    clip(im2,1-formatDecimal(data.val1)-formatDecimal(data.val2)-formatDecimal(data.val3),1-(1-formatDecimal(data.val1)-formatDecimal(data.val2)));
+                    clip(im3,1-formatDecimal(data.val1)-formatDecimal(data.val2),formatDecimal(data.val1));
+                    clip(im4,1-formatDecimal(data.val1),0);
+                    $('#text-1').text('其他'+':'+toPercent(1-formatDecimal(data.val1)-formatDecimal(data.val2)-formatDecimal(data.val3)));
+                    $('#text-4').text(data.key1+':'+toPercent(formatDecimal(data.val1)));
+                    $('#text-3').text(data.key2+':'+toPercent(formatDecimal(data.val2)));
+                    $('#text-2').text(data.key3+':'+toPercent(formatDecimal(data.val3)));
+                    $('#bar-4').removeClass('hide');
+                    $('#bar-3').removeClass('hide');
+                    $('#bar-2').removeClass('hide');
+                }
+            })
+            function clip(img,top,bottom){
+                img.css({
+                    'clip-path':' inset('+toPercent(top)+' 0 '+toPercent(bottom)+' 0)',
+                    '--i-top':top,
+                    '--i-bottom':bottom
+                })
+            }
+            function formatDecimal(num) {
+                num=num.toString()
+                let index=num.indexOf('.')
+                if (index!==-1) num=num.substring(0,2+index+1)
+                else num=num.substring(0)
+                return parseFloat(num).toFixed(2)
+            }
+            function toPercent(num){
+                var percent = Number(num*100).toFixed(2);
+                percent += '%';
+                return percent;
+            }
+          
+        </script>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
+            <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
+        </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
+    </body>
 </html>

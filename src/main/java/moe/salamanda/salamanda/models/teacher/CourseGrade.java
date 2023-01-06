@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import moe.salamanda.salamanda.models.student.Student;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -23,9 +24,6 @@ public class CourseGrade implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
     @ManyToOne(targetEntity = Student.class,cascade = {},fetch = FetchType.EAGER)
     @JoinColumn(name = "grade_from_id")
     @JsonBackReference
@@ -38,5 +36,5 @@ public class CourseGrade implements Serializable {
 
     @Max(100)
     @Min(0)
-    private int number;
+    private Integer number;
 }

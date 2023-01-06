@@ -15,7 +15,9 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
     @Query(value = "Select * from user where attribute= 1 and LOWER(username)= :name",nativeQuery = true)
     Student findByUsername(@Param("name") String username);
 
-    @Override
     @Query(value = "Select * from user where attribute= 1 and id= :id",nativeQuery = true)
-    Optional<Student> findById(@Param("id") Long id);
+    Student findById(@Param("id") Integer id);
+
+    @Query(value = "Select * from user where attribute= 1 order by random() limit 1",nativeQuery = true)
+    Student randomPickOne();
 }

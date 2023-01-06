@@ -20,6 +20,6 @@ public class WithSubject {
 
     private String name;
 
-    @OneToMany(mappedBy = "withSubject",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "withSubject",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.LAZY)
     private List<WithClass> classList;
 }

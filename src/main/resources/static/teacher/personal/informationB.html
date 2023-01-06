@@ -66,18 +66,6 @@
             }
         </style>
         <style>
-            .bottomline{
-                opacity: 0.3;
-                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
-                background: #dddddd;
-                z-index: 114;
-            }
-            .bottomline:hover{
-                opacity: 0.85;
-                background: #39c5bb;
-            }
-        </style>
-        <style>
             .sidebar{
                 height: 100%;
                 width: 0;
@@ -269,7 +257,6 @@
                     <div class=" w-100 text-end my-2">
                         <span class=" text-black-50 text-end" id="input-research-count">100</span>
                     </div>
-                    
                 </div>
                 <div class="my-4 ms-3 me-3" id="paper-bar">
                     <label for="input-paper" class="form-label label-text mb-2">论文著作:</label>
@@ -500,8 +487,26 @@
                 });
             }
         </script>
-        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
     </body>
 </html>

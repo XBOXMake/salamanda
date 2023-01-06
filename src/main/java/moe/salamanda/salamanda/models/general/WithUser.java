@@ -91,6 +91,10 @@ public class WithUser implements Serializable{
         }
     }
 
+    public static String getName(WithUser user){
+        return user.getFirstName()+user.getLastName();
+    }
+
     public WithUser(WithUser user){
         id = user.id;
         username = user.username;

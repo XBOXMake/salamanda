@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>.A's-personal-page</title>
+        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+    </head>
+    <body>
+        <style>
+            *{
+                margin:0;
+                padding:0;
+                box-sizing: border-box;
+            }
+            body{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                background: #333;
+            }
+            .box{
+                position: relative;
+                height: 200px;
+                transform-style: preserve-3d;
+                animation: animate 16s linear infinite;
+            }
+            @keyframes animate{
+                0%{
+                    transform: rotateX(-20deg) rotateY(360deg);
+                }
+                100%{
+                    transform: rotateX(-20deg) rotateY(0deg);
+                }
+            }
+            .box div{
+                position: absolute;
+                inset: 0;
+                transform-style: preserve-3d;
+            }
+            .box div.block span{
+                position: absolute;
+                left: calc(50% - 100px);
+                width: 200px;
+                height: 100px;
+                background: #444;
+                transform: rotateY(calc(90deg * var(--i))) translateZ(100px);
+                transition: 0.5s;
+            }
+            .box:hover div.block span{
+                background: #f0f;
+                filter: drop-shadow(0 0 50px #f0f);
+            }
+            .box div.text span{
+                position: absolute;
+                width: 100%;
+                height: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transform: rotateY(calc(90deg * var(--i))) translateZ(150px);
+                cursor: pointer;
+                color: #fff;
+                font-size: 8em;
+                text-transform: uppercase;
+                z-index: 10;
+                line-height: 1em;
+                -webkit-text-stroke: 3px #000;
+                transform-style: preserve-3d;
+            }
+            .box div.text span:nth-child(3){
+                font-size: 6em;
+            }
+            .box div.text span:nth-child(2){
+                font-size: 4em;
+            }
+            .box div.text span:nth-child(4){
+                font-size: 4em;
+            }
+            .box div.text span::before{
+                content: attr(data-text);
+                position: absolute;
+                bottom: 7px;
+                transform-origin: bottom;
+                transform: rotateX(-90deg);
+                color: rgba(0,0,0,0.1);
+                -webkit-text-stroke: 0px #000;
+                filter: blur(5px);
+            }
+            .box div.text span::after{
+                content: '';
+                position: absolute;
+                top: 100px;
+                width: 360px;
+                height: 60px;
+                background: #444;
+                transform: rotateX(-90deg);
+                transition:0.5s;
+            }
+            .box:hover div.text span::after{
+                background: #f0f;
+                filter: drop-shadow(0 0 50px #f0f);
+            }
+            .top{
+                position: absolute;
+                transform: rotateX(90deg) translateZ(100px) translateX(-100px);
+            }
+            .background{
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                background: url('bg.jpg');
+                background-size: cover;
+                opacity: 0;
+                z-index: -10;
+                filter: blur(5px);
+            }
+            .transin{
+                transition: all ease-in 10s;
+            }
+            .transout{
+                transition: all ease-out 1s;
+            }
+            .box:hover + .background{
+                opacity: 0.25;
+                box-shadow: 0px 0px 500px 100px #f0f inset;
+            }
+            .pre{
+                position: fixed;
+                height: 100%;
+                width: 100%;
+                top: 0%;
+                transition: all cubic-bezier(0.215, 0.610, 0.355, 1) 2s;
+                z-index: 100;
+                background: #222;
+            }
+            .pre-hide{
+                top: -100%;
+            }
+            .pre-text{
+                font-size: 80px;
+                color: #fff;
+                text-align: center;
+                animation: blink 1.5s linear infinite;
+            }
+            @keyframes blink{
+                0%{
+                    color: #fff;
+                }
+                50%{
+                    color: #f0f;
+                }
+                100%{
+                    color: #fff;
+                }
+            }
+        </style>
+        <div class="pre" id="pre-content">
+            <h3 class="pre-text">PRESS ANY KEY TO ENTER</h3>
+        </div>
+        <div class="box" id="content">
+            <div class="top">
+                <span><img src="thumbnail.png" width="200px" height="200px"></span>
+            </div>
+            <div class="block">
+                <span style="--i:0"></span>
+                <span style="--i:1"></span>
+                <span style="--i:2"></span>
+                <span style="--i:3"></span>
+            </div>
+            <div class="text">
+                <span style="--i:0" data-text="...A">...A</span>
+                <span style="--i:1" data-text="FullStack Engineer">FullStack Engineer</span>
+                <span style="--i:2" data-text="WMY">WMY</span>
+                <span style="--i:3" data-text="Salamanda MainCreator">Salamanda MainCreator</span>
+            </div>
+        </div>
+        <div class="background" id="bg"></div>
+        <audio src='bgm.mp3' loop="loop" preload="preload" id="audio"></audio>
+        <script>
+            var start=false,opened=false;;
+            document.addEventListener("keydown",on)
+            document.addEventListener("keyup",off)
+            document.addEventListener("click",onoroff)
+            function onoroff(){
+                if(!start){
+                    start=true;
+                    $("#pre-content").addClass("pre-hide");
+                }
+            }
+            function on(){
+                if(start){
+                    $('#content').trigger("mouseenter");
+                    opened=true;        
+                }
+                else{
+                    start=true;
+                    $("#pre-content").addClass("pre-hide");
+                }
+            }
+            function off(){
+                if(start){
+                    $('#content').trigger("mouseleave");
+                    opened=false;
+                }
+            }
+            var audio = document.getElementById('audio');
+            $('#content').hover(function(){
+                if(audio!=null&&start){
+                    if(audio.paused) audio.play();
+                    $("#bg").removeClass("transout")
+                    $("#bg").addClass("transin")
+                }
+            },function(){
+                if(audio!=null&&start){
+                    if(!audio.paused) audio.pause();
+                    $("#bg").removeClass("transin")
+                    $("#bg").addClass("transout")
+                }
+            })
+        </script>
+    </body>
+</html>

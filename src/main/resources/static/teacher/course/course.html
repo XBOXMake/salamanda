@@ -58,18 +58,6 @@
                 left: -4px;
             }
         </style>
-        <style>
-            .bottomline{
-                opacity: 0.3;
-                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
-                background: #dddddd;
-                z-index: 114;
-            }
-            .bottomline:hover{
-                opacity: 0.85;
-                background: #39c5bb;
-            }
-        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
@@ -122,99 +110,522 @@
             })
         </script>
         <style>
+            .table th{
+                text-align: center;
+                vertical-align: middle;
+            }
             .table td{
                 text-align: center;
                 vertical-align: middle;
             }
+            .warn{
+                color: red;
+                font-weight: bold;
+            }
         </style>
-        <div class=" m-5 bg-light p-3">
+        <div class="container m-5 bg-light p-3 mx-auto">
+            <h3 class=" text-center">课程管理</h3>
+            <div>
+                <button type="button" class="my-3 btn btn-outline-secondary" id="create" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id=0>新建课程</button>
+            </div>
             <table class="display table table-striped nowrap w-100" id="table">
                 <thead>
                 <tr>
                     <th>课程号</th>
                     <th>课程名</th>
+                    <th>选课开始时间</th>
+                    <th>选课结束时间</th>
                     <th>开始时间</th>
                     <th>结束时间</th>
                     <th>上课时间</th>
                     <th>学分</th>
                     <th>最大选课人数</th>
+                    <th>选课人数</th>
                     <th>课程描述</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>0001</th>
-                    <td>离散数学</td>
-                    <td>2022-09-06</td>
-                    <td>2023-01-06</td>
-                    <td>1-16周星期二第三四节</td>
-                    <td>2</td>
-                    <td>100</td>
-                    <td>离散数学</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>0001</th>
-                    <td>离散数学</td>
-                    <td>2022-09-06</td>
-                    <td>2023-01-06</td>
-                    <td>1-16周星期二第三四节</td>
-                    <td>2</td>
-                    <td>100</td>
-                    <td>离散数学</td>
-                    <td></td>
-                </tr>
                 </tbody>
             </table>
-
-            <script>
-                var table = $("#table").DataTable({
-                    responsive:{
-                        details: {
-                            display: $.fn.dataTable.Responsive.display.modal( {
-                                header: function ( row ) {
-                                    var data = row.data();
-                                    return 'Details for '+data[0]+':'+data[1];
-                                }
-                            } ),
-                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                                tableClass: 'table'
-                            } )
-                        }
-                    },
-                    //ajax: '/teacher/course/get-course',
-                    columnDefs:[
-                        {data:'id'},
-                        {data:'name'},
-                        {data:'dateStart'},
-                        {data:'dateEnd'},
-                        {data:'schedule'},
-                        {data:'grade'},
-                        {data:'limitation'},
-                        {data:'description'},
-                        {
-                            targets:-1,
-                            data:null,
-                            render:function(data,type,row,meta){
-                                return '<div class="row w-100">'+
-                                    '<div class="col">'+
-                                        '<button class="btn form-control btn-danger my-1 mx-2 button-a" onclick="Delete('+data[0]+')">删除课程</button>'+
-                                    '</div>'+                
-                                '</div>'
-                            }
-                        }
-                    ]
-                });
-
-                
-                function Delete(data){           
-                    alert('data:'+data+"buttona");
-                }
-            </script>
         </div>
-        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+        <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="edit-modal-label">Edit</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="edit-close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3" id="input-name-bar">
+                                <label for="input-name" class="col-form-label">课程名称:</label>
+                                <input type="text" class="form-control" id="input-name">
+                                <div class=" w-100 text-end my-2">
+                                    <span class=" text-black-50 text-end" id="input-name-count">10</span>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="input-dateStartChoose-bar">
+                                <label for="input-dateStartChoose" class="col-form-label">选课起始时间:</label>
+                                <input type="date" class="form-control" id="input-dateStartChoose">
+                            </div>
+                            <div class="mb-3" id="input-dateEndChoose-bar">
+                                <label for="input-dateEndChoose" class="col-form-label">选课结束时间:</label>
+                                <input type="date" class="form-control" id="input-dateEndChoose">
+                            </div>
+                            <div class="mb-3" id="input-dateStart-bar">
+                                <label for="input-dateStart" class="col-form-label">起始时间:</label>
+                                <input type="date" class="form-control" id="input-dateStart">
+                            </div>
+                            <div class="mb-3" id="input-dateEnd-bar">
+                                <label for="input-dateEnd" class="col-form-label">结束时间:</label>
+                                <input type="date" class="form-control" id="input-dateEnd">
+                            </div>
+                            <div class="mb-3" id="input-schedule-bar">
+                                <label for="input-schedule" class="col-form-label">上课时间:</label>
+                                <textarea rows="2" class="form-control" id="input-schedule"></textarea>
+                                <div class=" w-100 text-end my-2">
+                                    <span class=" text-black-50 text-end" id="input-schedule-count">50</span>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="input-limitation-bar">
+                                <label for="input-limitation" class="col-form-label">选课人数:</label>
+                                <input type="number" class="form-control" id="input-limitation">
+                            </div>
+                            <div class="mb-3" id="input-credit-bar">
+                                <label for="input-credit" class="col-form-label">学分:</label>
+                                <input type="number" class="form-control" id="input-credit">
+                            </div>
+                            <div class="mb-3" id="input-description-bar">
+                                <label for="input-description" class="col-form-label">课程介绍:</label>
+                                <textarea class="form-control ms-2" id="input-description"></textarea>
+                                <div class=" w-100 text-end my-2">
+                                    <span class=" text-black-50 text-end" id="input-description-count">200</span>
+                                </div>
+                            </div>                               
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="input-reset">重置</button>
+                        <button type="button" class="btn btn-primary" id="input-save">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="delete-modal-label">删除</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="my-2">
+                            你确定要删除<span id="delete-content"></span>吗？
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="delete-close">取消</button>
+                        <button type="button" class="btn btn-danger" id="input-delete">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="lock-modal" tabindex="-1" aria-labelledby="lock-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="lock-modal-label">锁定</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="my-2">
+                            你确定要锁定<span id="lock-content"></span>吗？
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="lock-close">取消</button>
+                        <button type="button" class="btn btn-danger" id="input-lock">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function check(position,size){
+                position.text(size);
+                if(size<0){
+                    position.addClass("warn")
+                    position.removeClass("text-black-50")
+                }
+                else{
+                    position.addClass("text-black-50")
+                    position.removeClass("warn")
+                }
+            }
+            $("#input-name").bind("input propertychange change",function(){
+                check($("#input-name-count"),10-$("#input-name").val().length)
+            })
+            $("#input-schedule").bind("input propertychange change",function(){
+                check($("#input-schedule-count"),50-$("#input-schedule").val().length)
+            })
+            $("#input-description").bind("input propertychange change",function(){
+                check($("#input-description-count"),200-$("#input-description").val().length)
+            })
+            var initName,initDateStartChoose,initDateEndChoose,initDateStart,initDateEnd,initCredit,initSchedule,initLimitation,initDescription
+            function init(id){
+                if(id!=0)$.ajax({
+                    url:'/teacher/course/getInitCourse',
+                    type:'get',
+                    async:false,
+                    data:{
+                        id:id
+                    },
+                    success:function(data){
+                        initName=data.name;
+                        initDateStartChoose=data.dateStartChoose;
+                        initDateEndChoose=data.dateEndChoose;
+                        initDateStart=data.dateStart;
+                        initDateEnd=data.dateEnd;
+                        initSchedule=data.schedule;
+                        initLimitation=data.limitation;
+                        initCredit=data.credit;
+                        initDescription=data.description;
+                    }
+                })
+                else{
+                    initName=null;
+                    initDateStartChoose=null;
+                    initDateEndChoose=null;
+                    initDateStart=null;
+                    initDateEnd=null;
+                    initSchedule=null;
+                    initLimitation=null;
+                    initCredit=null;
+                    initDescription=null;
+                }
+                reset();
+            }
+            function reset(){
+                $('#input-name').val(initName);
+                $('#input-dateStartChoose').val(initDateStartChoose);
+                $('#input-dateEndChoose').val(initDateEndChoose);
+                $('#input-dateStart').val(initDateStart);
+                $('#input-dateEnd').val(initDateEnd);
+                $('#input-schedule').val(initSchedule);
+                $('#input-limitation').val(initLimitation);
+                $('#input-credit').val(initCredit);
+                $('#input-description').val(initDescription);
+                $('#input-name-bar').click()
+                $('#input-dateStartChoose-bar').click()
+                $('#input-dateEndChoose-bar').click()
+                $('#input-dateStart-bar').click()
+                $('#input-dateEnd-bar').click()
+                $('#input-schedule-bar').click()
+                $('#input-limitation-bar').click()
+                $('#input-credit-bar').click()
+                $('#input-description-bar').click()
+                check($("#input-name-count"),10-$("#input-name").val().length)
+                check($("#input-schedule-count"),50-$("#input-schedule").val().length)
+                check($("#input-description-count"),200-$("#input-description").val().length)
+            }
+            function delete_(id){
+                $.ajax({
+                    url:'/teacher/course/deleteCourse',
+                    type:'post',
+                    data:{
+                        id:id,
+                    },
+                    async:false,
+                    success:function(data){
+                        if(data.victory == 114){
+                            $.notify("删除成功",{className:"success",position:"bottom right"});
+                            $("#delete-close").click();
+                            table.ajax.reload(null,false);
+                        }
+                        else $.notify("删除失败",{className:"error",position:"bottom right"});
+                    },
+                })
+            }
+            function lock_(id){
+                $.ajax({
+                    url:'/teacher/course/lockCourse',
+                    type:'post',
+                    data:{
+                        id:id,
+                    },
+                    async:false,
+                    success:function(data){
+                        if(data.victory == 114){
+                            $.notify("锁定成功",{className:"success",position:"bottom right"});
+                            $("#lock-close").click();
+                            table.ajax.reload(null,false);
+                        }
+                        else $.notify("锁定失败",{className:"error",position:"bottom right"});
+                    },
+                })
+            }
+            function submit(id){
+                if(validate()){
+                    $.ajax({
+                        url:'/teacher/course/saveCourse',
+                        type:'post',
+                        data:{
+                            id:id,
+                            name:$('#input-name').val(),
+                            dateStartChoose:$('#input-dateStartChoose').val(),
+                            dateEndChoose:$('#input-dateEndChoose').val(),
+                            dateStart:$('#input-dateStart').val(),
+                            dateEnd:$('#input-dateEnd').val(),
+                            schedule:$('#input-schedule').val(),
+                            limitation:$('#input-limitation').val(),
+                            credit:$('#input-credit').val(),
+                            description:$('#input-description').val(),
+                        },
+                        async:false,
+                        success:function(data){
+                            if(data.victory == 114){
+                                $.notify("保存成功",{className:"success",position:"bottom right"});
+                                $("#edit-close").click();
+                                table.ajax.reload(null,false);
+                            }
+                            else if(data.victory == 1){
+                                $.notify("保存失败：课程名称不能为空或长度大于10",{className:"error",position:"bottom right"});
+                                $('#input-year').addClass('is-invalid');
+                            }
+                            else if(data.victory == 2){
+                                $.notify("保存失败：选课起始日期未填写",{className:"error",position:"right bottom"});
+                                $('#input-dateStartChoose').addClass('is-invalid');
+                            }
+                            else if(data.victory == 3){
+                                $.notify("保存失败：选课终止日期未填写",{className:"error",position:"right bottom"});
+                                $('#input-dateEndChoose').addClass('is-invalid');
+                            }
+                            else if(data.victory == 4){
+                                $.notify("保存失败：选课起始日期大于选课终止日期",{className:"error",position:"right bottom"});
+                                $('#input-dateStartChoose').addClass('is-invalid');
+                                $('#input-dateEndChoose').addClass('is-invalid');
+                            }
+                            else if(data.victory == 5){
+                                $.notify("保存失败：起始日期未填写",{className:"error",position:"right bottom"});
+                                $('#input-dateStart').addClass('is-invalid');
+                            }
+                            else if(data.victory == 6){
+                                $.notify("保存失败：终止日期未填写",{className:"error",position:"right bottom"});
+                                $('#input-dateStart').addClass('is-invalid');
+                            }
+                            else if(data.victory == 7){
+                                $.notify("保存失败：起始日期大于终止日期",{className:"error",position:"right bottom"});
+                                $('#input-dateStart').addClass('is-invalid');
+                                $('#input-dateEnd').addClass('is-invalid');
+                            }
+                            else if(data.victory == 8){
+                                $.notify("保存失败：选课人数应当大于0",{className:"error",position:"right bottom"});
+                                $('#input-limitation').addClass('is-invalid');
+                            }
+                            else if(data.victory == 9){
+                                $.notify("保存失败：选课人数应当大于或等于当前已选人数",{className:"error",position:"right bottom"});
+                                $('#input-limitation').addClass('is-invalid');
+                            }
+                            else if(data.victory == 10){
+                                $.notify("保存失败：学分应当大于0",{className:"error",position:"right bottom"});
+                                $('#input-credit').addClass('is-invalid');
+                            }
+                            else if(data.victory == 11){
+                                $.notify("保存失败：上课时间长度不应当大于50",{className:"error",position:"right bottom"});
+                                $('#input-schedule').addClass('is-invalid');
+                            }
+                            else if(data.victory == 12){
+                                $.notify("保存失败：课程价绍长度不应当大于200",{className:"error",position:"right bottom"});
+                                $('#input-description').addClass('is-invalid');
+                            }
+                            else $.notify("保存失败",{className:"error",position:"bottom right"});
+                        }
+                    })
+                }
+            }
+            function validate(){
+                if($('#input-name').val().length>10){
+                    $.notify("保存失败：名字长度不应当大于10",{className:"error",position:"right bottom"});
+                    $('#input-name').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-dateStartChoose').val()==''){
+                    $.notify("保存失败：选课起始日期未填写",{className:"error",position:"right bottom"});
+                    $('#input-dateStartChoose').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-dateEndChoose').val()==''){
+                    $.notify("保存失败：选课终止日期未填写",{className:"error",position:"right bottom"});
+                    $('#input-dateEndChoose').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-dateStart').val()==''){
+                    $.notify("保存失败：起始日期未填写",{className:"error",position:"right bottom"});
+                    $('#input-dateStart').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-dateEnd').val()==''){
+                    $.notify("保存失败：终止日期未填写",{className:"error",position:"right bottom"});
+                    $('#input-dateStart').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-limitation').val()==''||$('#input-limitation').val()<0){
+                    $.notify("保存失败：选课人数应当大于0",{className:"error",position:"right bottom"});
+                    $('#input-limitation').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-credit').val()==''||$('#input-credit').val()<0){
+                    console.log($('#input-credit').val())
+                    $.notify("保存失败：学分应当大于0",{className:"error",position:"right bottom"});
+                    $('#input-credit').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-schedule').val()==''||$('#input-schedule').val().length>50){
+                    $.notify("保存失败：上课时间长度不应当大于50",{className:"error",position:"right bottom"});
+                    $('#input-schedule').addClass('is-invalid');
+                    return false;
+                }
+                if($('#input-description').val()==''||$('#input-description').val().length>200){
+                    $.notify("保存失败：课程价绍长度不应当大于200",{className:"error",position:"right bottom"});
+                    $('#input-description').addClass('is-invalid');
+                    return false;
+                }
+                return true;
+            }
+            $('#input-reset').click(function(){
+                reset()
+            })
+            $('#input-name-bar').click(function(){
+                $('#input-name').removeClass('is-invalid');
+            })
+            $('#input-dateStartChoose-bar').click(function(){
+                $('#input-dateStartChoose').removeClass('is-invalid');
+            })
+            $('#input-dateEndChoose-bar').click(function(){
+                $('#input-dateEndChoose').removeClass('is-invalid');
+            })
+            $('#input-dateStart-bar').click(function(){
+                $('#input-dateStart').removeClass('is-invalid');
+            })
+            $('#input-dateEnd-bar').click(function(){
+                $('#input-dateEnd').removeClass('is-invalid');
+            })
+            $('#input-schedule-bar').click(function(){
+                $('#input-schedule').removeClass('is-invalid');
+            })
+            $('#input-limitation-bar').click(function(){
+                $('#input-limitation').removeClass('is-invalid');
+            })
+            $('#input-credit-bar').click(function(){
+                $('#input-credit').removeClass('is-invalid');
+            })
+            $('#input-description-bar').click(function(){
+                $('#input-description').removeClass('is-invalid');
+            })
+            //modal
+            const modalEdit = document.getElementById('edit-modal')
+            const modalDelete = document.getElementById('delete-modal')
+            const modalLock = document.getElementById('lock-modal')
+            modalEdit.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget
+                const id = button.getAttribute('data-id')
+                if(id == 0){
+                    $('#edit-modal-label').text("新建课程")
+                }
+                else{
+                    $('#edit-modal-label').text("编辑课程")
+                }
+                init(id);
+                $('#input-save').unbind('click').bind('click',function(){submit(id)})
+            })
+            modalDelete.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget
+                const id = button.getAttribute('data-id')
+                $('#delete-content').text(id);
+                $('#input-delete').unbind('click').bind('click',function(){delete_(id)})
+            })
+            modalLock.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget
+                const id = button.getAttribute('data-id')
+                $('#lock-content').text(id);
+                $('#input-lock').unbind('click').bind('click',function(){lock_(id)})
+            })
+            var table = $("#table").DataTable({
+                responsive:{
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal( {
+                            header: function ( row ) {
+                                var data = row.data();
+                                return 'Details for '+data[0]+':'+data[1];
+                            }
+                        } ),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                            tableClass: 'table'
+                        } )
+                    }
+                },
+                ajax: {
+                    url:'/teacher/course/getCourse',
+                    dataSrc:function(data){
+                        return data
+                    }
+                },
+                columns:[
+                    {data:'id'},
+                    {data:'name'},
+                    {data:'dateStartChoose'},
+                    {data:'dateEndChoose'},
+                    {data:'dateStart'},
+                    {data:'dateEnd'},
+                    {data:'schedule'},
+                    {data:'grade'},
+                    {data:'limitation'},
+                    {data:'number'},
+                    {data:'description'},
+                    {data:'option'},
+                ],
+                columnDefs:[
+                    {
+                        targets:-1,
+                        render:function(data,type,row,meta){
+                            info = data.split('&');//0/1&id
+                            if(info[0] == "0")
+                                return '<div class="row w-100">'+
+                                            '<div class="col">'+
+                                                '<button class="btn form-control btn-secondary my-1 mx-2 button-a" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="'+info[1]+'">编辑课程</button>'+
+                                            '</div>'+
+                                            '<div class="col">'+
+                                                '</button><button class="btn form-control btn-primary my-1 mx-2 button-b" data-bs-toggle="modal" data-bs-target="#lock-modal" data-id="'+info[1]+'">锁定课程</button>'+
+                                            '</div>'+
+                                            '<div class="col">'+
+                                                '</button><button class="btn form-control btn-danger my-1 mx-2 button-b" data-bs-toggle="modal" data-bs-target="#delete-modal" data-id="'+info[1]+'">删除课程</button>'+
+                                            '</div>'+
+                                        '</div>'
+                            else return "已锁定"
+                        }
+                    }
+                ]
+            });
+        </script>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
     </body>
 </html>

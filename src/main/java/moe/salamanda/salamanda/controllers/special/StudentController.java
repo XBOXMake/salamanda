@@ -1,12 +1,18 @@
 package moe.salamanda.salamanda.controllers.special;
 
+import moe.salamanda.salamanda.models.general.WithClass;
 import moe.salamanda.salamanda.models.student.Activity;
 import moe.salamanda.salamanda.models.student.Blog;
+import moe.salamanda.salamanda.models.student.Comment;
 import moe.salamanda.salamanda.models.student.Student;
 import moe.salamanda.salamanda.models.teacher.Course;
+import moe.salamanda.salamanda.models.teacher.CourseGrade;
+import moe.salamanda.salamanda.models.teacher.Teacher;
 import moe.salamanda.salamanda.repositories.student.ActivityRepository;
 import moe.salamanda.salamanda.repositories.student.BlogRepository;
+import moe.salamanda.salamanda.repositories.student.CommentRepository;
 import moe.salamanda.salamanda.repositories.student.StudentRepository;
+import moe.salamanda.salamanda.repositories.teacher.CourseGradeRepository;
 import moe.salamanda.salamanda.repositories.teacher.CourseRepository;
 import moe.salamanda.salamanda.services.RedisService;
 import moe.salamanda.salamanda.services.ResponseService;
@@ -80,8 +86,16 @@ public class StudentController {
         return map;
     }
 
+    //
+    ///student/course/**
+    //
+
     @Autowired
     CourseRepository courseRepository;
+
+    //
+    //course.html
+    //
 
     @GetMapping(value = "/student/course/getCourse",produces = "application/json")
     @ResponseBody
@@ -101,6 +115,109 @@ public class StudentController {
             list.add(map);
         }
         return list;
+    }
+
+    //
+    //score.html
+    //
+
+    @GetMapping(value = "/student/course/getScore",produces = "application/json")
+    @ResponseBody
+    public List<Map> getScore(HttpServletRequest request,HttpServletResponse response){
+        String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+        Student student = studentRepository.findByUsername(username);
+        List<CourseGrade> data = student.getCourseGrades();
+        List<Map> list = new ArrayList<>();
+        for(CourseGrade grade:data){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",grade.getCourse().getId());
+            map.put("name",grade.getCourse().getName());
+            map.put("grade",grade.getCourse().getGrade());
+            map.put("score",grade.getNumber());
+            list.add(map);
+        }
+        return list;
+    }
+
+    //
+    //select.html
+    //
+
+    @Autowired
+    CourseGradeRepository gradeRepository;
+
+    private String getStatus(Student student,Course course){
+        try{
+            CourseGrade grade = gradeRepository.findByCourseAndStudent(student.getId(),course.getId());
+            if(grade.equals(null)) return "未选择";
+            else return "已选择";
+        }
+        catch (Exception e){
+            return "未选择";
+        }
+    }
+
+    @GetMapping(value = "/student/course/getSelect",produces = "application/json")
+    @ResponseBody
+    public List<Map> getSelect(HttpServletRequest request,HttpServletResponse response){
+        String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+        Student student = studentRepository.findByUsername(username);
+        List<Course> data = courseRepository.findAll();
+        List<Map> list = new ArrayList<>();
+        for(Course course:data){
+            Date date = new Date();
+            if (date.compareTo(course.getSelectDateStart())!=-1 &&date.compareTo(course.getSelectDateEnd())!=1){
+                Map<String, Object> map = new HashMap<>();
+                map.put("status", getStatus(student, course));
+                map.put("id", course.getId());
+                map.put("name", course.getName());
+                map.put("dateStartChoose", format.format(course.getSelectDateStart()));
+                map.put("dateEndChoose", format.format(course.getSelectDateEnd()));
+                map.put("dateStart", format.format(course.getDateStart()));
+                map.put("dateEnd", format.format(course.getDateEnd()));
+                map.put("schedule", course.getSchedule());
+                map.put("grade", course.getGrade());
+                map.put("limitation", course.getLimitation());
+                map.put("number", course.getCourseGrades().size());
+                map.put("description", course.getDescription());
+                map.put("option", course.getId());
+                list.add(map);
+            }
+        }
+        return list;
+    }
+
+    @PostMapping("/student/course/changeSelect")
+    public void changeSelect(@RequestParam("id") Integer id,HttpServletResponse response,HttpServletRequest request){
+        try{
+            String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+            Student student = studentRepository.findByUsername(username);
+            Course course = courseRepository.findById(id);
+            System.out.println(getStatus(student,course));
+            if(getStatus(student,course).equals("已选择")){
+                if(course.getLimitation()<=course.getCourseGrades().size()){
+                    ResponseService.response(response,request,114);
+                    return;
+                }
+                CourseGrade grade = gradeRepository.findByCourseAndStudent(student.getId(),course.getId());
+                gradeRepository.delete(grade);
+                ResponseService.response(response,request,2);
+                return;
+            }
+            else if(getStatus(student,course).equals("未选择")){
+                CourseGrade grade = new CourseGrade();
+                grade.setStudent(student);
+                grade.setCourse(course);
+                gradeRepository.save(grade);
+                ResponseService.response(response,request,1);
+                return;
+            }
+            ResponseService.response(response,request,114);
+            return;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     //
@@ -152,12 +269,12 @@ public class StudentController {
                 ResponseService.response(response, request, 1);
                 return;
             }
-            if (dateStart.equals(null)||dateStart.equals("null")){
+            if (dateStart.equals(null)||dateStart.equals("")){
                 ResponseService.response(response, request, 5);
                 return;
             }
             Date start = formatForm.parse(dateStart);
-            if(dateEnd.equals(null)||dateEnd.equals("null")){
+            if(dateEnd.equals(null)||dateEnd.equals("")){
                 ResponseService.response(response, request, 6);
                 return;
             }
@@ -207,5 +324,146 @@ public class StudentController {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @GetMapping(value = "/student/getData",produces = "application/json")
+    @ResponseBody
+    public Map getData( HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> map = new HashMap<>();
+        String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+        Student student = studentRepository.findByUsername(username);
+        map.put("name",Student.getName(student));
+        map.put("phone",student.getPhone());
+        map.put("sex",student.getSexes());
+        map.put("introduction",student.getIntroductions());
+        map.put("with", WithClass.total(student.getWithClass()));
+        map.put("studentID",Student.getStudentID(student));
+        map.put("birthday",formatForm.format(student.getBirthday()));
+        return map;
+    }
+
+    @GetMapping(value = "/student/getPicture",produces = "application/json")
+    @ResponseBody
+    public Map getPicture( HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> map = new HashMap<>();
+        String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+        Student student = studentRepository.findByUsername(username);
+        List<Comment> comments = student.getComments();
+        Map<Integer,Integer> note = new HashMap<>();
+        for(Comment comment:comments){
+            try{
+                note.put(comment.getContent(), note.get(comment.getContent()) + 1);
+            }
+            catch (Exception e){
+                note.put(comment.getContent(),1);
+            }
+        }
+        Integer key1=0,key2=0,key3=0;Integer value1=0,value2=0,value3=0;
+        if(note.size() == 0) {
+            map.put("total",0);
+            return map;
+        }
+        for(Integer key: note.keySet()){
+            if(note.get(key)>value3){
+                key3=key;value3=note.get(key);
+            }
+        }
+        if(note.size() == 1){
+            map.put("total",1);
+            map.put("val1",(double)value3/(double)comments.size());
+            map.put("key1",Comment.getTag(key3));
+            return map;
+        }
+        for(Integer key: note.keySet()){
+            if(note.get(key)>value2&&key!=key3){
+                key2=key;value2=note.get(key);
+            }
+        }
+        if(note.size() == 2){
+            map.put("total",2);
+            map.put("val2",(double)value2/(double)comments.size());
+            map.put("key2",Comment.getTag(key2));
+            map.put("val1",(double)value3/(double)comments.size());
+            map.put("key1",Comment.getTag(key3));
+            return map;
+        }
+        for(Integer key: note.keySet()){
+            if(note.get(key)>value1&&key!=key3&&key!=key2){
+                key1=key;value1=note.get(key);
+            }
+        }
+        map.put("total",3);
+        map.put("val3",(double)value1/(double)comments.size());
+        map.put("key3",Comment.getTag(key1));
+        map.put("val2",(double)value2/(double)comments.size());
+        map.put("key2",Comment.getTag(key2));
+        map.put("val1",(double)value3/(double)comments.size());
+        map.put("key1",Comment.getTag(key3));
+        return map;
+    }
+
+    @GetMapping(value = "/student/getTags",produces = "application/json")
+    @ResponseBody
+    public List<Map> getTags(@RequestParam("id")Integer id, HttpServletRequest request,HttpServletResponse response){
+        List<Map> list = new ArrayList<>();
+        Map<Integer,Boolean> check = new HashMap<>();
+        Random random = new Random();
+        for(int i=1;i<=15;i++){
+            Map<String, Object> map = new HashMap<>();
+            int rand = random.nextInt(41);
+            while(check.containsKey(rand)) rand = random.nextInt(41);
+            check.put(rand,true);
+            map.put("label",Comment.getTag(rand));
+            map.put("url","javascript:upload('/student/addTag?tag="+rand+"&id="+id+"')");
+            map.put("target","_top");
+            list.add(map);
+        }
+        return list;
+    }
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @PostMapping("/student/addTag")
+    public void addTag(@RequestParam("tag") Integer tag,@RequestParam("id") Integer id,HttpServletResponse response,HttpServletRequest request){
+        try{
+            if (tag < 0 || tag > 40){
+                ResponseService.response(response,request,1);
+                return;
+            }
+            Student student = null;
+            try{
+                student = studentRepository.findById(id);
+            }
+            catch (Exception e){
+                ResponseService.response(response,request,2);
+                return;
+            }
+            if(student == null){
+                ResponseService.response(response,request,2);
+                return;
+            }
+            Comment comment = new Comment();
+            comment.setTo(student);
+            comment.setContent(tag);
+            commentRepository.save(comment);
+            ResponseService.response(response,request,114);
+            return;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping(value = "/student/tagInit",produces = "application/json")
+    @ResponseBody
+    public Map tagInit( HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> map = new HashMap<>();
+        Student student = studentRepository.randomPickOne();
+        map.put("name",Student.getName(student));
+        map.put("introduction",student.getIntroductions());
+        map.put("id",student.getId());
+        map.put("username",student.getUsername());
+        return map;
     }
 }

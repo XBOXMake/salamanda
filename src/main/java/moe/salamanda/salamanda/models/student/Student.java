@@ -53,12 +53,15 @@ public class Student extends WithUser implements Serializable {
     @JsonBackReference
     private WithClass withClass;
 
-    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<Blog> blogs;//博客
 
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<CourseGrade> courseGrades;//课程选择/成绩
 
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<Activity> activities;//社会实践
+
+    @OneToMany(mappedBy = "to",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Comment> comments;//被谁评论-学生互评
 }

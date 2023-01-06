@@ -58,18 +58,6 @@
                 left: -4px;
             }
         </style>
-        <style>
-            .bottomline{
-                opacity: 0.3;
-                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
-                background: #dddddd;
-                z-index: 114;
-            }
-            .bottomline:hover{
-                opacity: 0.85;
-                background: #39c5bb;
-            }
-        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
@@ -146,7 +134,8 @@
                 vertical-align: middle;
             }
         </style>
-		<div class=" m-5 bg-light p-3">
+		<div class="container m-5 bg-light p-3 mx-auto">
+            <h3 class=" text-center">成绩查询</h3>            
             <table class="display table table-striped nowrap w-100" id="table">
                 <thead>
                 <tr>
@@ -157,68 +146,58 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</th>
-                    <td>Mark2131321321321321313213132</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>2</th>
-                    <td>asdgasdgasd</td>
-                    <td></td>
-                    <td></td>
-                </tr>
                 </tbody>
             </table>
-            <script>
-                var table = $("#table").DataTable({
-                    responsive:{
-                        details: {
-                            display: $.fn.dataTable.Responsive.display.modal( {
-                                header: function ( row ) {
-                                    var data = row.data();
-                                    return 'Details for '+data[0]+':'+data[1];
-                                }
-                            } ),
-                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                                tableClass: 'table'
-                            } )
-                        }
-                    },
-                    //ajax: '/admin/get-w&o',
-					columns:[
-						{ data : 'id' },
-						{ data : 'name' },
-						{ data : 'grade' },
-						{ data : 'myGrade' }
-                    ],
-                    columnDefs:[
-                        {
-                            targets:-1,
-                            data:null,
-                            defaultContent:
-                            '<div class="row w-100">'+
-                                '<div class="col">'+
-                                    '<button class="btn form-control btn-primary my-1 mx-2 button-a" onclick="editResponse('+rw.data()[0]+')">编辑回复</button>'+
-                                '</div>'+
-                                '<div class="col">'+
-                                    '</button><button class="btn form-control btn-secondary  my-1 mx-2 button-b" onclick="changeStatus('+row.data()[0]+')">确定解决</button>'+
-                                '</div>'+
-                            '</div>'
-                        }
-                    ]
-                });
-                function editResponse(data){
-                    alert('data:'+data+"buttona");
-                }
-                function changeStatus(data){
-                    alert('data:'+data+"buttonb");
-                }
-            </script>
         </div>
-        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+        <script>
+            var table = $("#table").DataTable({
+                responsive:{
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal( {
+                            header: function ( row ) {
+                                var data = row.data();
+                                return 'Details for '+data[0]+':'+data[1];
+                            }
+                        } ),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                            tableClass: 'table'
+                        } )
+                    }
+                },
+                ajax: {
+                    url:'/student/course/getScore',
+                    dataSrc:function(data){
+                        return data
+                    }
+                },
+                columns:[
+                    { data : 'id' },
+                    { data : 'name' },
+                    { data : 'grade' },
+                    { data : 'score' }
+                ]
+            });
+        </script>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
     </body>
 </html>

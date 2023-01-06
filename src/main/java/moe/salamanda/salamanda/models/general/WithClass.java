@@ -36,6 +36,6 @@ public class WithClass {
         return withClass.getYear().toString()+"级"+withClass.getWithSubject().getName()+withClass.getWithClass().toString()+"班";
     }
 
-    @OneToMany(mappedBy = "withClass",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "withClass",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.LAZY)
     private List<Student> studentList;
 }

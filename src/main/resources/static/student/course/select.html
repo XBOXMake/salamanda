@@ -58,18 +58,6 @@
                 left: -4px;
             }
         </style>
-        <style>
-            .bottomline{
-                opacity: 0.3;
-                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
-                background: #dddddd;
-                z-index: 114;
-            }
-            .bottomline:hover{
-                opacity: 0.85;
-                background: #39c5bb;
-            }
-        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
@@ -147,99 +135,118 @@
                 vertical-align: middle;
             }
         </style>
-		<div class=" m-5 bg-light p-3">
+        <div class="container m-5 bg-light p-3 mx-auto">
+            <h3 class=" text-center">选课管理</h3>            
             <table class="display table table-striped nowrap w-100" id="table">
                 <thead>
                 <tr>
+                    <th>状态</th>
                     <th>课程号</th>
                     <th>课程名</th>
+                    <th>选课开始时间</th>
+                    <th>选课结束时间</th>
                     <th>开始时间</th>
                     <th>结束时间</th>
                     <th>上课时间</th>
                     <th>学分</th>
                     <th>最大选课人数</th>
-					<th>限选人数</th>
+					<th>现选人数</th>
                     <th>课程描述</th>
 					<th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</th>
-                    <td>Mark2131321321321321313213132</td>
-                    <td>2022.3.5</td>
-                    <td>@mdo</td>
-                    <td>asdfgnslkdfghnsldkfnhglsdf</td>
-                    <td>已完成</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>2</th>
-                    <td>asdgasdgasd</td>
-                    <td>2022.3.5</td>
-                    <td>@mdo</td>
-                    <td>asdfgnslkdfghnsldkfnhglsdf</td>
-                    <td>已完成</td>
-                    <td></td>
-                    <td></td>
-                </tr>
                 </tbody>
             </table>
-            <script>
-                var table = $("#table").DataTable({
-                    responsive:{
-                        details: {
-                            display: $.fn.dataTable.Responsive.display.modal( {
-                                header: function ( row ) {
-                                    var data = row.data();
-                                    return 'Details for '+data[0]+':'+data[1];
-                                }
-                            } ),
-                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                                tableClass: 'table'
-                            } )
-                        }
-                    },
-                    //ajax: '/admin/get-w&o',
-					columns:[
-						{ data : 'id' },
-						{ data : 'name' },
-						{ data : 'dateStart' },
-						{ data : 'dateEnd' },
-						{ data : 'schedule' },
-						{ data : 'grade' },
-						{ data : 'limitation' },
-						{ data : 'number' },
-						{ data : 'description'},
-						{ data : 'option' }
-					],
-                    columnDefs:[
-                        {
-                            targets:-1,
-                            data:null,
-                            defaultContent:
-                            '<div class="row w-100">'+
-                                '<div class="col">'+
-                                    '<button class="btn form-control btn-primary my-1 mx-2 button-a" onclick="editResponse('+rw.data()[0]+')">编辑回复</button>'+
-                                '</div>'+
-                                '<div class="col">'+
-                                    '</button><button class="btn form-control btn-secondary  my-1 mx-2 button-b" onclick="changeStatus('+row.data()[0]+')">确定解决</button>'+
-                                '</div>'+
-                            '</div>'
-                        }
-                    ]
-                });
-                function editResponse(data){
-                    alert('data:'+data+"buttona");
-                }
-                function changeStatus(data){
-                    alert('data:'+data+"buttonb");
-                }
-            </script>
         </div>
-        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+        <script>
+            var table = $("#table").DataTable({
+                responsive:{
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal( {
+                            header: function ( row ) {
+                                var data = row.data();
+                                return 'Details for '+data[1]+':'+data[2];
+                            }
+                        } ),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                            tableClass: 'table'
+                        } )
+                    }
+                },
+                ajax: {
+                    url:'/student/course/getSelect',
+                    dataSrc:function(data){
+                        return data
+                    }
+                },
+                columns:[
+                    { data : 'status' },
+                    { data : 'id' },
+                    { data : 'name' },
+                    { data : 'dateStartChoose' },
+                    { data : 'dateEndChoose' },
+                    { data : 'dateStart' },
+                    { data : 'dateEnd' },
+                    { data : 'schedule' },
+                    { data : 'grade' },
+                    { data : 'limitation' },
+                    { data : 'number' },
+                    { data : 'description'},
+                    { data : 'option'},
+                ],
+                columnDefs:[
+                    {
+                        targets:-1,
+                        render:function(data,type,row,meta){
+                            return '<div class="row w-100">'+
+                            '<div class="col">'+
+                                '<button class="btn form-control btn-primary my-1 mx-2 button-a" onclick="choose('+data+')">退选/选择</button>'+
+                            '</div>'+
+                        '</div>'
+                        }
+                    }
+                ]
+            });
+            function choose(data){
+                $.post('/student/course/changeSelect?id='+data,function(data){
+                    if(data.victory == 1){
+                        $.notify("选课成功",{className:"success",position:"right bottom"});
+                        table.ajax.reload(null,false);
+                    }
+                    else if(data.victory == 2){
+                        $.notify("退课成功",{className:"success",position:"right bottom"});
+                        table.ajax.reload(null,false);
+                    }
+                    else if(data.victory == 114){
+                        $.notify("选课人数已满",{className:"error",position:"right bottom"});
+                    }
+                    else{
+                        $.notify("修改失败",{className:"error",position:"right bottom"});
+                    }
+                })
+            }
+        </script>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
     </body>
 </html>

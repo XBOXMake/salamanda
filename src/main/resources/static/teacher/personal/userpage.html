@@ -65,18 +65,6 @@
             }
         </style>
         <style>
-            .bottomline{
-                opacity: 0.3;
-                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
-                background: #dddddd;
-                z-index: 114;
-            }
-            .bottomline:hover{
-                opacity: 0.85;
-                background: #39c5bb;
-            }
-        </style>
-        <style>
             .sidebar{
                 height: 100%;
                 width: 0;
@@ -232,13 +220,116 @@
                 </div>
             </div>
         </nav>
+        <style>
+            .bar{
+                border-radius: 15px;
+            }
+            .head{
+                border-radius: 15px 15px 0px 0px;
+                background-color:#eae9e9;
+                padding: 15px; 
+            }
+            .content{   
+                border-radius: 0px 0px 15px 15px;             
+                background-color:#f4f4f4;
+                padding: 15px;
+            }
+            .image{
+                background: url('/util/getImage') no-repeat center;
+                background-color: #111;
+                background-size:cover;
+                width: 300px;
+                height: 400px;
+            }
+        </style>
+        <div class="container mx-auto my-4 bg-light bar">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <div class="w-100 h-100">
+                        <a href="informationB.html">
+                            <div class="image mx-auto">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="container-fluid my-5">
+                        <div class=" my-3">
+                            <div class="head" align="center">自我介绍</div>
+                            <a href="informationA.html" style="text-decoration: none;color: rgb(0, 0, 0);">
+                                <div class="content p-4">
+                                    <div class="my-2">
+                                        <strong>姓名：</strong><span id="name"></span>
+                                    </div>                           
+                                    <div class="my-2">
+                                    <strong>电话：</strong><span id="phone"></span>
+                                    </div>                            
+                                    <div class="my-2">
+                                        <strong>性别：</strong><span id="gender"></span>
+                                    </div>
+                                    <div class="my-2">
+                                        <strong>自我介绍：</strong><span id="introduction"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class=" my-3">
+                            <div class="head" align="center">研究方向</div>
+                            <a href="informationB.html" style="text-decoration: none;color: rgb(0, 0, 0);">
+                                <div class="content  p-4">
+                                    <div class="my-2">
+                                        <span id="research"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class=" my-3">
+                            <div class="head" align="center">论文著作</div>
+                            <a href="informationB.html" style="text-decoration: none;color: rgb(0, 0, 0);">
+                                <div class="content  p-4">
+                                    <div class="my-2">
+                                        <span id="papers"></span>
+                                    </div>
+                                </div>
+                            </a> 
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
+            $.get("/teacher/getData",function(data){
+                $('#name').text(data.name);
+                $("#phone").text(data.phone);
+                $("#gender").text(data.sex);
+                $("#introduction").text(data.introduction);
+                $("#research").text(data.research);
+                $("#papers").text(data.papers);
+            })
             $.get("/util/getUsername",function(data){
                 $("#sidebar-username").text(data);
             })
         </script>
-        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
     </body>
 </html>

@@ -7,12 +7,16 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
         <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
         <link rel="stylesheet" href="../../add-ons/dataTables.css">
+        <link rel="stylesheet" href="../../add-ons/Buttons-2.3.3/css/buttons.dataTables.min.css">
         <script src="../../add-ons/bootstrap.min.js"></script>
         <script src="../../add-ons/jquery-3.6.1.min.js"></script>
         <script src="../../add-ons/notify.min.js"></script>
         <script src="../../add-ons/jquery-form.js"></script>
         <script src="../../add-ons/dataTables.js"></script>
+        <script src="../../add-ons/Buttons-2.3.3/js/buttons.dataTables.js"></script>
+        <script src="../../add-ons/Buttons-2.3.3/js/buttons.html5.min.js"></script>
         <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
         <!--favicon-->
         <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
         <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
@@ -56,18 +60,6 @@
             }
             .tooltip[data-popper-placement^='right'] > .arrow {
                 left: -4px;
-            }
-        </style>
-        <style>
-            .bottomline{
-                opacity: 0.3;
-                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
-                background: #dddddd;
-                z-index: 114;
-            }
-            .bottomline:hover{
-                opacity: 0.85;
-                background: #39c5bb;
             }
         </style>
     </head>
@@ -122,174 +114,175 @@
             })
         </script>
         <style>
+            .table th{
+                text-align: center;
+                vertical-align: middle;
+            }
             .table td{
                 text-align: center;
                 vertical-align: middle;
             }
+            .warn{
+                color: red;
+                font-weight: bold;
+            }
+            body{
+                table-layout: fixed;
+            }
         </style>
-        <div class=" m-5 bg-light p-3">
+        <div class="container m-5 bg-light p-3 mx-auto">
+            <h3 class=" text-center">选课管理</h3>
             <table class="display table table-striped nowrap w-100" id="table">
                 <thead>
                 <tr>
                     <th>课程号</th>
                     <th>课程名</th>
                     <th>开始时间</th>
-                    <th>结束时间</th>
-                    <th>上课时间</th>
+                    <th>结束时间</th>                
                     <th>学分</th>
                     <th>最大选课人数</th>
-                    <th>已选人数</th>
+                    <th>选课人数</th>                  
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>0002</th>
-                    <td>离散数学</td>
-                    <td>2022-09-06</td>
-                    <td>2023-01-06</td>
-                    <td>1-16周星期二第三四节</td>
-                    <td>2</td>
-                    <td>100</td>
-                    <td>95</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>0001</th>
-                    <td>离散数学</td>
-                    <td>2022-09-06</td>
-                    <td>2023-01-06</td>
-                    <td>1-16周星期二第三四节</td>
-                    <td>2</td>
-                    <td>100</td>
-                    <td>95</td>
-                    <td></td>
-                </tr>
                 </tbody>
             </table>
-
-            <!-- 模态框 -->
-            <div class="modal fade" id="myModal">
-                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        </div>
+        <div class="modal fade" id="student-modal" tabindex="-1" aria-labelledby="student-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-            
-                    <!-- 模态框头部 -->
                     <div class="modal-header">
-                    <h4 class="modal-title" align="center">选课学生信息</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <h1 class="modal-title fs-5" id="student-modal-label">本课选择人员</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="edit-close"></button>
                     </div>
-            
-                    <!-- 模态框内容 -->
-                    <div class="modal-body">
-                        <table class="display table table-striped nowrap w-100" id="table-other">
-                            <thead>
-                            <tr>
-                                <th>学号</th>
-                                <th>姓名</th>
-                                <th>年级</th>
-                                <th>班级</th>
-                                <th>成绩</th>                               
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>0002</th>
-                                <td>小米</td>
-                                <td>2021</td>
-                                <td>1</td>
-                                <td>96</td>               
-                            </tr>
-                            <tr>
-                                <td>0003</th>
-                                <td>小明</td>
-                                <td>2021</td>
-                                <td>2</td>
-                                <td>95</td>
-                            </tr>
-                            </tbody>
-                        </table>                 
+                    <div class="modal-body">   
+                        <div class="w-100 table-responsive">
+                            <table class="display table table-striped nowrap w-100" id="table-student">
+                                <thead>
+                                <tr>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>所属</th>
+                                    <th>邮箱</th>                             
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>             
                     </div>
-            
-                    <!-- 模态框底部 -->
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">关闭</button>
                     </div>
-            
-                </div>
                 </div>
             </div>
-
-            <script>
-                var table = $("#table").DataTable({
-                    responsive:{
-                        details: {
-                            display: $.fn.dataTable.Responsive.display.modal( {
-                                header: function ( row ) {
-                                    var data = row.data();
-                                    return 'Details for '+data[0]+':'+data[1];
-                                }
-                            } ),
-                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                                tableClass: 'table'
-                            } )
-                        }
-                    },
-                    //ajax: '/teacher/course/get-score',
-                    columnDefs:[
-                        {data:'id'},
-                        {data:'name'},
-                        {data:'dateStart'},
-                        {data:'dateEnd'},
-                        {data:'schedule'},
-                        {data:'grade'},
-                        {data:'limitation'},
-                        {data:'number'},
-                        {
-                            targets:-1,
-                            data:null,
-                            render:function(data,type,row,meta){
-                                return '<div class="row w-100">'+
-                                    '<div class="col">'+
-                                        '<button class="btn form-control btn-primary my-1 mx-2 button-a" onclick="detail('+data[0]+')">选课学生信息</button>'+
-                                    '</div>'+                
-                                '</div>'
-                            }
-                        }
-                    ]
-                });
-                function detail(data){
-                    $('#myModal').modal("show");           
-                    var table = $("#table-other").DataTable({
-                        retrieve: true,
-                        responsive:{
-                        details: {
-                            display: $.fn.dataTable.Responsive.display.modal( {
-                                header: function ( row ) {
-                                    var data = row.data();
-                                    return 'Details for '+data[0]+':'+data[1];
-                                }
-                            } ),
-                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                                tableClass: 'table'
-                            } )
-                        }
-                    },
-                    //ajax: '/teacher/course/get-score',
-                    columnDefs:[
-                        {data:'studentId'},
-                        {data:'name'},
-                        {data:'withGrade'},
-                        {data:'withClass'},
-                        {data:'grade'},                       
-                    ]
-                    });
-                    
-                    alert('data:'+data+"buttona");
-                }
-            </script>
         </div>
-        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;">
+        <script>
+            //modal
+            const modalScore = document.getElementById('student-modal')
+            modalScore.addEventListener('show.bs.modal',event =>{
+                const button = event.relatedTarget
+                const id = button.getAttribute('data-id');
+                table_student.ajax.url('/teacher/course/getSelectForm?id='+id)
+                table_student.ajax.reload(null,false);
+            })
+            //table
+            var table_student = $("#table-student").DataTable({
+                retrieve: true,
+                responsive:{
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal( {
+                            header: function ( row ) {
+                                var data = row.data();
+                                return 'Details for '+data[0]+':'+data[1];
+                            }
+                        } ),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                            tableClass: 'table'
+                        } )
+                    }
+                },
+                ajax: {
+                    url:'/teacher/course/getSelectForm?id='+0,
+                    dataSrc:function(data){
+                        return data
+                    }
+                },
+                columns:[
+                    {data:'studentID'},
+                    {data:'name'},
+                    {data:'with'},
+                    {data:'email'},
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'excelHtml5'
+                ]
+            });
+            var table = $("#table").DataTable({
+                responsive:{
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal( {
+                            header: function ( row ) {
+                                var data = row.data();
+                                return 'Details for '+data[0]+':'+data[1];
+                            }
+                        } ),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                            tableClass: 'table'
+                        } )
+                    }
+                },
+                ajax: {
+                    url:'/teacher/course/getSelect',
+                    dataSrc:function(data){
+                        return data
+                    }
+                },
+                columns:[
+                    {data:'id'},
+                    {data:'name'},
+                    {data:'dateStart'},
+                    {data:'dateEnd'},
+                    {data:'grade'},
+                    {data:'limitation'},
+                    {data:'number'},
+                    {data:'option'},
+                ],
+                columnDefs:[
+                    {
+                        targets:-1,
+                        render:function(data,type,row,meta){
+                            return '<div class="row w-100">'+
+                                '<div class="col">'+
+                                    '<button class="btn form-control btn-primary my-1 mx-2 button-a" data-bs-toggle="modal" data-bs-target="#student-modal" data-id="'+data+'">更多</button>'+
+                                '</div>'+                
+                            '</div>'
+                        }
+                    }
+                ]
+            });
+        </script>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
             <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
         </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
     </body>
 </html>

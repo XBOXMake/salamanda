@@ -32,6 +32,6 @@ public class Teacher extends WithUser implements Serializable {
     private String papers;
     private File image;
 
-    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<Course> courses;//课程
 }

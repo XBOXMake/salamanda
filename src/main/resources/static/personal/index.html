@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Salamanda Creators</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="../add-ons/bootstrap.min.css">
+        <script src="../add-ons/bootstrap.min.js"></script>
+        <script src="../add-ons/jquery-3.6.1.min.js"></script>
+        <link rel="icon" href="../resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+    </head>
+    <body>
+        <style>
+            .bg-2{
+                background: url("bg-1.png");
+            }
+            .bg-3{
+                background: #bbb;
+            }
+            .bg-4{
+                background: #999;
+            }
+            .bg-5{
+                background: #777;
+            }
+            .bg-6{
+                background: #555;
+            }
+            .w-20-sp{
+                width: 100%;
+            }
+            .h-100-sp{
+                height: 20%;
+            }
+            .bg{
+                cursor:pointer;
+                background-position: center;
+                background-repeat:no-repeat;
+                background-size: cover;
+            }
+            .bg-hover{
+                height: 22%;
+            }
+            .bg-hover-edge{
+                height: 21%;
+            }
+            .bg-hover-side{
+                height: 19%;
+            }
+            .text{
+                color: #eee;
+                font-size: 75px;
+                writing-mode:horizontal-tb
+            }
+            @media (min-width: 992px){
+                .w-20-sp{
+                    width: 20%;
+                }
+                .h-100-sp{
+                    height: 100%;
+                }
+                .bg-hover{
+                    width: 22%;
+                }
+                .bg-hover-side{
+                    width: 19%;
+                }
+                .bg-hover-edge{
+                    width: 21%;
+                }
+                .text{
+                    writing-mode:vertical-rl;
+                }
+            }
+        </style>
+        <div class="w-100 h-100 row position-fixed">
+            <div class=" col-lg-auto bg-2 w-20-sp h-100-sp bg" id="op1"><span class="text m-2">Wang Ming Yang</span></div>
+            <div class=" col-lg-auto bg-3 w-20-sp h-100-sp bg" id="op2"><span class="text m-2">Yu Cheng</span></div>
+            <div class=" col-lg-auto bg-4 w-20-sp h-100-sp bg" id="op3"><span class="text m-2">The Other Guy</span></div>
+            <div class=" col-lg-auto bg-5 w-20-sp h-100-sp bg" id="op4"><span class="text m-2">The Other Guy</span></div>
+            <div class=" col-lg-auto bg-6 w-20-sp h-100-sp bg" id="op5"><span class="text m-2">The Other Guy</span></div>
+        </div>
+        <script>
+            $('#op1').click(function(){
+                window.location.href = "pointamake/personal-page.html"
+            })
+            $('#op1').hover(function(){
+                $('#op1').addClass('bg-hover-edge');
+                $('#op2').addClass('bg-hover-side');
+            },function(){
+                $('#op1').removeClass('bg-hover-edge');
+                $('#op2').removeClass('bg-hover-side');
+            })
+            $('#op2').hover(function(){
+                $('#op1').addClass('bg-hover-side');
+                $('#op2').addClass('bg-hover');
+                $('#op3').addClass('bg-hover-side');
+            },function(){
+                $('#op1').removeClass('bg-hover-side');
+                $('#op2').removeClass('bg-hover');
+                $('#op3').removeClass('bg-hover-side');
+            })
+            $('#op3').hover(function(){
+                $('#op2').addClass('bg-hover-side');
+                $('#op3').addClass('bg-hover');
+                $('#op4').addClass('bg-hover-side');
+            },function(){
+                $('#op2').removeClass('bg-hover-side');
+                $('#op3').removeClass('bg-hover');
+                $('#op4').removeClass('bg-hover-side');
+            })
+            $('#op4').hover(function(){
+                $('#op3').addClass('bg-hover-side');
+                $('#op4').addClass('bg-hover');
+                $('#op5').addClass('bg-hover-side');
+            },function(){
+                $('#op3').removeClass('bg-hover-side');
+                $('#op4').removeClass('bg-hover');
+                $('#op5').removeClass('bg-hover-side');
+            })
+            $('#op5').hover(function(){
+                $('#op5').addClass('bg-hover-edge');
+                $('#op4').addClass('bg-hover-side');
+            },function(){
+                $('#op5').removeClass('bg-hover-edge');
+                $('#op4').removeClass('bg-hover-side');
+            })
+        </script>
+    </body>
+</html>

@@ -150,4 +150,16 @@ public class FileController {
         fileService.responseIdentifyImg(file,response);
     }
 
+    @GetMapping("/util/getImage-chose")
+    public void getImage(@RequestParam("username") String username,HttpServletRequest request,HttpServletResponse response){
+        String path = fileService.getSavePath()+"\\resources\\"+"users\\"+username+"\\";
+        String fileName = "image.png";
+        File file = new File(path,fileName);
+        if(!file.exists()){
+            String defaultPath = fileService.getSavePath()+"\\resources\\"+"default\\";
+            file = new File(defaultPath,fileName);
+        }
+        fileService.responseIdentifyImg(file,response);
+    }
+
 }
