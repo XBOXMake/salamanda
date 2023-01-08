@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>moe.salamanda</groupId>
 	<artifactId>salamanda</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-Release</version>
 	<name>salamanda</name>
 	<description>Salamanda Management System</description>
 	<properties>
@@ -73,6 +73,10 @@
 			<artifactId>sqlite-dialect</artifactId>
 			<version>0.1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 		<!--sqlite dependencies-->
 	</dependencies>
 
@@ -91,6 +95,17 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<!--
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources/static</directory>
+				<targetPath>META-INF/resources</targetPath>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+		</resources>
+		-->
 	</build>
 
 </project>

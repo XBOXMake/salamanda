@@ -44,9 +44,9 @@ public class FileController {
             ResponseService.failureResponse(request,response,"failed");
             return;
         }
-        String path = fileService.getSavePath()+"\\resources\\";
+        String path = fileService.getSavePath()+"/resources/";
         String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX+WebUtils.getCookie(request,"LOG").getValue());
-        File folder = new File(path+"users\\"+username+"\\");
+        File folder = new File(path+"users/"+username+"/");
         if(!folder.isDirectory()){
             folder.mkdirs();
         }
@@ -71,10 +71,10 @@ public class FileController {
             ResponseService.failureResponse(request,response,"failed");
             return;
         }
-        String path = fileService.getSavePath()+"\\resources\\";
+        String path = fileService.getSavePath()+"/resources/";
         String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX+WebUtils.getCookie(request,"LOG").getValue());
         String attribute = redisService.get(redisService.DEFAULT_ATTRIBUTE_PREFIX+WebUtils.getCookie(request,"LOG").getValue());
-        File folder = new File(path+"users\\"+username+"\\");
+        File folder = new File(path+"users/"+username+"/");
         if(!folder.isDirectory()){
             folder.mkdirs();
         }
@@ -107,11 +107,12 @@ public class FileController {
     @GetMapping("/util/getThumbnail")
     public void getThumbnail(HttpServletRequest request, HttpServletResponse response){
         String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX+WebUtils.getCookie(request,"LOG").getValue());
-        String path = fileService.getSavePath()+"\\resources\\"+"users\\"+username+"\\";
+        String path = fileService.getSavePath()+"/resources/"+"users/"+username+"/";
+        System.out.println(path);
         String fileName = "thumbnail.png";
         File file = new File(path,fileName);
         if(!file.exists()){
-            String defaultPath = fileService.getSavePath()+"\\resources\\"+"default\\";
+            String defaultPath = fileService.getSavePath()+"/resources/"+"default/";
             file = new File(defaultPath,fileName);
         }
         fileService.responseIdentifyImg(file,response);
@@ -132,7 +133,7 @@ public class FileController {
             file = user.getImage();
         }
         if (file == null){
-            String defaultPath = fileService.getSavePath()+"\\resources\\"+"default\\";
+            String defaultPath = fileService.getSavePath()+"/resources/"+"default/";
             file = new File(defaultPath,"image.png");
         }
         fileService.responseIdentifyImg(file,response);
@@ -140,11 +141,11 @@ public class FileController {
 
     @GetMapping("/util/getThumbnail-chose")
     public void getThumbnail(@RequestParam("username") String username,HttpServletRequest request,HttpServletResponse response){
-        String path = fileService.getSavePath()+"\\resources\\"+"users\\"+username+"\\";
+        String path = fileService.getSavePath()+"/resources/"+"users/"+username+"/";
         String fileName = "thumbnail.png";
         File file = new File(path,fileName);
         if(!file.exists()){
-            String defaultPath = fileService.getSavePath()+"\\resources\\"+"default\\";
+            String defaultPath = fileService.getSavePath()+"/resources/"+"default/";
             file = new File(defaultPath,fileName);
         }
         fileService.responseIdentifyImg(file,response);
@@ -152,11 +153,11 @@ public class FileController {
 
     @GetMapping("/util/getImage-chose")
     public void getImage(@RequestParam("username") String username,HttpServletRequest request,HttpServletResponse response){
-        String path = fileService.getSavePath()+"\\resources\\"+"users\\"+username+"\\";
+        String path = fileService.getSavePath()+"/resources/"+"users/"+username+"/";
         String fileName = "image.png";
         File file = new File(path,fileName);
         if(!file.exists()){
-            String defaultPath = fileService.getSavePath()+"\\resources\\"+"default\\";
+            String defaultPath = fileService.getSavePath()+"/resources/"+"default/";
             file = new File(defaultPath,fileName);
         }
         fileService.responseIdentifyImg(file,response);

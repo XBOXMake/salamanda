@@ -25,7 +25,6 @@ public class Teacher extends WithUser implements Serializable {
         super(user);
     }
 
-    private String teacherID;
     @Length(max = 100)
     private String researchDirect;
     @Length(max = 300)

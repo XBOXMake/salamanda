@@ -18,13 +18,13 @@
                 background: url("bg-1.png");
             }
             .bg-3{
-                background: #bbb;
+                background: url("bg-2.png");
             }
             .bg-4{
-                background: #999;
+                background: url("bg-3.png");
             }
             .bg-5{
-                background: #777;
+                background: url("bg-4.png");
             }
             .bg-6{
                 background: #555;
@@ -79,13 +79,22 @@
         <div class="w-100 h-100 row position-fixed">
             <div class=" col-lg-auto bg-2 w-20-sp h-100-sp bg" id="op1"><span class="text m-2">Wang Ming Yang</span></div>
             <div class=" col-lg-auto bg-3 w-20-sp h-100-sp bg" id="op2"><span class="text m-2">Yu Cheng</span></div>
-            <div class=" col-lg-auto bg-4 w-20-sp h-100-sp bg" id="op3"><span class="text m-2">The Other Guy</span></div>
-            <div class=" col-lg-auto bg-5 w-20-sp h-100-sp bg" id="op4"><span class="text m-2">The Other Guy</span></div>
+            <div class=" col-lg-auto bg-4 w-20-sp h-100-sp bg" id="op3"><span class="text m-2">Huang Yi Jian</span></div>
+            <div class=" col-lg-auto bg-5 w-20-sp h-100-sp bg" id="op4"><span class="text m-2">Chen Chong Ming</span></div>
             <div class=" col-lg-auto bg-6 w-20-sp h-100-sp bg" id="op5"><span class="text m-2">The Other Guy</span></div>
         </div>
         <script>
             $('#op1').click(function(){
                 window.location.href = "pointamake/personal-page.html"
+            })
+            $('#op2').click(function(){
+                window.location.href = "hakuro/hakuro_index.html"
+            })
+            $('#op3').click(function(){
+                window.location.href = "huangyijian/index.html"
+            })
+            $('#op4').click(function(){
+                window.location.href = "chenchongming/index.html"
             })
             $('#op1').hover(function(){
                 $('#op1').addClass('bg-hover-edge');

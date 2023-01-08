@@ -5,15 +5,13 @@
         <meta charset="UTF-8">
         <title>Student Personal-Image Page - Saramanda Management</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-        <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
-        <script src="../../add-ons/bootstrap.min.js"></script>
-        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
-        <script src="../../add-ons/notify.min.js"></script>
-        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+        <link rel="stylesheet" href="/add-ons/bootstrap.min.css">
+        <script src="/add-ons/bootstrap.min.js"></script>
+        <script src="/add-ons/jquery-3.6.1.min.js"></script>
         <!--favicon-->
-        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
-        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
-        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <link rel="icon" href="/resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="/resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
         <style>
             .tooltip {
                 display: inline-block;
@@ -59,8 +57,8 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
             <div class="container-fluid">
-                <a class="navbar-brand" href="../index.html">
-                    <img class="" src="../../resources/icon/icon.png" width="48px" height="48px">
+                <a class="navbar-brand" href="/student/index.html">
+                    <img class="" src="/resources/icon/icon.png" width="48px" height="48px">
                     Salamanda
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,16 +67,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../index.html">主页</a>
+                            <a class="nav-link active" aria-current="page" href="/student/index.html">主页</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 课程中心
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../course/course.html">课程管理</a></li>
-                                <li><a class="dropdown-item" href="../course/select.html">选课管理</a></li>
-                                <li><a class="dropdown-item" href="../course/score.html">成绩查询</a></li>
+                                <li><a class="dropdown-item" href="/student/course/course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="/student/course/select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="/student/course/score.html">成绩查询</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -86,9 +84,9 @@
                                 学工管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../student/practice.html">社会实践</a></li>
-                                <li><a class="dropdown-item" href="../student/activity.html">课外活动</a></li>
-                                <li><a class="dropdown-item" href="../student/achievement.html">成果奖励</a></li>
+                                <li><a class="dropdown-item" href="/student/student/practice.html">社会实践</a></li>
+                                <li><a class="dropdown-item" href="/student/student/activity.html">课外活动</a></li>
+                                <li><a class="dropdown-item" href="/student/student/achievement.html">成果奖励</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -96,8 +94,8 @@
                                 其他应用
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../utils/personal.html">个人画像</a></li>
-                                <li><a class="dropdown-item" href="../utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/personal.html">个人画像</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/comment.html">学生互评</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -108,7 +106,7 @@
                                     <span id="nav-username">username</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../personal/userpage.html">个人资料</a></li>
+                                <li><a class="dropdown-item" href="/student/personal/userpage.html">个人资料</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/logout">退出账户</a></li>
                             </ul>
@@ -163,10 +161,10 @@
             <div class="row justify-content-around text-center align-items-center">
                 <div class="col-lg-5">
                     <div>
-                        <img src="../../resources/image/sign/human1.svg" class="color-1 bg-light change" id="image-1" type="image/svg+xml" />
-                        <img src="../../resources/image/sign/human2.svg" class="color-2 bg-light change" id="image-2" type="image/svg+xml" />
-                        <img src="../../resources/image/sign/human3.svg" class="color-3 bg-light change" id="image-3" type="image/svg+xml" />
-                        <img src="../../resources/image/sign/human4.svg" class="color-4 bg-light change" id="image-4" type="image/svg+xml" />
+                        <img src="/resources/image/sign/human1.svg" class="color-1 bg-light change" id="image-1" type="image/svg+xml" />
+                        <img src="/resources/image/sign/human2.svg" class="color-2 bg-light change" id="image-2" type="image/svg+xml" />
+                        <img src="/resources/image/sign/human3.svg" class="color-3 bg-light change" id="image-3" type="image/svg+xml" />
+                        <img src="/resources/image/sign/human4.svg" class="color-4 bg-light change" id="image-4" type="image/svg+xml" />
                     </div>
                 </div>
                 <div class="col-lg-auto">

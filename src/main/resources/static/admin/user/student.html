@@ -5,18 +5,15 @@
         <meta charset="UTF-8">
         <title>Student Manage Page - Saramanda Management</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-        <link rel="stylesheet" href="../../add-ons/bootstrap.min.css">
-        <link rel="stylesheet" href="../../add-ons/dataTables.css">
-        <script src="../../add-ons/bootstrap.min.js"></script>
-        <script src="../../add-ons/jquery-3.6.1.min.js"></script>
-        <script src="../../add-ons/notify.min.js"></script>
-        <script src="../../add-ons/jquery-form.js"></script>
-        <script src="../../add-ons/dataTables.js"></script>
-        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+        <link rel="stylesheet" href="/add-ons/bootstrap.min.css">
+        <link rel="stylesheet" href="/add-ons/datatables.css">
+        <script src="/add-ons/bootstrap.min.js"></script>
+        <script src="/add-ons/jquery-3.6.1.min.js"></script>
+        <script src="/add-ons/datatables.js"></script>
         <!--favicon-->
-        <link rel="icon" href="../../resources/icon/16_favicon.ico" type="image/x-icon">
-        <link rel="icon" href="../../resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
-        <link rel="icon" href="../../resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <link rel="icon" href="/resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="/resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
         <style>
             .tooltip {
                 display: inline-block;
@@ -62,8 +59,8 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
             <div class="container-fluid">
-                <a class="navbar-brand" href="../index.html">
-                    <img class="" src="../../resources/icon/icon.png" width="48px" height="48px">
+                <a class="navbar-brand" href="/admin/index.html">
+                    <img class="" src="/resources/icon/icon.png" width="48px" height="48px">
                     Salamanda
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,16 +69,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../index.html">主页</a>
+                            <a class="nav-link active" aria-current="page" href="/admin/index.html">主页</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 系统管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../manage/subject.html">专业管理</a></li>
-                                <li><a class="dropdown-item" href="../manage/class.html">班级管理</a></li>
-                                <li><a class="dropdown-item" href="../manage/authcode.html">授权码管理</a></li>
+                                <li><a class="dropdown-item" href="/admin/manage/subject.html">专业管理</a></li>
+                                <li><a class="dropdown-item" href="/admin/manage/class.html">班级管理</a></li>
+                                <li><a class="dropdown-item" href="/admin/manage/authcode.html">授权码管理</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -89,9 +86,9 @@
                                 用户管理
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../user/student.html">学生管理</a></li>
-                                <li><a class="dropdown-item" href="../user/teacher.html">教师管理</a></li>
-                                <li><a class="dropdown-item" href="../user/admin.html">管理员管理</a></li>
+                                <li><a class="dropdown-item" href="/admin/user/student.html">学生管理</a></li>
+                                <li><a class="dropdown-item" href="/admin/user/teacher.html">教师管理</a></li>
+                                <li><a class="dropdown-item" href="/admin/user/admin.html">管理员管理</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -102,7 +99,7 @@
                                     <span id="nav-username">username</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../personal/userpage.html">个人资料</a></li>
+                                <li><a class="dropdown-item" href="/admin/personal/userpage.html">个人资料</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/logout">退出账户</a></li>
                             </ul>

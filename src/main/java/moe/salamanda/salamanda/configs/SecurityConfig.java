@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -57,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/teachers/**").hasRole("TEACHER")
                 .antMatchers("/admins/**").hasRole("ADMIN")
                 .antMatchers("/index.html").hasAnyAuthority("ADMIN","STUDENT","TEACHER")
-                .antMatchers("/personal/**","/util/**","/add-ons/**","/error","/resources/**","/check-code","/student-checkcode","/teacher-checkcode","/identitycode-check","/auth-code","/logout","/signout.html").permitAll()
+                .antMatchers("/personal/**","/util/**","/error","/check-code","/student-checkcode","/teacher-checkcode","/identitycode-check","/auth-code","/logout","/signout.html").permitAll()
                 .antMatchers("/login.html","/login","/register","/forget").anonymous()
                 .anyRequest().authenticated()
                 .and()
@@ -85,6 +86,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .permitAll();
     }
+
+    @Override
+    public void configure(WebSecurity web){
+        web.ignoring().antMatchers("/add-ons/**","/resources/**");
+    }
+
 
     @Bean
     public WithAuthenticationProvider provider(){

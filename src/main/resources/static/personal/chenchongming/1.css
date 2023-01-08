@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    padding: 10px 10%;
+    background: orange;
+}
+.logo h1{
+    color: red;
+    letter-spacing: 5px;
+    font-size: 20px;
+}
+.nav a{
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    margin-left: 20px;
+}
+.banner{
+    width: 100%;
+    height: 60vh;
+}
+.banner img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+.title h3{
+    font-size: 40px;
+    color: #555;
+    letter-spacing: 5px;
+}
+.title .line{
+    width: 60px;
+    height: 2px;
+    background: #555;
+}
+#about{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin:30px auto;
+}
+.about-img{
+    width: 45%;
+    height: 350px;
+}
+.about-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.about-text{
+    width: 50%;
+}
+.about-text p{
+    line-height: 1.8;
+    text-indent: 2em;
+    margin: 15px 0;
+}
+#work ul{
+    display: flex;
+    justify-content: space-between;
+    width: 1300px;
+    margin:20px auto;
+}
+#work ul li{
+    list-style: none;
+    width: 24%;
+}
+#work ul li img{
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+#work ul li p{
+    padding: 10px;
+    text-align: center;
+}
+#hobby{
+    width: 1300px;
+    margin:20px auto;
+}
+#hobby span{
+    background: rgb(240, 219, 219);
+    padding: 5px;
+    border-radius: 3px;
+    margin-right: 20px;
+}
+#hobby span:first-child{
+    background: green;
+    color: aqua;
+}
+#hobby span:nth-child(3){
+    background: skyblue;
+    color: purple;
+}
+#hobby span:last-child{
+    background: red;
+    color: rgb(21, 0, 128);
+}
+#contact{
+    width: 1300px;
+    margin:30px auto;
+}
+#contact input{
+    outline: none;
+    display: block;
+    width: 300px;
+    height: 35px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+#contact textarea{
+    outline: none;
+    padding: 10px;
+    width: 800px;
+    font-size: 16px;
+}
+#contact button{
+    cursor: pointer;
+    display: block;
+    width: 120px;
+    height: 30px;
+    margin-top: 30px;
+    color: #555;
+    background: rgb(230, 222, 222);
+    border-radius: 2px;
+    border: none;
+}
+.footer{
+    text-align: center;
+    background: orange;
+    color: aliceblue;
+    height: 40px;
+    line-height: 40px;
+    
+}
