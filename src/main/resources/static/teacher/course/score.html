@@ -286,7 +286,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return 'Details for '+data[0]+':'+data[1];
+                                return 'Details for '+data['studentID']+':'+data['with']+'-'+data['name'];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -311,11 +311,20 @@
                     {
                         targets:-1,
                         render:function(data,type,row,meta){
-                            return '<div class="row w-100">'+
+                            info = data.split('&');//0/1&id
+                            if(info[0] == "0")
+                                return ''+
+                                '<div class="row w-100">'+
+                                    '<div class="col">'+
+                                        '<button class="btn form-control btn-primary my-1 mx-2 button-a" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="'+info[1]+'">修改成绩</button>'+
+                                    '</div>'+                
+                                '</div>'
+                            else return ''+
+                            '<div class="row w-100">'+
                                 '<div class="col">'+
-                                    '<button class="btn form-control btn-primary my-1 mx-2 button-a" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="'+data+'">修改成绩</button>'+
-                                '</div>'+                
-                            '</div>'
+                                    '<button class="btn form-control btn-secondary my-1 mx-2" disabled>已锁定</button>'+
+                                '</div>'+
+                            '</div>';
                         }
                     }                   
                 ]
@@ -326,7 +335,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return 'Details for '+data[0]+':'+data[1];
+                                return 'Details for '+data['id']+':'+data['name'];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -395,12 +404,16 @@
                         type:'post',
                         async:false,
                         success:function(data){
-                            if(data.victory != 0){
+                            if(data.victory > 0){
                                 $.notify("上传成功：成功上传"+data.victory+"个数据",{className:"success",position:"right bottom"});
                                 table_student.ajax.reload(null,false);
                             }
+                            else if(data.victory < 0){
+                                $.notify("上传失败：课程已锁定",{className:"error",position:"right bottom"});
+                                table_student.ajax.reload(null,false);
+                            }
                             else{
-                                $.notify("上传失败,可能为格式错误，要求格式为： 学号-成绩",{className:"error",position:"right bottom"});
+                                $.notify("上传失败,可能为格式错误或非选课学生，要求格式为:学号-成绩",{className:"error",position:"right bottom"});
                             }   
                         }
                     })

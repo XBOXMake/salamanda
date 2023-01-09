@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--initalizing-->
+        <meta charset="UTF-8">
+        <title>Student Comment Page - Saramanda Management</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="/add-ons/bootstrap.min.css">
+        <script src="/add-ons/bootstrap.min.js"></script>
+        <script src="/add-ons/jquery-3.6.1.min.js"></script>
+        <script src="/add-ons/notify.min.js"></script>
+        <script src="/add-ons/svg3dtagcloud.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="/resources/icon/16_favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/resources/icon/32_favicon.ico" type="image/x-icon" size="32x32">
+        <link rel="icon" href="/resources/icon/128_favicon.ico" type="image/x-icon" size="128x128">
+        <style>
+            .tooltip {
+                display: inline-block;
+                background: #ffffff;
+                color: #643045;
+                font-weight: bold;
+                padding: 5px 10px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+            .tooltip[data-show] {
+                opacity: 1;
+            }
+            .arrow,
+            .arrow::before {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: inherit;
+            }
+            .arrow {
+                visibility: hidden;
+            }
+            .arrow::before {
+                visibility: visible;
+                content: '';
+                transform: rotate(45deg);
+            }
+            .tooltip[data-popper-placement^='top'] > .arrow {
+                bottom: -4px;
+            }
+            .tooltip[data-popper-placement^='bottom'] > .arrow {
+                top: -4px;
+            }
+            .tooltip[data-popper-placement^='left'] > .arrow {
+                right: -4px;
+            }
+            .tooltip[data-popper-placement^='right'] > .arrow {
+                left: -4px;
+            }
+            .hide{
+                visibility: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/student/index.html">
+                    <img class="" src="/resources/icon/icon.png" width="48px" height="48px">
+                    Salamanda
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/student/index.html">主页</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                课程中心
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/student/course/course.html">课程管理</a></li>
+                                <li><a class="dropdown-item" href="/student/course/select.html">选课管理</a></li>
+                                <li><a class="dropdown-item" href="/student/course/score.html">成绩查询</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                学工管理
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/student/student/practice.html">社会实践</a></li>
+                                <li><a class="dropdown-item" href="/student/student/activity.html">课外活动</a></li>
+                                <li><a class="dropdown-item" href="/student/student/achievement.html">成果奖励</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                其他应用
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/student/utils/personal.html">个人画像</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/course.html">课表查看</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="me-2 img-thumbnail" src="/util/getThumbnail" width="45px" height="45px">
+                                    <span id="nav-username">username</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/student/personal/userpage.html">个人资料</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logout">退出账户</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script>
+            $.get("/util/getUsername",function(data){
+                $("#nav-username").text(data);
+            })
+        </script>
+        <style>
+        </style>
+        <div class="container bg-light text-center mx-auto my-5 p-5">
+            <h1 class="mb-5">课表查看</h1>
+            <div class=" my-3">
+                <div class="row">
+                    <div class="col-lg-6 my-2">
+                        <input class=" form-control" type="date" id="input-week">
+                    </div>
+                    <div class="col-lg-6 my-2">
+                        <button type="button" class="w-100 btn btn-secondary" id="input-reset">回到今天</button>
+                    </div>
+                </div>
+            </div>
+            <div class=" table-responsive">
+                <style>
+                    .table-text{
+                        color: gray;
+                        font-size: 14px;
+                    }
+                    .id-setter{
+                        vertical-align: middle;
+                        text-align: center;
+                    }
+                </style>
+                <table class="table table-bordered table-striped nowrap my-3" id="routine">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Mo</th>
+                            <th scope="col">Tu</th>
+                            <th scope="col">We</th>
+                            <th scope="col">Th</th>
+                            <th scope="col">Fr</th>
+                            <th scope="col">Sa</th>
+                            <th scope="col">Su</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scop="row">1</th>
+                            <td class="p-0 id-setter" data-row="1" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="1" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="1" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="1" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="1" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="1" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="1" data-colomn="7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scop="row">2</th>
+                            <td class="p-0 id-setter" data-row="2" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="2" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="2" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="2" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="2" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="2" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="2" data-colomn="7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scop="row">3</th>
+                            <td class="p-0 id-setter" data-row="3" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="3" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="3" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="3" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="3" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="3" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="3" data-colomn="7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scop="row">4</th>
+                            <td class="p-0 id-setter" data-row="4" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="4" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="4" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="4" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="4" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="4" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="4" data-colomn="7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scop="row">5</th>
+                            <td class="p-0 id-setter" data-row="5" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="5" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="5" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="5" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="5" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="5" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="5" data-colomn="7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scop="row">6</th>
+                            <td class="p-0 id-setter" data-row="6" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="6" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="6" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="6" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="6" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="6" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="6" data-colomn="7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scop="row">7</th>
+                            <td class="p-0 id-setter" data-row="7" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="7" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="7" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="7" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="7" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="7" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="7" data-colomn="7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scop="row">8</th>
+                            <td class="p-0 id-setter" data-row="8" data-colomn="1">
+                            </td>
+                            <td class="p-0 id-setter" data-row="8" data-colomn="2">
+                            </td>
+                            <td class="p-0 id-setter" data-row="8" data-colomn="3">
+                            </td>
+                            <td class="p-0 id-setter" data-row="8" data-colomn="4">
+                            </td>
+                            <td class="p-0 id-setter" data-row="8" data-colomn="5">
+                            </td>
+                            <td class="p-0 id-setter" data-row="8" data-colomn="6">
+                            </td>
+                            <td class="p-0 id-setter" data-row="8" data-colomn="7">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <script>
+                    var colors=['#000000'
+                    ,'#ffe211','#ffc0cb','#d80000','#66ccff','#99ffff','#fb7299','#56c1fe','#18a058'
+                    ,'#66ffe6','#ff00ff','#a1b2df','#ffa500','#ed143d','#e6ed71','#c02828','#be7fdc'
+                    ,'#e43f3b','#ef9aaf','#f1c8de','#dfc6a8','#5dccab','#d5666e','#4e9600','#880053'
+                    ,'#e34e4f','#745bff','#d7afa8','#c21e16','#6c2735','#35ade1','#f87910','#6aa5ea'
+                    ,'#a4a4ad','#1966eb','#f8d36d','#ee365a','#7c5e9b','#93db46','#ef4995','#e50000'
+                    ,'#19b1f6','#f8b656','#a5469b','#800080','#7a5d94','#45755c','#ff9d42','#7f7f7f'
+                    ,'#ff0000','#00ff00','#0000ff','#ffff00','#00ffff','#1f1e33','#39c5bb','#ffa500']
+                    var count=0;
+                    $('.id-setter').click(function(e){
+                        let j = e.target.getAttribute('data-row');
+                        let i = e.target.getAttribute('data-colomn');
+                        e.target.id = i+'-'+j;
+                    })
+                    $('.id-setter').click();
+                    $('#input-week').change(function(){
+                        clear_()
+                        add_()
+                    })
+                    function init_(){
+                        clear_();
+                        $('#input-week').val(dateFormat);
+                        add_()
+                    }
+                    function clear_(){
+                        count = 0;
+                        $(".id-setter").css('background-color','');
+                        $(".id-setter").empty();
+                    }
+                    function add_(){
+                        $.get('/student/utils/getCourse?date='+$('#input-week').val(),function(data){
+                            let check=new Map();
+                            for(let i=1;i<=7;i++)
+                                for(let j=1;j<=8;j++){
+                                    if(data[i][j].exist==1){
+                                        if(check[data[i][j].id]==null){
+                                            check[data[i][j].id]=++count;
+                                        }
+                                        $('#'+i+'-'+j).css('background-color',colors[check[data[i][j].id]]);
+                                        $('#'+i+'-'+j).append('<div class="my-1 mx-2 table-text">'+data[i][j].content+'</div>')
+                                    }
+                                }
+                        })
+                    }
+                    var now = new Date();
+                    var dateFormat = now.getFullYear()+'-'+(now.getMonth()<9?'0'+(now.getMonth()+1):now.getMonth()+1)+'-'+(now.getDate()<10?'0'+now.getDate():now.getDate());
+                    $('#input-reset').click(function(){
+                        init_();
+                    })
+                    init_();
+                </script>
+            </div>
+        </div>
+        <style>
+            .bottomline{
+                opacity: 0.3;
+                transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+                background: #dddddd;
+                z-index: 114;
+                cursor: pointer;
+            }
+            .bottomline:hover{
+                opacity: 0.85;
+                background: #39c5bb;
+            }
+        </style>
+        <div class="bottomline position-fixed bottom-0 m-0 w-100" style="z-index: 4;" id="bottomline">
+            <div class=" text-center" >Powered by 39ミク technology corporation ltd</div>
+        </div>
+        <script>
+            $('#bottomline').click(function(){
+                window.location.href="/personal/index.html";
+            })
+        </script>
+    </body>
+</html>

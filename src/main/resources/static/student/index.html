@@ -98,6 +98,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/student/utils/personal.html">个人画像</a></li>
                                 <li><a class="dropdown-item" href="/student/utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/course.html">课表查看</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -163,12 +164,15 @@
                     <button class="btn btn-primary" id="editor-submit">提交</button>
                 </div>
                 <div class=" m-3">
+                    <button class="btn btn-primary" id="editor-random">随机一个</button>
+                </div>
+                <div class=" m-3">
                     <button class="btn btn-primary" id="editor-next">下一个</button>
                 </div>
             </div>
         </div>
         <script>
-            var num = 0,status = 'init';let editor
+            var num = -1,status = 'init';let editor
             ClassicEditor
                 .create(document.querySelector('#editor'),{
                     toolbar: {
@@ -213,8 +217,9 @@
                     }
                 })
             });
-            $('#editor-last').click(function(){num--;status='last';getContent(num)});
-            $('#editor-next').click(function(){num++;status='next';getContent(num)});
+            $('#editor-last').click(function(){status='last';getContent(num-1)});
+            $('#editor-next').click(function(){status='next';getContent(num+1)});
+            $('#editor-random').click(function(){getContent(-1)})
             getContent(num);
             function getContent(pos){
                 $.ajax({
@@ -232,6 +237,7 @@
                             $("#content").text('');
                             $("#content").append(data.content);
                             $("#content-title").text(data.title);
+                            num = data.id;
                         }
                         else if(data.exist == 'no'){
                             if(status == 'next') {$.notify("已是最前",{className:"info",position:"bottom right"});num--}
@@ -242,8 +248,8 @@
                                 $('#content-thumbnail').attr('src','/get-thumbnail');
                                 $("#content").text('');
                                 $("#content-title").text('');
+                                num = 0;
                             }
-                            
                         }
                     }
                 })

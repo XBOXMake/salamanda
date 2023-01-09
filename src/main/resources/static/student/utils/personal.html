@@ -96,6 +96,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/student/utils/personal.html">个人画像</a></li>
                                 <li><a class="dropdown-item" href="/student/utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/course.html">课表查看</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -153,7 +154,11 @@
             .change{
                 margin-top: calc(-1082px * var(--i-top));
                 margin-bottom: calc(-1082px * var(--i-bottom));
+                transform: scale(0.75);
                 transition: all ease-in-out 2s;
+            }
+            .image-text{
+                transform: scale(0.75);
             }
         </style>
         <div class="container bg-light text-center mx-auto my-5 p-5">
@@ -168,19 +173,19 @@
                     </div>
                 </div>
                 <div class="col-lg-auto">
-                    <div class="row align-items-center my-5 hide" id="bar-1">
+                    <div class="row align-items-center my-5 hide image-text" id="bar-1">
                         <div class="ball color-1 col-6"></div>
-                        <span class="text col-6 color-1 bg-light" id="text-1">:其他:100.0%</span>
+                        <span class="text col-6 color-1 bg-light " id="text-1">:其他:100.0%</span>
                     </div>
-                    <div class="row align-items-center my-5 hide" id="bar-2">
+                    <div class="row align-items-center my-5 hide image-text" id="bar-2">
                         <div class="ball color-2 col-6"></div>
                         <span class="text col-6 color-2 bg-light" id="text-2">:</span>
                     </div>
-                    <div class="row align-items-center my-5 hide" id="bar-3">
+                    <div class="row align-items-center my-5 hide image-text" id="bar-3">
                         <div class="ball color-3 col-6"></div>
                         <span class="text col-6 color-3 bg-light" id="text-3">:</span>
                     </div>
-                    <div class="row align-items-center my-5 hide" id="bar-4">
+                    <div class="row align-items-center my-5 hide image-text" id="bar-4">
                         <div class="ball color-4 col-6"></div>
                         <span class="text col-6 color-4 bg-light" id="text-4">:</span>
                     </div>

@@ -101,6 +101,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/student/utils/personal.html">个人画像</a></li>
                                 <li><a class="dropdown-item" href="/student/utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/course.html">课表查看</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -174,7 +175,7 @@
                                     <div class="col-lg-7">
                                         <div class="my-2">
                                             <strong >自我介绍</strong>
-                                            <textarea rows="6" class="form-control my-2" disabled></textarea>
+                                            <textarea rows="6" class="form-control my-2" readonly="true" id="introduction"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -188,11 +189,11 @@
 
                 <div class="container my-5">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <button type="button" class="btn btn-primary" id="people-reset">换个人？</button>
+                        <div class="col-lg-6 my-3">
+                            <button type="button" class="btn btn-primary w-100 mx-1" id="people-reset">换个人？</button>
                         </div>
-                        <div class="col-lg-6">
-                            <button type="button" class="btn btn-secondary" id="tag-reset">换组标签？</button>
+                        <div class="col-lg-6 my-3">
+                            <button type="button" class="btn btn-secondary w-100 mx-1" id="tag-reset">换组标签？</button>
                         </div>
                     </div>
                 </div>
@@ -223,16 +224,16 @@
                 fontFamily: 'Oswald, Arial, sans-serif',
                 fontSize: '20',
                 fontColor: '#555',
-                fontWeight: 'normal',//bold
-                fontStyle: 'normal',//italic 
-                fontStretch: 'normal',//wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+                fontWeight: 'normal',
+                fontStyle: 'normal',
+                fontStretch: 'normal',
                 fontToUpperCase: true,
                 tooltipFontFamily: 'Oswald, Arial, sans-serif',
                 tooltipFontSize: '18',
                 tooltipFontColor: '#555',
-                tooltipFontWeight: 'normal',//bold
-                tooltipFontStyle: 'normal',//italic 
-                tooltipFontStretch: 'normal',//wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+                tooltipFontWeight: 'normal',
+                tooltipFontStyle: 'normal',
+                tooltipFontStretch: 'normal',
                 tooltipFontToUpperCase: false,
                 tooltipTextAnchor: 'left',
                 tooltipDiffX: 0,
@@ -244,7 +245,7 @@
                 $.get('/student/tagInit',function(data){
                     idInit=data.id;
                     $('#name').text(data.name)
-                    $('#introduction').val(data.introduction);
+                    $('#introduction').text(data.introduction);
                     $('#image').css('background','url("/util/getImage-chose?username='+data.username+'") no-repeat center');
                     $('#image').css('background-size','cover');
                 })

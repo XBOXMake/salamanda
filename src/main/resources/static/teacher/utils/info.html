@@ -137,7 +137,7 @@
                             display: $.fn.dataTable.Responsive.display.modal( {
                                 header: function ( row ) {
                                     var data = row.data();
-                                    return '更多信息——'+data[0]+':'+data[1];
+                                    return '更多信息——'+data['studentID'];
                                 }
                             } ),
                             renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

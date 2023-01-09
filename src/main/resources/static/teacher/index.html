@@ -105,6 +105,91 @@
             })
         </script>
         <style>
+            .image{
+                background: url('/util/getImage') no-repeat center;
+                background-color: #111;
+                background-size:cover;
+                width: 150px;
+                height: 200px;
+            }
+            .text{
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+            .bolder{
+                font-weight: bolder;
+            }
+        </style>
+        <div class="container mx-auto my-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="w-100 p-3 text-center bg-light my-2">
+                        <div class="image mx-auto mb-3"></div>
+                        <div class="text" id="name"></div>
+                    </div>
+                    <div class="w-100 p-3 text-center bg-light my-2">
+                        <div class="mb-2"><strong>性别：</strong><span id="sex"></span></div>
+                        <div class="mb-2"><strong>电话：</strong><span id="phone"></span></div>
+                        <div class="mb-2"><strong>邮箱：</strong><span id="email"></span></div>
+                        <div><strong>个人简介：</strong><span id="introduction"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="w-100 p-3 bg-light my-2">
+                        <span class="bolder mb-1">研究方向</span>
+                        <hr>
+                        <span class="mt-1" id="research"></span>
+                    </div>
+                    <div class="w-100 p-3 bg-light my-2 table-responsive">
+                        <table class="table nowrap table-borderless table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">序号</th>
+                                    <th scope="col">课程名</th>
+                                    <th scope="col">上课时间</th>
+                                    <th scope="col">选课人数</th>
+                                    <th scope="col">起始时间</th>
+                                    <th scope="col">终止时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="injector">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="w-100 p-3 bg-light my-2">
+                        <span class="bolder mb-1">论文著作</span>
+                        <hr>
+                        <span class="mt-1" id="papers"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $.get('/teacher/getIndex-info',function(data){
+                $('#name').text(data.name);
+                $('#sex').text(data.sex);
+                $('#phone').text(data.phone);
+                $('#email').text(data.email);
+                $('#introduction').text(data.introduction);
+                $('#research').text(data.research);
+                $('#papers').text(data.papers);
+            })
+            $.get('/teacher/getIndex-course',function(data){
+                for(let i=0;i<data.length;i++){
+                    $('#injector').append(''+
+                    '<tr>'+
+                        '<td>'+data[i].id+'</td>'+
+                        '<td>'+data[i].name+'</td>'+
+                        '<td>'+data[i].schedule+'</td>'+
+                        '<td>'+data[i].number+'</td>'+
+                        '<td>'+data[i].dateStart+'</td>'+
+                        '<td>'+data[i].dateEnd+'</td>'+
+                    '</tr>')
+                }
+            })
+        </script>
+        <style>
             .bottomline{
                 opacity: 0.3;
                 transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;

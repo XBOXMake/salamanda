@@ -99,6 +99,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/student/utils/personal.html">个人画像</a></li>
                                 <li><a class="dropdown-item" href="/student/utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/course.html">课表查看</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -429,7 +430,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return '更多信息——'+data[0];
+                                return '更多信息——'+data['name'];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

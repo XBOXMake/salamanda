@@ -68,16 +68,21 @@ public class StudentController {
     public Map getBlog(@RequestParam("position") Integer position, HttpServletRequest request, HttpServletResponse response){
         Map<String,Object> map = new HashMap<String,Object>();
         try{
-            if(position<0) throw new RuntimeException();
-            else{
-                Blog blog = blogRepository.getBlogByTime(position);
-                map.put("username", blog.getAuthor().getUsername());
-                map.put("time", format.format(blog.getDate()));
-                map.put("thumbnail", "/util/getThumbnail-chose?username=" + blog.getAuthor().getUsername());
-                map.put("content", blog.getContent());
-                map.put("title", blog.getTitle());
-                map.put("exist", "yes");
+            Blog blog = null;
+            if(position == 0) throw new RuntimeException();
+            else if(position < 0){
+                blog = blogRepository.randomPickOne();
             }
+            else{
+                blog = blogRepository.findById(position);
+            }
+            map.put("username", blog.getAuthor().getUsername());
+            map.put("time", format.format(blog.getDate()));
+            map.put("thumbnail", "/util/getThumbnail-chose?username=" + blog.getAuthor().getUsername());
+            map.put("content", blog.getContent());
+            map.put("title", blog.getTitle());
+            map.put("id",blog.getId());
+            map.put("exist", "yes");
         }
         catch (Exception e){
             map.put("exist","no");
@@ -108,7 +113,7 @@ public class StudentController {
             map.put("name",course.getName());
             map.put("dateStart",format.format(course.getDateStart()));
             map.put("dateEnd",format.format(course.getDateEnd()));
-            map.put("schedule",course.getSchedule());
+            map.put("schedule",Course.getSchedule(course));
             map.put("grade",course.getGrade());
             map.put("limitation",course.getLimitation());
             map.put("description",course.getDescription());
@@ -166,7 +171,7 @@ public class StudentController {
         List<Map> list = new ArrayList<>();
         for(Course course:data){
             Date date = new Date();
-            if (date.compareTo(course.getSelectDateStart())!=-1 &&date.compareTo(course.getSelectDateEnd())!=1){
+            if (date.compareTo(course.getSelectDateStart())>=0 &&date.compareTo(course.getSelectDateEnd())<=0){
                 Map<String, Object> map = new HashMap<>();
                 map.put("status", getStatus(student, course));
                 map.put("id", course.getId());
@@ -175,12 +180,14 @@ public class StudentController {
                 map.put("dateEndChoose", format.format(course.getSelectDateEnd()));
                 map.put("dateStart", format.format(course.getDateStart()));
                 map.put("dateEnd", format.format(course.getDateEnd()));
-                map.put("schedule", course.getSchedule());
+                map.put("schedule", Course.getSchedule(course));
                 map.put("grade", course.getGrade());
                 map.put("limitation", course.getLimitation());
                 map.put("number", course.getCourseGrades().size());
                 map.put("description", course.getDescription());
-                map.put("option", course.getId());
+                if(course.isLock()) map.put("option", "3:"+course.getId());
+                else if(Course.isLimitationOverflow(course)) map.put("option", getStatus(student,course).equals("未选择")?"2":"0"+":"+course.getId());
+                else map.put("option", student.courseOverflow(course)?"1":"0"+":"+course.getId());
                 list.add(map);
             }
         }
@@ -279,7 +286,7 @@ public class StudentController {
                 return;
             }
             Date end = formatForm.parse(dateEnd);
-            if(dateEnd.compareTo(dateStart)!=1){
+            if(dateEnd.compareTo(dateStart)<0){
                 ResponseService.response(response, request, 2);
                 return;
             }
@@ -337,8 +344,18 @@ public class StudentController {
         map.put("sex",student.getSexes());
         map.put("introduction",student.getIntroductions());
         map.put("with", WithClass.total(student.getWithClass()));
-        map.put("studentID",Student.getStudentID(student));
-        map.put("birthday",formatForm.format(student.getBirthday()));
+        try{
+            map.put("studentID", Student.getStudentID(student));
+        }
+        catch (Exception e){
+            map.put("studentID", "");
+        }
+        try{
+            map.put("birthday", formatForm.format(student.getBirthday()));
+        }
+        catch (Exception e){
+            map.put("birthday","");
+        }
         return map;
     }
 
@@ -465,5 +482,43 @@ public class StudentController {
         map.put("id",student.getId());
         map.put("username",student.getUsername());
         return map;
+    }
+
+    @GetMapping(value = "/student/utils/getCourse",produces = "application/json")
+    @ResponseBody
+    public List getCourse(@RequestParam("date") @Nullable String str,HttpServletRequest request,HttpServletResponse response){
+        List<List<Map>> result = new ArrayList<>();
+        for(int i=0;i<=7;i++){
+            result.add(new ArrayList<>());
+            for(int j=0;j<=8;j++){
+                result.get(i).add(new HashMap<>());
+                result.get(i).get(j).put("exist",0);
+            }
+        }
+        try{
+            System.out.println(str);
+            Date date = formatForm.parse(str);
+            String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+            Student student = studentRepository.findByUsername(username);
+            List<CourseGrade> grades = student.getCourseGrades();
+            for(CourseGrade grade:grades){
+                Course course = grade.getCourse();
+                if(Course.isDateInside(date,course)) {
+                    String[] schedules = course.getSchedule().split(";");
+                    for(int i=1;i<schedules.length;i++){
+                        String schedule[] = schedules[i].split("-");
+                        int x = Integer.parseInt(schedule[0]);
+                        int y = Integer.parseInt(schedule[1]);
+                        result.get(x).get(y).put("exist",1);
+                        result.get(x).get(y).put("id",course.getId());
+                        result.get(x).get(y).put("content",course.getName());
+                    }
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
     }
 }

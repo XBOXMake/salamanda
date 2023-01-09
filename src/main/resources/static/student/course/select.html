@@ -99,6 +99,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/student/utils/personal.html">个人画像</a></li>
                                 <li><a class="dropdown-item" href="/student/utils/comment.html">学生互评</a></li>
+                                <li><a class="dropdown-item" href="/student/utils/course.html">课表查看</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -164,7 +165,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return 'Details for '+data[1]+':'+data[2];
+                                return 'Details for '+data['id']+':'+data['name'];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -197,11 +198,31 @@
                     {
                         targets:-1,
                         render:function(data,type,row,meta){
-                            return '<div class="row w-100">'+
-                            '<div class="col">'+
-                                '<button class="btn form-control btn-primary my-1 mx-2 button-a" onclick="choose('+data+')">退选/选择</button>'+
-                            '</div>'+
-                        '</div>'
+                            strs = data.split(":");
+                            if(strs[0]==0) return ''+
+                            '<div class="row w-100">'+
+                                '<div class="col">'+
+                                    '<button class="btn form-control btn-primary my-1 mx-2 button-a" onclick="choose('+strs[1]+')">退选/选择</button>'+
+                                '</div>'+
+                            '</div>';
+                            else if(strs[0]==1) return ''+
+                            '<div class="row w-100">'+
+                                '<div class="col">'+
+                                    '<button class="btn form-control btn-danger my-1 mx-2" disabled>存在课程冲突</button>'+
+                                '</div>'+
+                            '</div>';
+                            else if(strs[0]==2) return ''+
+                            '<div class="row w-100">'+
+                                '<div class="col">'+
+                                    '<button class="btn form-control btn-secondary my-1 mx-2" disabled>课程已满</button>'+
+                                '</div>'+
+                            '</div>';
+                            else return ''+
+                            '<div class="row w-100">'+
+                                '<div class="col">'+
+                                    '<button class="btn form-control btn-info my-1 mx-2" disabled>已锁定</button>'+
+                                '</div>'+
+                            '</div>';
                         }
                     }
                 ]

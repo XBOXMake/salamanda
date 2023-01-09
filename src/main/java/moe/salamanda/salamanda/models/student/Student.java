@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import moe.salamanda.salamanda.models.general.WithClass;
 import moe.salamanda.salamanda.models.general.WithUser;
+import moe.salamanda.salamanda.models.teacher.Course;
 import moe.salamanda.salamanda.models.teacher.CourseGrade;
 
 import javax.persistence.*;
@@ -31,18 +32,37 @@ public class Student extends WithUser implements Serializable {
     private File image;
 
     public static String getStudentID(Student student){
-        String ID = student.getWithClass().getYear().toString();
-        while (ID.length()<4) ID=ID+'0';
-        String temp = student.getWithClass().getWithSubject().getId().toString();
-        while(temp.length()<3) temp = '0'+temp;
-        ID = ID + temp;
-        temp = student.getWithClass().getWithClass().toString();
-        while(temp.length()<2) temp = '0'+temp;
-        ID = ID + temp;
-        temp = Integer.toString(student.getWithClass().getStudentList().indexOf(student)+1);
-        while(temp.length()<3) temp = '0'+temp;
-        ID = ID + temp;
-        return ID;
+        try{
+            String ID = student.getWithClass().getYear().toString();
+            while (ID.length() < 4) ID = ID + '0';
+            String temp = student.getWithClass().getWithSubject().getId().toString();
+            while (temp.length() < 3) temp = '0' + temp;
+            ID = ID + temp;
+            temp = student.getWithClass().getWithClass().toString();
+            while (temp.length() < 2) temp = '0' + temp;
+            ID = ID + temp;
+            temp = Integer.toString(student.getWithClass().getStudentList().indexOf(student) + 1);
+            while (temp.length() < 3) temp = '0' + temp;
+            ID = ID + temp;
+            return ID;
+        }
+        catch (Exception e){
+            return "";
+        }
+    }
+
+    public boolean courseOverflow(Course course){
+        List<CourseGrade> gradeList = this.getCourseGrades();
+        boolean ans = false;
+        for(CourseGrade grade:gradeList){
+            Course temp = grade.getCourse();
+            if(course.getId() == temp.getId()) return false;
+            if(Course.isDateOverflow(temp,course)&&Course.isScheduleOverflow(temp,course)){
+                ans = true;
+            }
+        }
+        return ans;
+
     }
 
     @Temporal(TemporalType.DATE)

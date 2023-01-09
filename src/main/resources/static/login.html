@@ -86,6 +86,7 @@
                 right: 0;
                 bottom: 0;
                 margin: auto;
+                overflow: hidden;
             }
             @media screen and (min-height:1100px){
                 .admin-login-bg{width: 100%;right: -100%;}
@@ -147,7 +148,7 @@
             }
             .login-bar-image-student{
                 opacity: 0.85;
-                background-image: url("/resources/image/background/bg_00A.JPG");
+                background-image: url("/resources/image/background/bg_00A.png");
                 overflow: hidden;
                 background-size: cover;
                 width: 450px;
@@ -156,7 +157,7 @@
             }
             .login-bar-image-teacher{
                 opacity: 0.85;
-                background-image: url("/resources/image/background/bg_00B.JPG");
+                background-image: url("/resources/image/background/bg_00B.png");
                 overflow: hidden;
                 background-size: cover;
                 width: 450px;
@@ -293,24 +294,6 @@
             .register-box-submit{
                 padding-left: 50px;
                 padding-right: 50px;
-            }
-            #background-image-01{
-                background-image: url("/resources/image/background/bg_01.JPG");
-            }
-            #background-image-02{
-                background-image: url("/resources/image/background/bg_02.JPG");
-            }
-            #background-image-03{
-                background-image: url("/resources/image/background/bg_03.JPG");
-            }
-            #background-image-04{
-                background-image: url("/resources/image/background/bg_04.JPG");
-            }
-            #background-image-05{
-                background-image: url("/resources/image/background/bg_05.JPG");
-            }
-            #background-image-06{
-                background-image: url("/resources/image/background/bg_06.JPG");
             }
             .error-message{
                 color: red;
@@ -998,6 +981,7 @@
                                         },3000)
                                     }
                                     else{
+                                        teacher_count++;countUpdateTeacher()
                                         $.notify(data.message,{className:"error",position:"bottom right"});
                                         $("#login-teacher-username").addClass("is-invalid");
                                         $("#login-teacher-password").addClass("is-invalid");
@@ -1014,7 +998,7 @@
                                 $.notify("验证码错误",{className:"error",position:"bottom right"});
                                 $("#teacher-identitycode-error").removeClass("hide");
                                 $("#login-teacher-identitycode").addClass("is-invalid");
-                                studentIdentitycodeReset();
+                                teacherIdentitycodeReset();
                                 setTimeout(function(){
                                     $("#teacher-identitycode-error").addClass("hide");
                                     $("#login-teacher-identitycode").removeClass("is-invalid");
@@ -1059,7 +1043,7 @@
                                 valid=false;
                                 $("#teacher-identitycode-error").removeClass("hide");
                                 $("#login-teacher-identitycode").addClass("is-invalid");
-                                studentIdentitycodeReset();
+                                teacherIdentitycodeReset();
                                 setTimeout(function(){
                                     $("#teacher-identitycode-error").addClass("hide");
                                     $("#login-teacher-identitycode").removeClass("is-invalid");
@@ -1099,7 +1083,7 @@
                 window.location.href="/personal/index.html";
             })
         </script>
-        <div class="background carousel slide carousel-fade opacity-75 w-100 h-100 position-absolute" id="Carousel" data-bs-ride="carousel">
+        <div class="background carousel slide carousel-fade opacity-75 w-100 h-100 position-fixed" id="Carousel" data-bs-ride="carousel">
             <div class="carousel-inner h-100 w-100">
                 <div class="carousel-item h-100 w-100 position-fixed active bg-item">                                                                                                                                                                                                                                                                                                                                                                  
                     <div class="background-image h-100 w-100"  id="background-image-01"></div>
@@ -1120,6 +1104,16 @@
                     <div class="background-image h-100 w-100"  id="background-image-06"></div>
                 </div>
             </div>
+            <script>
+                var imageNumber = 16;
+                var check = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                for(let i = 1;i <= 6;i++){
+                    let src = Math.floor(Math.random()*imageNumber+1);
+                    while(check[src]) src = Math.floor(Math.random()*imageNumber+1)
+                    check[src]=true;
+                    $('#background-image-0'+i).css('background-image',' url(/resources/image/background/bg_'+(src<10?'0'+src:src)+'.png)')
+                }
+            </script>
         </div>
         <nav class="navbar justify-content-between fixed-top w-100 bg-light">
             <div class="nav-item" id="nav-icon">

@@ -192,7 +192,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return 'Details for '+data[0]+':'+data[1];
+                                return 'Details for '+data['studentID']+':'+data['with']+'-'+data['name'];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -223,7 +223,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return 'Details for '+data[0]+':'+data[1];
+                                return 'Details for '+data['id']+':'+data['name'];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

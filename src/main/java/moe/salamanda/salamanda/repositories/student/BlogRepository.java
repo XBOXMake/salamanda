@@ -11,4 +11,10 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
 
     @Query(value = "Select * from blog order by date Desc limit 1 offset :number",nativeQuery = true)
     Blog getBlogByTime(@Param("number") int sortNumber);
+
+    @Query(value = "Select * from blog order by random() limit 1",nativeQuery = true)
+    Blog randomPickOne();
+
+    @Query(value = "Select * from blog where id= :id",nativeQuery = true)
+    Blog findById(@Param("id") Integer id);
 }

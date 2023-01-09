@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student,Long> {
 
-    @Query(value = "Select * from user where attribute= 1 and LOWER(username)= :name",nativeQuery = true)
+    @Query(value = "Select * from user where attribute= 1 and LOWER(username)= LOWER(:name)",nativeQuery = true)
     Student findByUsername(@Param("name") String username);
 
     @Query(value = "Select * from user where attribute= 1 and id= :id",nativeQuery = true)

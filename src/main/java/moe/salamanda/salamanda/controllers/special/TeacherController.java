@@ -153,7 +153,7 @@ public class TeacherController {
             map.put("name",Student.getName(grade.getStudent()));
             map.put("with",WithClass.total(grade.getStudent().getWithClass()));
             map.put("grade",grade.getNumber());
-            map.put("option",grade.getId());
+            map.put("option",course.isLock()==true?"1":"0"+"&"+grade.getId());
             list.add(map);
         }
         return list;
@@ -207,7 +207,7 @@ public class TeacherController {
             map.put("dateEndChoose",format.format(course.getSelectDateEnd()));
             map.put("dateStart",format.format(course.getDateStart()));
             map.put("dateEnd",format.format(course.getDateEnd()));
-            map.put("schedule",course.getSchedule());
+            map.put("schedule",Course.getSchedule(course));
             map.put("grade",course.getGrade());
             map.put("limitation",course.getLimitation());
             map.put("number",course.getCourseGrades().size());
@@ -357,10 +357,14 @@ public class TeacherController {
             list = new JSONArray(content);
         }
         catch (Exception e){
-            ResponseService.response(response, request, -1);
+            ResponseService.response(response, request, 0);
             return;
         }
         Course course = courseRepository.findById(id);
+        if(course.isLock()){
+            ResponseService.response(response, request, -114);
+            return;
+        }
         int count = 0;
         for(Student student:data){
             String ID = Student.getStudentID(student);
@@ -406,6 +410,41 @@ public class TeacherController {
         map.put("name",Teacher.getName(teacher));
         map.put("phone",teacher.getPhone());
         map.put("sex",teacher.getSexes());
+        map.put("introduction",teacher.getIntroductions());
+        map.put("research",teacher.getResearchDirect());
+        map.put("papers",teacher.getPapers());
+        return map;
+    }
+
+    @GetMapping(value = "/teacher/getIndex-course",produces = "application/json")
+    @ResponseBody
+    public List getIndexCourse( HttpServletRequest request,HttpServletResponse response){
+        String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+        Teacher teacher = teacherRepository.findByUsername(username);
+        List<Course> data = teacher.getCourses();
+        List<Map> list = new ArrayList<>();
+        for(Course course:data){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",course.getId());
+            map.put("name",course.getName());
+            map.put("dateStart",format.format(course.getDateStart()));
+            map.put("dateEnd",format.format(course.getDateEnd()));
+            map.put("schedule",Course.getSchedule(course));
+            map.put("number",course.getCourseGrades().size());
+            list.add(map);
+        }
+        return list;
+    }
+    @GetMapping(value = "/teacher/getIndex-info",produces = "application/json")
+    @ResponseBody
+    public Map getIndexInfo( HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> map = new HashMap<>();
+        String username = redisService.get(redisService.DEFAULT_USERNAME_PREFIX + WebUtils.getCookie(request, "LOG").getValue());
+        Teacher teacher = teacherRepository.findByUsername(username);
+        map.put("name",Teacher.getName(teacher));
+        map.put("phone",teacher.getPhone());
+        map.put("sex",teacher.getSexes());
+        map.put("email",teacher.getEmail());
         map.put("introduction",teacher.getIntroductions());
         map.put("research",teacher.getResearchDirect());
         map.put("papers",teacher.getPapers());

@@ -33,7 +33,12 @@ public class WithClass {
     private WithSubject withSubject;
 
     public static String total(WithClass withClass){
-        return withClass.getYear().toString()+"级"+withClass.getWithSubject().getName()+withClass.getWithClass().toString()+"班";
+        try{
+            return withClass.getYear().toString() + "级" + withClass.getWithSubject().getName() + withClass.getWithClass().toString() + "班";
+        }
+        catch (Exception e){
+            return "";
+        }
     }
 
     @OneToMany(mappedBy = "withClass",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.LAZY)

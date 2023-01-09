@@ -181,9 +181,233 @@
                             </div>
                             <div class="mb-3" id="input-schedule-bar">
                                 <label for="input-schedule" class="col-form-label">上课时间:</label>
-                                <textarea rows="2" class="form-control" id="input-schedule"></textarea>
-                                <div class=" w-100 text-end my-2">
-                                    <span class=" text-black-50 text-end" id="input-schedule-count">50</span>
+                                <div>
+                                    <style>
+                                        .unchoose-odd{
+                                            background-color: gray;
+                                            color: gray;
+                                        }
+                                        .unchoose-even{
+                                            background-color: lightgrey;
+                                            color: lightgray;
+                                        }
+                                        .choose-odd{
+                                            background-color: crimson;
+                                            color: crimson;
+                                        }
+                                        .choose-even{
+                                            background-color: darkred;
+                                            color: darkred;
+                                        }
+                                    </style>
+                                    <table class="table table-bordered table-striped table-responsive" id="routine">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Mo</th>
+                                                <th scope="col">Tu</th>
+                                                <th scope="col">We</th>
+                                                <th scope="col">Th</th>
+                                                <th scope="col">Fr</th>
+                                                <th scope="col">Sa</th>
+                                                <th scope="col">Su</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scop="row">1</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="1" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="1" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="1" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="1" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="1" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="1" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="1" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scop="row">2</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="2" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="2" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="2" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="2" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="2" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="2" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="2" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scop="row">3</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="3" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="3" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="3" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="3" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="3" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="3" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="3" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scop="row">4</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="4" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="4" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="4" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="4" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="4" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="4" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="4" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scop="row">5</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="5" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="5" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="5" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="5" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="5" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="5" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="5" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scop="row">6</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="6" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="6" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="6" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="6" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="6" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="6" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="6" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scop="row">7</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="7" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="7" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="7" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="7" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="7" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="7" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-odd choice w-100 h-100 btn" data-row="7" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scop="row">8</th>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="8" data-colomn="1">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="8" data-colomn="2">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="8" data-colomn="3">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="8" data-colomn="4">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="8" data-colomn="5">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="8" data-colomn="6">off</button>
+                                                </td>
+                                                <td class="p-0">
+                                                    <button type="button" class="unchoose-even choice w-100 h-100 btn" data-row="8" data-colomn="7">off</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="mb-3" id="input-limitation-bar">
@@ -246,7 +470,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             function check(position,size){
                 position.text(size);
@@ -262,13 +485,10 @@
             $("#input-name").bind("input propertychange change",function(){
                 check($("#input-name-count"),10-$("#input-name").val().length)
             })
-            $("#input-schedule").bind("input propertychange change",function(){
-                check($("#input-schedule-count"),50-$("#input-schedule").val().length)
-            })
             $("#input-description").bind("input propertychange change",function(){
                 check($("#input-description-count"),200-$("#input-description").val().length)
             })
-            var initName,initDateStartChoose,initDateEndChoose,initDateStart,initDateEnd,initCredit,initSchedule,initLimitation,initDescription
+            var initName,initDateStartChoose,initDateEndChoose,initDateStart,initDateEnd,initCredit,initSchedule='0-0',initLimitation,initDescription
             function init(id){
                 if(id!=0)$.ajax({
                     url:'/teacher/course/getInitCourse',
@@ -295,20 +515,52 @@
                     initDateEndChoose=null;
                     initDateStart=null;
                     initDateEnd=null;
-                    initSchedule=null;
                     initLimitation=null;
                     initCredit=null;
                     initDescription=null;
+                    initSchedule='0-0';
                 }
                 reset();
             }
+            var mat = new Array();
+            for(let i=1;i<=7;i++){
+                mat[i]=new Array();
+                for(let j=1;j<=8;j++){
+                    mat[i][j]=false;
+                }
+            }
+            $('.choice').click(function(e){
+                let j = e.target.getAttribute('data-row');
+                let i = e.target.getAttribute('data-colomn');
+                mat[i][j]=mat[i][j]==true?false:true;
+                e.target.id = i+'-'+j;
+                if(!mat[i][j]) $('#'+i+'-'+j).removeClass('choose-'+(j%2?'odd':'even'));
+                else $('#'+i+'-'+j).addClass('choose-'+(j%2?'odd':'even'));
+                e.target.innerHTML=mat[i][j]==true?'on':'off';
+            })
+            $('.choice').click();$('.choice').click()
+            function init_schedule(){
+                strs = initSchedule.split(';');
+                for(let i=1;i<strs.length;i++) $('#'+strs[i]).click();
+            }
+            function total_schedule(){
+                let final = '0-0';
+                for(let i=1;i<=7;i++)
+                 for(let j=1;j<=8;j++)
+                    final = mat[i][j]?final+';'+i+'-'+j:final;
+                return final
+            }
             function reset(){
+                let temp = initSchedule;
+                initSchedule = total_schedule();
+                init_schedule();
+                initSchedule = temp;
+                init_schedule();
                 $('#input-name').val(initName);
                 $('#input-dateStartChoose').val(initDateStartChoose);
                 $('#input-dateEndChoose').val(initDateEndChoose);
                 $('#input-dateStart').val(initDateStart);
                 $('#input-dateEnd').val(initDateEnd);
-                $('#input-schedule').val(initSchedule);
                 $('#input-limitation').val(initLimitation);
                 $('#input-credit').val(initCredit);
                 $('#input-description').val(initDescription);
@@ -317,12 +569,10 @@
                 $('#input-dateEndChoose-bar').click()
                 $('#input-dateStart-bar').click()
                 $('#input-dateEnd-bar').click()
-                $('#input-schedule-bar').click()
                 $('#input-limitation-bar').click()
                 $('#input-credit-bar').click()
                 $('#input-description-bar').click()
                 check($("#input-name-count"),10-$("#input-name").val().length)
-                check($("#input-schedule-count"),50-$("#input-schedule").val().length)
                 check($("#input-description-count"),200-$("#input-description").val().length)
             }
             function delete_(id){
@@ -373,7 +623,7 @@
                             dateEndChoose:$('#input-dateEndChoose').val(),
                             dateStart:$('#input-dateStart').val(),
                             dateEnd:$('#input-dateEnd').val(),
-                            schedule:$('#input-schedule').val(),
+                            schedule:total_schedule(),
                             limitation:$('#input-limitation').val(),
                             credit:$('#input-credit').val(),
                             description:$('#input-description').val(),
@@ -428,11 +678,11 @@
                                 $('#input-credit').addClass('is-invalid');
                             }
                             else if(data.victory == 11){
-                                $.notify("保存失败：上课时间长度不应当大于50",{className:"error",position:"right bottom"});
-                                $('#input-schedule').addClass('is-invalid');
+                                $.notify("保存失败:上课时间相关输入被篡改",{className:"error",position:"right bottom"});
+                                $('#input-description').addClass('is-invalid');
                             }
                             else if(data.victory == 12){
-                                $.notify("保存失败：课程价绍长度不应当大于200",{className:"error",position:"right bottom"});
+                                $.notify("保存失败：课程价绍长度不应当大于200或不填写",{className:"error",position:"right bottom"});
                                 $('#input-description').addClass('is-invalid');
                             }
                             else $.notify("保存失败",{className:"error",position:"bottom right"});
@@ -477,13 +727,8 @@
                     $('#input-credit').addClass('is-invalid');
                     return false;
                 }
-                if($('#input-schedule').val()==''||$('#input-schedule').val().length>50){
-                    $.notify("保存失败：上课时间长度不应当大于50",{className:"error",position:"right bottom"});
-                    $('#input-schedule').addClass('is-invalid');
-                    return false;
-                }
                 if($('#input-description').val()==''||$('#input-description').val().length>200){
-                    $.notify("保存失败：课程价绍长度不应当大于200",{className:"error",position:"right bottom"});
+                    $.notify("保存失败：课程价绍长度不应当大于200或不填写",{className:"error",position:"right bottom"});
                     $('#input-description').addClass('is-invalid');
                     return false;
                 }
@@ -506,9 +751,6 @@
             })
             $('#input-dateEnd-bar').click(function(){
                 $('#input-dateEnd').removeClass('is-invalid');
-            })
-            $('#input-schedule-bar').click(function(){
-                $('#input-schedule').removeClass('is-invalid');
             })
             $('#input-limitation-bar').click(function(){
                 $('#input-limitation').removeClass('is-invalid');
@@ -553,7 +795,7 @@
                         display: $.fn.dataTable.Responsive.display.modal( {
                             header: function ( row ) {
                                 var data = row.data();
-                                return 'Details for '+data[0]+':'+data[1];
+                                return 'Details for '+data['id']+':'+data['name'];
                             }
                         } ),
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
@@ -598,7 +840,12 @@
                                                 '</button><button class="btn form-control btn-danger my-1 mx-2 button-b" data-bs-toggle="modal" data-bs-target="#delete-modal" data-id="'+info[1]+'">删除课程</button>'+
                                             '</div>'+
                                         '</div>'
-                            else return "已锁定"
+                            else return ''+
+                            '<div class="row w-100">'+
+                                '<div class="col">'+
+                                    '<button class="btn form-control btn-secondary my-1 mx-2" disabled>已锁定</button>'+
+                                '</div>'+
+                            '</div>';
                         }
                     }
                 ]
