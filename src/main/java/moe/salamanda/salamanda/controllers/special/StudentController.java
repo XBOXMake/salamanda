@@ -171,7 +171,7 @@ public class StudentController {
         List<Map> list = new ArrayList<>();
         for(Course course:data){
             Date date = new Date();
-            if (date.compareTo(course.getSelectDateStart())>=0 &&date.compareTo(course.getSelectDateEnd())<=0){
+            if (date.compareTo(course.getSelectDateStart())>=0 && date.compareTo(course.getSelectDateEnd())<=0){
                 Map<String, Object> map = new HashMap<>();
                 map.put("status", getStatus(student, course));
                 map.put("id", course.getId());

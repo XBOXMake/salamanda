@@ -16,140 +16,146 @@
         <div class="container  bg-light" >            
                       <el-container class="operation-wrapper">
                         <el-container >
-                            <el-aside class="el-aside"> 
-                                <br>
-                                <div class="m-auto" id="informationA">
-                                    <br>                                                                                                                                                                                                                                   
-                                <div class="avatar" align="center">                            
-                                    <el-avatar shape="square" :size="100" src="./images/avatar.jpg"></el-avatar>                                    
-                                </div> 
-                                <br>                                                                                                                             
-                            <h3 align="center">陈辉舞</h3>
-                            <br>
-                            <div class="link text-center" @click="Submit(1)">
-                                <i class="el-icon-user">个人信息</i>
-                                
-                            </div>
-                            <br>
-                            <div class="link text-center" @click="Submit(2)">
-                                <i class="el-icon-collection">教育经历</i>
-                                
-                            </div>
-                            <br>
-                            <div class="link text-center" @click="Submit(3)">
-                                <i class="el-icon-basketball">个人爱好</i>
-                                
-                            </div>
-                            <br>
-                            <div class="link text-center" @click="Submit(4)">
-                                <i class="el-icon-phone">联系方式</i>                               
-                            </div>
-                            <br>
-                        </div>                                                                                                                                                                                                           
-                        </el-aside>
-                            <el-main class="el-main" id="page">
-                                <template>                                    
-                                    <el-backtop target=".el-main "></el-backtop>
-                                  </template>
-                                    <div id="page1">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <el-aside class="el-aside"> 
                                         <br>
-                                      <el-card class="box-card">
-                                        <div slot="header" class="clearfix">
-                                          <span style="float: left"><b>个人信息</b></span>
+                                        <div class="m-auto" id="informationA">
+                                            <br>                                                                                                                                                                                                                                   
+                                        <div class="avatar" align="center">                            
+                                            <el-avatar shape="square" :size="100" src="./images/avatar.jpg"></el-avatar>                                    
                                         </div> 
-                                        <br>
-                                        <div class="clearfix">  
-                                            <div class="personal">
+                                        <br>                                                                                                                             
+                                    <h3 align="center">陈辉舞</h3>
+                                    <br>
+                                    <div class="link text-center" @click="Submit(1)">
+                                        <i class="el-icon-user">个人信息</i>
+                                        
+                                    </div>
+                                    <br>
+                                    <div class="link text-center" @click="Submit(2)">
+                                        <i class="el-icon-collection">教育经历</i>
+                                        
+                                    </div>
+                                    <br>
+                                    <div class="link text-center" @click="Submit(3)">
+                                        <i class="el-icon-basketball">个人爱好</i>
+                                        
+                                    </div>
+                                    <br>
+                                    <div class="link text-center" @click="Submit(4)">
+                                        <i class="el-icon-phone">联系方式</i>                               
+                                    </div>
+                                    <br>
+                                </div>                                                                                                                                                                                                           
+                                </el-aside>
+                                </div>
+                                <div class="col-md-7">
+                                    <el-main class="el-main" id="page">
+                                        <template>                                    
+                                            <el-backtop target=".el-main "></el-backtop>
+                                          </template>
+                                            <div id="page1">
+                                                <br>
+                                              <el-card class="box-card">
+                                                <div slot="header" class="clearfix">
+                                                  <span style="float: left"><b>个人信息</b></span>
+                                                </div> 
+                                                <br>
+                                                <div class="clearfix">  
+                                                    <div class="personal">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h5><strong>年龄:19</strong></h5>
+                                                                <h5><strong>性别:男</strong></h5>
+                                                                <h5><strong>大学:山东大学</strong></h5>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h5><strong>生日:2003.02.06</strong></h5>
+                                                                <h5><strong>籍贯:重庆</strong></h5>
+                                                                <h5><strong>专业:软件工程</strong></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                        
+                                                </div>                                                               
+                                              </el-card>
+                                              <br><br>
+                                      </div>
+                                      <div id="page2">
+                                          <br>
+                                          <el-card class="box-card">
+                                              <div slot="header" class="clearfix">
+                                                <span style="float: left"><b>教育经历</b></span>
+                                              </div> 
+                                              <div class="clearfix"> 
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <h5><strong>年龄:19</strong></h5>
-                                                        <h5><strong>性别:男</strong></h5>
-                                                        <h5><strong>大学:山东大学</strong></h5>
+                                                        <div id="content1">
+                                                            <p>2015 - 2018</p>
+                                                            <h5><strong>重庆市巴川中学</strong></h5>
+                                                            <hr>
+                                                            <p>重庆市巴川中学校是重庆市铜梁区教育委员会主管的一所民办中学，是联合国教科文组织研究项目创新学习研究与实验实验学校、中国教育学会“十一五”科研规划重点课题“名师教学思想与教法研究”重点实验学校（2009—2012）、全国青少年校园篮球特色学校、重庆市科技教育特色学校、重庆市中小学校园文化建设示范学校、重庆市义务教育阶段艺术特色学校（器乐）、中国啦啦操推广示范基地。</p>
+                                                        </div>  
+                                                        <div id="content3">
+                                                            <p>2021 -</p>
+                                                            <h5><strong>山东大学</strong></h5>
+                                                            <hr>
+                                                            <p>山东大学是中国近代高等教育起源性大学。主体是1901年创办的山东大学堂，是继京师大学堂之后中国创办的第二所官立大学；其医学学科起源于1864年，开启近代中国高等医学教育之先河。从诞生之日起，学校先后历经了山东大学堂、国立青岛大学、国立山东大学、山东大学以及由原山东大学、山东医科大学、山东工业大学三校合并组建的新山东大学等几个历史发展时期。</p>
+                                                        </div>                                             
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <h5><strong>生日:2003.02.06</strong></h5>
-                                                        <h5><strong>籍贯:重庆</strong></h5>
-                                                        <h5><strong>专业:软件工程</strong></h5>
+                                                        <div id="content2">
+                                                            <p>2018 - 2021</p>
+                                                            <h5><strong>铜梁中学</strong></h5>
+                                                            <hr>
+                                                            <p>铜梁中学创办于1907年，始名铜梁中学堂。1916年，定名为铜梁县立中学校。1927年，添设初中女生部，1941年设高中部，1943年奉令改名为铜梁县立中学。中华人民共和国成立后改称川东区铜梁中学校，随后再改名为四川省铜梁中学，1983年启用现名：铜梁中学校。</p>
+                                                        </div>
+                                                        <div id="content4">
+                                                            <p>Future</p>
+                                                            <h5><strong>未知</strong></h5>
+                                                            <hr>
+                                                            <p>希望可以继续深造吧</p>
+                                                        </div>                                                
                                                     </div>
-                                                </div>
-                                            </div>                                        
-                                        </div>                                                               
-                                      </el-card>
-                                      <br><br>
-                              </div>
-                              <div id="page2">
-                                  <br>
-                                  <el-card class="box-card">
-                                      <div slot="header" class="clearfix">
-                                        <span style="float: left"><b>教育经历</b></span>
-                                      </div> 
-                                      <div class="clearfix"> 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div id="content1">
-                                                    <p>2015 - 2018</p>
-                                                    <h5><strong>重庆市巴川中学</strong></h5>
-                                                    <hr>
-                                                    <p>重庆市巴川中学校是重庆市铜梁区教育委员会主管的一所民办中学，是联合国教科文组织研究项目创新学习研究与实验实验学校、中国教育学会“十一五”科研规划重点课题“名师教学思想与教法研究”重点实验学校（2009—2012）、全国青少年校园篮球特色学校、重庆市科技教育特色学校、重庆市中小学校园文化建设示范学校、重庆市义务教育阶段艺术特色学校（器乐）、中国啦啦操推广示范基地。</p>
-                                                </div>  
-                                                <div id="content3">
-                                                    <p>2021 -</p>
-                                                    <h5><strong>山东大学</strong></h5>
-                                                    <hr>
-                                                    <p>山东大学是中国近代高等教育起源性大学。主体是1901年创办的山东大学堂，是继京师大学堂之后中国创办的第二所官立大学；其医学学科起源于1864年，开启近代中国高等医学教育之先河。从诞生之日起，学校先后历经了山东大学堂、国立青岛大学、国立山东大学、山东大学以及由原山东大学、山东医科大学、山东工业大学三校合并组建的新山东大学等几个历史发展时期。</p>
-                                                </div>                                             
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div id="content2">
-                                                    <p>2018 - 2021</p>
-                                                    <h5><strong>铜梁中学</strong></h5>
-                                                    <hr>
-                                                    <p>铜梁中学创办于1907年，始名铜梁中学堂。1916年，定名为铜梁县立中学校。1927年，添设初中女生部，1941年设高中部，1943年奉令改名为铜梁县立中学。中华人民共和国成立后改称川东区铜梁中学校，随后再改名为四川省铜梁中学，1983年启用现名：铜梁中学校。</p>
-                                                </div>
-                                                <div id="content4">
-                                                    <p>Future</p>
-                                                    <h5><strong>未知</strong></h5>
-                                                    <hr>
-                                                    <p>希望可以继续深造吧</p>
-                                                </div>                                                
-                                            </div>
-                                        </div>                                        
-                                      </div>                                                               
-                                    </el-card>
-                                    <br><br>
-                              </div>
-                              <div id="page3">
-                                  <br>
-                                  <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                      <span style="float: left"><b>个人爱好</b></span>
-                                    </div> 
-                                    <div class="clearfix mx-auto" align="center"> 
-                                        <img src="./images/image2.jpg" width="200px" height="250px" alt="作品">
-                                        <p>平时喜欢画画</p>
-                                    </div>                                                               
-                                  </el-card>
-                                </div> 
-                              <div id="page4">
-                                  <br>
-                                  <el-card class="box-card">
-                                      <div slot="header" class="clearfix">
-                                        <span style="float: left"><b>联系方式</b></span>
-                                      </div> 
-                                      <div class="clearfix"> 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <h5><strong>电话:173*****163</strong></h5>                                               
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h5><strong>邮箱:oranger@qq.com</strong></h5>                                              
-                                            </div>
-                                        </div>                                        
-                                      </div>                                                               
-                                    </el-card>
-                                    <br><br>
-                              </div>                                                           
-                            </el-main>                    
+                                                </div>                                        
+                                              </div>                                                               
+                                            </el-card>
+                                            <br><br>
+                                      </div>
+                                      <div id="page3">
+                                          <br>
+                                          <el-card class="box-card">
+                                            <div slot="header" class="clearfix">
+                                              <span style="float: left"><b>个人爱好</b></span>
+                                            </div> 
+                                            <div class="clearfix mx-auto" align="center"> 
+                                                <img src="./images/image2.jpg" width="200px" height="250px" alt="作品">
+                                                <p>平时喜欢画画</p>
+                                            </div>                                                               
+                                          </el-card>
+                                        </div> 
+                                      <div id="page4">
+                                          <br>
+                                          <el-card class="box-card">
+                                              <div slot="header" class="clearfix">
+                                                <span style="float: left"><b>联系方式</b></span>
+                                              </div> 
+                                              <div class="clearfix"> 
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h5><strong>电话:173*****163</strong></h5>                                               
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h5><strong>邮箱:oranger@qq.com</strong></h5>                                              
+                                                    </div>
+                                                </div>                                        
+                                              </div>                                                               
+                                            </el-card>
+                                            <br><br>
+                                      </div>                                                           
+                                    </el-main> 
+                                </div>
+                            </div>                                                                       
                         </el-container>
                       </el-container>                                                         
                 </div>

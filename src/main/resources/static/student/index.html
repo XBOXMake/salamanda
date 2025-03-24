@@ -184,6 +184,8 @@
                     editor = newEditor
                 })
                 .catch( error => {console.error(error)});
+            var now = new Date();
+            var dateFormat = now.getFullYear()+'-'+(now.getMonth()<9?'0'+(now.getMonth()+1):now.getMonth()+1)+'-'+(now.getDate()<10?'0'+now.getDate():now.getDate());
             $('#editor-submit').click(function(){
                 const editorData = editor.getData();
                 const editorTitle = $("#editor-title").val();
@@ -199,8 +201,7 @@
                     success:function(data){
                         if(data.status==200){
                             $('#content-username').text($('#nav-username').text())
-                            let time = new Date();num = 1;
-                            $('#content-time').text(time.getFullYear()+'/'+time.getMonth()+'/'+time.getDay());
+                            $('#content-time').text(dateFormat);
                             $('#content-thumbnail').attr('src','/util/getThumbnail');
                             $("#content").text('');
                             $("#content").append(editorData);
