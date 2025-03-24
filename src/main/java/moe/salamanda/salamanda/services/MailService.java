@@ -13,8 +13,8 @@ public class MailService {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.163.com");
         mailSender.setPort(25);
-        mailSender.setUsername("xboxmake@163.com");
-        mailSender.setPassword("LDEMFWHOIHQWVUQK");
+        mailSender.setUsername("");
+        mailSender.setPassword("");
         mailSender.setDefaultEncoding("UTF-8");
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,false,"UTF-8");
